@@ -18,6 +18,7 @@ HEADER_ALIASES = {
     'VALOR': 'valor', 'VALORCONTABIL': 'valor_contabil',
     'VALORCONTABILTIPO': 'valor_contabil_tipo',
     'VALORDAOPERACAO': 'valor_operacao',
+    'VALOROPERACAO': 'valor_operacao',
 }
 
 
@@ -59,8 +60,9 @@ def parse_record(cells, columns, page):
         return ' '.join((cells[index] or '').split()) if index is not None and index < len(cells) else ''
     identity = get('cnpj')
     digits = re.sub(r'\D', '', identity)
-    if len(digits) != 14 or not re.fullmatch(r'[\d./\-\s]+', identity):
-        return None, 'CNPJ ausente ou não contém 14 dígitos; CPF/CEI/CAEPF ainda não suportados.'
+    if not (re.fullmatch(r'(?:\d{14}|\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2})', identity)
+            or re.fullmatch(r'(?:\d{11}|\d{3}\.\d{3}\.\d{3}-\d{2})', identity)):
+        return None, 'CNPJ/CPF ausente ou inválido; CEI/CAEPF ainda não suportados.'
     doc = get('documento')
     series = get('serie')
     if 'documento_serie' in columns:
@@ -80,7 +82,8 @@ def parse_record(cells, columns, page):
     if not supplier and not code:
         return None, 'Nome e código do fornecedor ausentes; registro não comparado.'
     value = Decimal(re.sub(r'R\$\s*', '', match.group(1)).replace('.', '').replace(',', '.'))
-    note = dict(cnpj=digits, documento=str(int(doc)), fornecedor=supplier, valor=str(value), pagina=page)
+    note = dict(cnpj=digits, documento=str(int(doc)), fornecedor=supplier, valor=str(value), pagina=page,
+                tipo_identificacao='CPF' if len(digits) == 11 else 'CNPJ')
     if code:
         note['codigo_fornecedor'] = code
     if series:
@@ -148,19 +151,23 @@ def parse_table(table, page):
 
 
 def extract_pdf(stream):
-    import pdfplumber
+    from pdf_orientation import readable_pdf
+    from sped_reader import SpedBlocks
     notes, warnings = [], []
-    with pdfplumber.open(stream) as pdf:
-        if len(pdf.pages) > 200:
-            raise ValueError('Limite de 200 páginas por arquivo.')
+    sped = SpedBlocks()
+    with readable_pdf(stream) as pdf:
         for number, page in enumerate(pdf.pages, 1):
             text = page.extract_text() or ''
             if not text.strip():
                 warnings.append(f'Página {number}: sem texto extraível. PDF digitalizado exige OCR.')
                 continue
             table_found = False
+            sped_found = False
             page_notes = []
             for table in page.extract_tables():
+                if sped.consume(table, number):
+                    table_found = sped_found = True
+                    continue
                 found, issues, recognized = parse_table(table, number)
                 if recognized:
                     table_found = True
@@ -170,12 +177,16 @@ def extract_pdf(stream):
                 found, issues = parse_text(text, number)
                 page_notes.extend(found)
                 warnings.extend(issues)
-            if not page_notes:
+            if not page_notes and not sped_found:
                 warnings.append(f'Página {number}: nenhuma nota reconhecida. Layout precisa de ajuste.')
             missing_names = sum(not n['fornecedor'] for n in page_notes)
             if missing_names:
                 warnings.append(f'Página {number}: {missing_names} registro(s) com código de fornecedor, sem razão social. Conferência do nome do fornecedor pendente.')
             notes.extend(page_notes)
+            page.close()
+    sped.finish()
+    notes.extend(sped.notes)
+    warnings.extend(sped.warnings)
     return notes, warnings
 
 

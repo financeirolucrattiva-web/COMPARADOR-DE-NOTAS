@@ -23,7 +23,7 @@ PDFs com texto selecionável, até 200 páginas por arquivo e 20 MB por requisi�
 12.345.678/0001-90 | 000123 | Empresa Exemplo LTDA | 1.250,00
 ```
 
-A extração é conservadora: não adivinha a ordem das colunas. PDFs sem texto precisam de OCR, ainda não implementado. Layouts reais do SPED e Domínio precisam ser homologados com amostras. Avisos de extração impedem considerar a conferência completa; confira as contagens e páginas. Registros em várias linhas, tabelas sem bordas e cabeçalhos diferentes ainda podem precisar de adaptadores. O sistema não valida dígitos verificadores do CNPJ: normaliza os 14 dígitos para comparação.
+A extração é conservadora: não adivinha a ordem das colunas. PDFs sem texto precisam de OCR, ainda não implementado. Layouts reais do SPED e Domínio precisam ser homologados com amostras. Avisos de extração impedem considerar a conferência completa; confira as contagens e páginas. Registros em várias linhas, tabelas sem bordas e cabeçalhos diferentes ainda podem precisar de adaptadores. O sistema não valida dígitos verificadores: normaliza CNPJ de 14 dígitos ou CPF de 11 dígitos para comparação.
 
 Números de documento perdem zeros à esquerda. Fornecedor ignora acentos, maiúsculas e espaços repetidos. Valores usam Decimal, sem tolerância de centavos. CNPJ ou número diferente gera ausências, sem associação aproximada. Duplicatas não são pareadas automaticamente e todos os registros são preservados. Série, filial e período não fazem parte da chave inicial; compare relatórios do mesmo escopo. Planilhas exportam campos como texto para evitar fórmulas provenientes de PDFs.
 
@@ -75,8 +75,7 @@ isolada Valor quando ela representa imposto. Cabeçalhos de tabela em até três
 linhas são combinados por posição da coluna. O nome e código do fornecedor são
 armazenados separadamente: nome ausente deixa o resultado como **Conferência
 parcial**, ou mantém **Divergente** com pendência se também houver diferença de
-valor. Essa pendência aparece na tela, no Excel e no PDF. CPF, CEI e CAEPF não
-são tratados como CNPJ e geram avisos de registros não comparados.
+valor. Essa pendência aparece na tela, no Excel e no PDF. CPF é aceito e identificado separadamente. CEI e CAEPF ainda não são suportados e geram avisos de registros não comparados.
 
 Esta adaptação foi testada com PDFs sintéticos que reproduzem os cabeçalhos
 informados. A lista de colunas e a imagem não substituem a homologação com os
@@ -87,7 +86,7 @@ extraída é preservada para revisão, sem alterar a chave nesta versão.
 
 ## Como confirmar a versão que está aberta
 
-A versão atual **0.2.1** aparece no topo e no rodapé da página. O endereço
+A versão atual **0.3.0** aparece no topo e no rodapé da página. O endereço
 `/versao` também informa a versão e um identificador da execução (sem credenciais).
 O inicializador confere esse identificador antes de abrir o navegador, para não
 abrir uma cópia antiga que já esteja usando a porta padrão. Não encerra programas
@@ -98,6 +97,35 @@ intervalo, o inicializador não abrirá a instância errada e mostrará a falha.
 A mensagem antiga “Não foi possível reconhecer notas nos dois arquivos. Use
 tabelas...” identifica uma cópia anterior à adaptação dos cabeçalhos fiscais.
 Baixe o ZIP atualizado, extraia em uma nova pasta e execute o inicializador dessa
-pasta. Confira a versão 0.2.1 antes de enviar os PDFs. A atualização não garante a
+pasta. Confira a versão 0.3.0 antes de enviar os PDFs. A atualização não garante a
 leitura de um layout real ainda não homologado: para adaptar um relatório que
 continue sem notas reconhecidas, são necessários os PDFs originais.
+
+
+## Leitura do livro de entradas SPED — versão 0.3.0
+
+O livro PVA pode apresentar cada documento em um bloco: Data Entrada, Data
+emissão, Nr. Doc., Modelo, Série, Situação, CNPJ/CPF e Razão social na primeira
+linha; CST/ICMS, CFOP e Valor Operação em uma ou mais linhas abaixo. O leitor
+soma apenas Valor Operação dessas linhas e mantém o bloco entre páginas,
+inclusive quando a razão social continua na página seguinte. A seção
+**RESUMO - TOTAIS** é excluída das notas. Linhas fiscais inválidas impedem o uso
+de um total parcial; os problemas são apresentados como avisos.
+
+A orientação dominante dos caracteres é detectada por página e normalizada em
+memória usando a biblioteca já instalada. O arquivo original não é alterado;
+isso permite ler PDFs com texto girado, sem OCR. PDFs que são apenas imagens
+ainda exigem uma etapa de OCR, não implementada.
+
+A adaptação foi validada com um livro real enviado pelo usuário: 39 páginas,
+589 documentos (570 com CNPJ e 19 com CPF), 599 linhas fiscais, 20 documentos
+com continuidade entre páginas e 7 com mais de uma linha fiscal. Não houve
+avisos de extração. Cada documento foi conferido contra uma leitura independente
+do texto e a soma bateu com o resumo do próprio relatório. Esses números são
+registrados apenas como evidência de validação; o PDF original, as identidades,
+os fornecedores e os valores reais não fazem parte do repositório nem dos testes.
+
+Os testes públicos usam dados fictícios e cobrem quatro orientações, múltiplas
+linhas fiscais, CPF, continuação de nome/documento entre páginas e exclusão do
+resumo. A leitura e a comparação com o relatório **real do Domínio** ainda
+precisam ser validadas com esse segundo arquivo.

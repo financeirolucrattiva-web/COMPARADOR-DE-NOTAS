@@ -76,7 +76,7 @@ def test_real_pdf_domain_layout_and_exports_with_partial_supplier_check():
     assert response.status_code==200 and response.data.startswith(b'%PDF-')
 
 
-@pytest.mark.parametrize('invalid_identity',['123.456.789-00','CEI12345678',''])
+@pytest.mark.parametrize('invalid_identity',['123456789012','CEI12345678',''])
 def test_non_cnpj_identifiers_are_flagged_instead_of_compared(invalid_identity):
     row=ROW.copy();row[6]=invalid_identity
     notes,warnings,recognized=parse_table([HEADERS,row],1)

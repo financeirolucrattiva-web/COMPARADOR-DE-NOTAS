@@ -8,7 +8,7 @@ from comparator import extract_pdf, compare, supplier_label
 
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 20 * 1024 * 1024
-APP_VERSION = '0.2.1'
+APP_VERSION = '0.3.0'
 
 @app.after_request
 def disable_stale_pages(response):
@@ -72,7 +72,7 @@ def export(kind):
         result = analyze()
     except ValueError as exc:
         return jsonify(error=str(exc)), 422
-    headers = ['Situação', 'CNPJ', 'Documento', 'Diferenças', 'Fornecedor SPED', 'Valor SPED', 'Fornecedor Domínio', 'Valor Domínio', 'Pendências']
+    headers = ['Situação', 'CNPJ/CPF', 'Documento', 'Diferenças', 'Fornecedor SPED', 'Valor SPED', 'Fornecedor Domínio', 'Valor Domínio', 'Pendências']
     rows = []
     for r in result['rows']:
         # Keep every duplicate visible rather than silently choosing one.
