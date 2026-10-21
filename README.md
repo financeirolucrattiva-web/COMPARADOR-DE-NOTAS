@@ -23,7 +23,7 @@ PDFs com texto selecionável, até 200 páginas por arquivo e 20 MB por requisi�
 12.345.678/0001-90 | 000123 | Empresa Exemplo LTDA | 1.250,00
 ```
 
-A extração é conservadora: não adivinha a ordem das colunas. PDFs sem texto precisam de OCR, ainda não implementado. Layouts reais do SPED e Domínio precisam ser homologados com amostras. Avisos de extração impedem considerar a conferência completa; confira as contagens e páginas. Colunas adicionais, registros em várias linhas e cabeçalhos diferentes podem precisar de adaptadores. O sistema não valida dígitos verificadores do CNPJ: normaliza os 14 dígitos para comparação.
+A extração é conservadora: não adivinha a ordem das colunas. PDFs sem texto precisam de OCR, ainda não implementado. Layouts reais do SPED e Domínio precisam ser homologados com amostras. Avisos de extração impedem considerar a conferência completa; confira as contagens e páginas. Registros em várias linhas, tabelas sem bordas e cabeçalhos diferentes ainda podem precisar de adaptadores. O sistema não valida dígitos verificadores do CNPJ: normaliza os 14 dígitos para comparação.
 
 Números de documento perdem zeros à esquerda. Fornecedor ignora acentos, maiúsculas e espaços repetidos. Valores usam Decimal, sem tolerância de centavos. CNPJ ou número diferente gera ausências, sem associação aproximada. Duplicatas não são pareadas automaticamente e todos os registros são preservados. Série, filial e período não fazem parte da chave inicial; compare relatórios do mesmo escopo. Planilhas exportam campos como texto para evitar fórmulas provenientes de PDFs.
 
@@ -57,3 +57,31 @@ Para gerar novamente os exemplos: `.venv/bin/python scripts/gerar_exemplos.py`.
 A simulação tem 100 registros SPED, 95 Domínio e 105 chaves esperadas. O teste
 paginado compara cada chave com um gabarito independente e verifica Excel e PDF.
 O inicializador Windows não foi executado neste ambiente Linux.
+
+
+## Campos diferentes nos relatórios
+
+Cada cabeçalho reconhecido é convertido para um campo comum; não é necessário
+ter os mesmos nomes de colunas nos dois PDFs.
+
+| Campo comum | Domínio | Outros cabeçalhos reconhecidos |
+| --- | --- | --- |
+| CNPJ | CNPJ/CPF/CEI/CAEPF, inclusive sufixo I | CNPJ, CNPJ/CPF |
+| Documento | Nota Série (número e série separados por espaço, `/` ou `-`) | Nº Doc., NR. DOC., Documento |
+| Nome do fornecedor | Fornecedor / Razão Social, quando presentes | Nome/Razão Social, Nome Empresarial |
+| Código interno do fornecedor | Código Fornecedor | Não substitui o nome |
+| Valor total da nota | Valor Contábil, ou Valor Contábil Tipo | Valor da Operação, Valor |
+
+O leitor dá prioridade ao Valor Contábil/Valor da Operação e ignora a coluna
+isolada Valor quando ela representa imposto. Cabeçalhos de tabela em até três
+linhas são combinados por posição da coluna. O nome e código do fornecedor são
+armazenados separadamente: nome ausente deixa o resultado como **Conferência
+parcial**, ou mantém **Divergente** com pendência se também houver diferença de
+valor. Essa pendência aparece na tela, no Excel e no PDF. CPF, CEI e CAEPF não
+são tratados como CNPJ e geram avisos de registros não comparados.
+
+Esta adaptação foi testada com PDFs sintéticos que reproduzem os cabeçalhos
+informados. A lista de colunas e a imagem não substituem a homologação com os
+PDFs originais do SPED e do Domínio. Não se presume que todo layout desses
+sistemas seja reconhecido. O pareamento continua por CNPJ + número; a série
+extraída é preservada para revisão, sem alterar a chave nesta versão.

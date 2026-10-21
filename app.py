@@ -3,7 +3,7 @@ from pathlib import Path
 from xml.sax.saxutils import escape
 from flask import Flask, render_template, request, jsonify, send_file
 from werkzeug.exceptions import RequestEntityTooLarge
-from comparator import extract_pdf, compare
+from comparator import extract_pdf, compare, supplier_label
 
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 20 * 1024 * 1024
@@ -41,7 +41,9 @@ def analyze():
         sources.append(notes)
         warnings.extend(f'{name.upper()}: {w}' for w in issues)
     if not all(sources):
-        raise ValueError('Não foi possível reconhecer notas nos dois arquivos. Use tabelas com CNPJ, NR. DOC., FORNECEDOR e VALOR ou linhas CNPJ | DOCUMENTO | FORNECEDOR | VALOR. PDFs digitalizados precisam de OCR. ' + ' '.join(warnings[:6]))
+        missing = [name for name, notes in zip(('SPED', 'DOMINIO'), sources) if not notes]
+        relevant = [w for w in warnings if any(w.startswith(name + ':') for name in missing)]
+        raise ValueError('Não foi possível reconhecer notas em: ' + ', '.join(missing) + '. O layout precisa ser validado com o PDF original. Domínio: CNPJ, Nota/Série, Código Fornecedor e Valor Contábil; SPED: os cabeçalhos precisam identificar CNPJ, documento, fornecedor e valor da operação. PDFs digitalizados precisam de OCR. ' + ' '.join(relevant[:6]))
     return dict(rows=compare(*sources), warnings=warnings, counts=[len(s) for s in sources])
 
 @app.post('/comparar')
@@ -58,11 +60,11 @@ def export(kind):
         result = analyze()
     except ValueError as exc:
         return jsonify(error=str(exc)), 422
-    headers = ['Situação', 'CNPJ', 'Documento', 'Diferenças', 'Fornecedor SPED', 'Valor SPED', 'Fornecedor Domínio', 'Valor Domínio']
+    headers = ['Situação', 'CNPJ', 'Documento', 'Diferenças', 'Fornecedor SPED', 'Valor SPED', 'Fornecedor Domínio', 'Valor Domínio', 'Pendências']
     rows = []
     for r in result['rows']:
         # Keep every duplicate visible rather than silently choosing one.
-        rows.append([r['status'], r['cnpj'], r['documento'], r['diferencas']] + [ '\n'.join(n[f] for n in r[s]) for s in ('sped','dominio') for f in ('fornecedor','valor')])
+        rows.append([r['status'], r['cnpj'], r['documento'], r['diferencas']] + [ '\n'.join(supplier_label(n) if f == 'fornecedor' else n[f] for n in r[s]) for s in ('sped','dominio') for f in ('fornecedor','valor')] + [' '.join(r['pendencias'])])
     output = BytesIO()
     if kind == 'xlsx':
         from openpyxl import Workbook
@@ -84,7 +86,7 @@ def export(kind):
         from reportlab.lib.pagesizes import A4, landscape
         styles = getSampleStyleSheet(); style = styles['BodyText']; style.fontSize = 7; style.leading = 9
         story = [Paragraph('Comparativo de notas de entrada — SPED x Domínio', styles['Title']), Paragraph('Confira a extração antes de utilizar os resultados.', style), Spacer(1,12)]
-        table = Table([[Paragraph(escape(str(c)), style) for c in row] for row in [headers]+rows], repeatRows=1, colWidths=[85,95,55,65,125,60,125,60])
+        table = Table([[Paragraph(escape(str(c)), style) for c in row] for row in [headers]+rows], repeatRows=1, colWidths=[75,90,50,55,110,55,110,55,100])
         table.setStyle(TableStyle([('BACKGROUND',(0,0),(-1,0),'#e4eee9'),('VALIGN',(0,0),(-1,-1),'TOP'),('GRID',(0,0),(-1,-1),0.3,'#bbbbbb')]))
         story.append(table)
         for warning in result['warnings']: story.append(Paragraph(escape(warning),style))
