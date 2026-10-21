@@ -1,13 +1,68 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Lucrattiva · Comparador de notas</title><link rel="stylesheet" href="/static/style.css?v={{ version }}"></head><body>
-<header><div class="brand">L<span>LUCRATTIVA</span></div><span class="tag">CONFERÊNCIA FISCAL</span></header>
-<main><div class="eyebrow">SPED × DOMÍNIO · Versão {{ version }}</div><h1>Suas notas, em sintonia.</h1><p class="intro">Compare notas de entrada e encontre diferenças antes de fechar a escrituração.</p>
-<section class="panel"><div class="section-title"><span class="step">01</span><div><h2>Adicione os relatórios</h2><p>Dois arquivos PDF. Uma conferência lado a lado.</p></div></div>
-<form id="upload"><div class="uploads"><label class="drop"><span class="source">ORIGEM 1</span><strong>Relatório SPED</strong><span class="icon">↥</span><span>Selecione o PDF do SPED</span><input required name="sped" type="file" accept="application/pdf,.pdf"></label><label class="drop"><span class="source">ORIGEM 2</span><strong>Relatório Domínio</strong><span class="icon">↥</span><span>Selecione o PDF do Domínio</span><input required name="dominio" type="file" accept="application/pdf,.pdf"></label></div>
-<div class="source-actions"><button type="button" class="secondary" data-inspect="sped">Conferir leitura SPED</button><button type="button" class="secondary" data-inspect="dominio">Conferir leitura Domínio</button></div>
-<p class="note">Quer experimentar? Baixe os PDFs fictícios: <a href="/exemplos/sped_simulado.pdf">SPED simulado</a> · <a href="/exemplos/dominio_simulado.pdf">Domínio simulado</a>. Depois selecione-os nos campos acima.</p><div class="note">PDFs com texto selecionável · Até 20 MB no total · Sem envio a serviços externos de leitura</div><div class="actions"><span>CNPJ/CPF + documento identificam cada nota.</span><button id="submit">Comparar notas <b>→</b></button></div></form></section>
-<div class="criteria"><span>O QUE VAMOS CONFERIR</span><b>✓ CNPJ/CPF</b><b>✓ Nº do documento</b><b>✓ Fornecedor</b><b>✓ Valor</b></div>
-<p id="error" role="alert" hidden></p><div id="loading" role="status" aria-live="polite" hidden></div>
-<div id="source-summary" hidden></div>
-<section id="inspection" class="panel" hidden><div class="section-title"><span class="step">↥</span><div><h2 id="inspection-title">Conferência da leitura</h2><p id="inspection-counts"></p></div></div><p class="notice">Esta tela mostra o que foi reconhecido neste arquivo. Confira a quantidade de notas e os valores antes de comparar. O total abaixo é a soma das notas lidas.</p><div id="inspection-warnings"></div><div class="toolbar"><label>Buscar nota ou fornecedor <input id="inspection-search" type="search" placeholder="Documento, CNPJ/CPF ou nome"></label><span id="inspection-visible"></span></div><div class="scroll inspection-scroll"><table><thead><tr><th>CNPJ/CPF</th><th>Documento / série</th><th>Fornecedor</th><th>Valor</th><th>Páginas</th></tr></thead><tbody id="inspection-rows"></tbody></table></div></section>
-<section id="result" class="panel" hidden><div class="section-title"><span class="step">02</span><div><h2>Resultado da conferência</h2><p id="counts"></p></div></div><p class="notice">Revise os dados extraídos antes de utilizar o relatório. Um layout não reconhecido pode deixar notas de fora. CNPJs diferentes aparecem como notas em apenas um arquivo.</p><div id="warnings"></div><div id="stats"></div><div class="toolbar"><label>Exibir <select id="filter"><option value="all">Todas as notas</option><option value="issues">Somente pendências</option><option value="Conferente">Conferentes</option></select></label><div><button type="button" class="secondary" data-export="xlsx">Baixar Excel</button> <button type="button" class="secondary" data-export="pdf">Baixar PDF</button></div></div><div class="scroll"><table><thead><tr><th>Situação</th><th>CNPJ/CPF / Documento</th><th>SPED · fornecedor e valor</th><th>Domínio · fornecedor e valor</th><th>Diferenças</th></tr></thead><tbody id="rows"></tbody></table></div></section>
-<details class="help"><summary>Quais formatos de PDF esta versão reconhece?</summary><p>Tabelas com cabeçalhos CNPJ, NR. DOC. (ou DOCUMENTO / NUMERO DO DOCUMENTO), FORNECEDOR e VALOR; ou linhas no formato abaixo. No Domínio, também reconhece CNPJ/CPF/CEI/CAEPF, Nota/Série, Código Fornecedor e Valor Contábil, inclusive com cabeçalhos divididos em até três linhas. O valor contábil tem prioridade sobre colunas de impostos. Sem razão social, a conferência do fornecedor fica pendente. O reconhecimento depende da estrutura extraída do PDF e precisa ser validado com seus arquivos reais. Valores no padrão brasileiro. Livros de entradas SPED com linhas fiscais separadas são lidos por bloco de documento, com soma de Valor Operação e continuidade entre páginas. A orientação do texto é corrigida em memória. CPF também é aceito. PDFs digitalizados ainda não têm OCR. Outros layouts precisam ser adaptados com exemplos reais.</p><code>12.345.678/0001-90 | 123 | Fornecedor Exemplo | 1.250,00</code><p>A comparação ignora zeros à esquerda no documento e acentos, maiúsculas e espaços extras no fornecedor. Valores são comparados exatamente em centavos. Série, filial e período ainda não são critérios: compare relatórios do mesmo escopo.</p></details><footer>Lucrattiva · Comparador de notas de entrada <span>Versão {{ version }}</span></footer></main><script src="/static/app.js?v={{ version }}"></script></body></html>
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Lucrattiva · Comparador de notas</title>
+  <link rel="stylesheet" href="/static/style.css?v={{ version }}">
+</head>
+<body>
+  <a class="skip-link" href="#upload-panel">Ir para os arquivos</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#" aria-label="Lucrattiva, início"><span class="brand-mark" aria-hidden="true">L</span><span>LUCRATTIVA<small>Comparador de notas</small></span></a>
+      <nav aria-label="Ajuda e versão"><a href="#help">Como usar</a><span class="version">Versão {{ version }}</span></nav>
+    </div>
+  </header>
+  <main>
+    <div class="hero">
+      <div><p class="eyebrow">SPED <span aria-hidden="true">×</span> DOMÍNIO</p><h1>Compare suas notas<br>com mais clareza.</h1><p class="intro">Encontre diferenças nas notas de entrada e confira<br class="desktop-break"> os detalhes antes de fechar a escrituração.</p></div>
+      <div class="hero-note"><span class="check-icon" aria-hidden="true">✓</span><div><strong>Uma conferência, quatro campos</strong><p>CNPJ/CPF · Documento<br>Fornecedor · Valor</p></div></div>
+    </div>
+    <ol class="steps" aria-label="Etapas da conferência"><li><span class="step-number">1</span><div><strong>Selecione os PDFs</strong><small>Mesma empresa e período</small></div></li><li><span class="step-number">2</span><div><strong>Confira a leitura</strong><small>Revise cada arquivo, se precisar</small></div></li><li><span class="step-number">3</span><div><strong>Compare e baixe</strong><small>Veja as diferenças lado a lado</small></div></li></ol>
+    <section class="panel" id="upload-panel" aria-labelledby="upload-title">
+      <div class="section-heading"><div><h2 id="upload-title">Comece pelos seus relatórios</h2><p>Selecione ou arraste um PDF para cada espaço abaixo.</p></div><button type="button" class="secondary" id="use-examples">Usar exemplos</button></div>
+      <form id="upload">
+        <div class="uploads">
+          {% for source, name, number in [('sped', 'SPED', '01'), ('dominio', 'Domínio', '02')] %}
+          <article class="file-card" data-card="{{ source }}">
+            <div class="file-card-heading"><h3><span>{{ number }}</span> Relatório {{ name }}</h3><span class="file-state" data-state="{{ source }}">Aguardando PDF</span></div>
+            <label class="drop" data-drop="{{ source }}" for="file-{{ source }}">
+              <span class="upload-symbol" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4m-4 4 4-4 4 4M5 15v5h14v-5"/></svg></span><strong data-prompt="{{ source }}">Arraste o PDF aqui</strong><span>ou clique para selecionar</span><span class="file-format">PDF com texto selecionável</span>
+              <input class="visually-hidden" required id="file-{{ source }}" name="{{ source }}" type="file" accept="application/pdf,.pdf" aria-label="Selecionar PDF do {{ name }}" aria-describedby="file-details-{{ source }}">
+            </label>
+            <div class="file-details" id="file-details-{{ source }}"><div><strong data-filename="{{ source }}">Nenhum arquivo selecionado</strong><span data-filesize="{{ source }}">Você pode conferir este PDF separadamente.</span></div><button type="button" class="text-button" data-remove="{{ source }}" aria-label="Remover PDF do {{ name }}" hidden>Remover</button></div>
+            <button type="button" class="inspect-button" data-inspect="{{ source }}" disabled>Conferir leitura {{ name }} <span aria-hidden="true">→</span></button>
+          </article>
+          {% endfor %}
+        </div>
+        <div class="actions"><p id="next-action" aria-live="polite">Adicione os dois PDFs para liberar a comparação.</p><button id="submit" class="primary" disabled>Comparar notas <span aria-hidden="true">→</span></button></div>
+        <div class="file-limits"><span>Até 20 MB no total</span><span>Sem serviços externos de leitura</span><span>Sem armazenamento permanente dos PDFs</span></div>
+      </form>
+      <details class="examples"><summary>Prefere baixar os arquivos de exemplo?</summary><p>Dados fictícios para experimentar: <a href="/exemplos/sped_simulado.pdf">Baixar SPED simulado</a> · <a href="/exemplos/dominio_simulado.pdf">Baixar Domínio simulado</a>.</p></details>
+    </section>
+    <div id="error" class="alert" role="alert" tabindex="-1" hidden><div><strong>Vamos revisar esta etapa</strong><p id="error-message"></p></div><button type="button" class="text-button" id="dismiss-error" aria-label="Fechar aviso">Fechar</button></div>
+    <div id="loading" class="processing" role="status" aria-live="polite" hidden><span class="spinner" aria-hidden="true"></span><div><strong id="loading-title"></strong><p id="loading-time"></p></div></div>
+    <div id="source-summary" hidden></div>
+    <section id="inspection" class="panel" aria-labelledby="inspection-title" hidden>
+      <div class="section-heading"><div><p class="eyebrow">ANTES DE COMPARAR</p><h2 id="inspection-title">Conferência da leitura</h2><p id="inspection-counts"></p></div><span class="outline-label">Arquivo individual</span></div>
+      <p class="notice">Confira a quantidade e os valores das notas reconhecidas. O total mostrado é a soma do que foi lido; revise os avisos e o relatório original.</p>
+      <div id="inspection-warnings"></div>
+      <div class="toolbar"><label class="search-field"><span>Buscar na leitura</span><input id="inspection-search" type="search" placeholder="Documento, CNPJ/CPF ou fornecedor"></label><span class="visible-count" id="inspection-visible" role="status"></span></div>
+      <div class="scroll inspection-scroll" tabindex="0" role="region" aria-label="Notas reconhecidas no arquivo"><table><thead><tr><th>CNPJ/CPF</th><th>Documento / série</th><th>Fornecedor</th><th>Valor</th><th>Páginas</th></tr></thead><tbody id="inspection-rows"></tbody></table></div>
+    </section>
+    <section id="result" class="panel" aria-labelledby="result-title" hidden>
+      <div class="section-heading"><div><p class="eyebrow">SUA CONFERÊNCIA</p><h2 id="result-title">Resultado da comparação</h2><p id="counts"></p></div><div class="export-actions"><button type="button" class="secondary" data-export="xlsx">Baixar Excel</button><button type="button" class="secondary" data-export="pdf">Baixar PDF</button></div></div>
+      <div id="stats" aria-label="Resumo e filtros da comparação"></div>
+      <p class="notice">Confira os avisos de leitura antes de usar o resultado. Notas com CNPJ/CPF ou número diferentes aparecem como presentes em apenas um arquivo.</p>
+      <div id="warnings"></div>
+      <div class="toolbar result-toolbar"><label class="search-field"><span>Buscar nos resultados</span><input id="result-search" type="search" placeholder="Documento, CNPJ/CPF ou fornecedor"></label><label class="filter-field"><span>Situação</span><select id="filter"><option value="issues" selected>Somente pendências</option><option value="all">Todas as notas</option><option value="Divergente">Divergentes</option><option value="Somente SPED">Somente SPED</option><option value="Somente Domínio">Somente Domínio</option><option value="Duplicidade / revisar">Duplicidades</option><option value="Conferência parcial">Conferência parcial</option><option value="Conferente">Conferentes</option></select></label></div>
+      <div class="table-caption"><span id="result-visible" class="visible-count" role="status"></span><span>Excel e PDF incluem todas as notas da comparação.</span></div>
+      <div class="scroll results-scroll" tabindex="0" role="region" aria-label="Comparação das notas"><table><thead><tr><th>Situação</th><th>CNPJ/CPF · Documento</th><th>SPED<small>Fornecedor e valor</small></th><th>Domínio<small>Fornecedor e valor</small></th><th>Diferenças / pendências</th></tr></thead><tbody id="rows"></tbody></table></div>
+    </section>
+    <section class="help" id="help" aria-labelledby="help-title"><h2 id="help-title">Precisa de uma orientação?</h2><details><summary>Como faço minha primeira comparação?</summary><p>Selecione os dois PDFs da mesma empresa e período. Se quiser revisar a extração primeiro, clique em “Conferir leitura” em cada arquivo. Depois, clique em “Comparar notas”. O resultado abre nas pendências; use os filtros para ver todas as notas e baixe o relatório em Excel ou PDF.</p></details><details><summary>O que fazer quando um arquivo não é reconhecido?</summary><p>Use “Conferir leitura” para identificar o arquivo que precisa de ajuste. O resumo do outro arquivo continua disponível. PDFs que são apenas imagens ainda precisam de OCR. Outros layouts podem precisar de adaptação com uma amostra do PDF original.</p></details><details><summary>Como são comparados os campos?</summary><p>CNPJ/CPF e número identificam a nota. A comparação ignora zeros à esquerda no número e diferenças de acentuação, maiúsculas e espaços extras no fornecedor. Valores são conferidos em centavos. Código interno de fornecedor não substitui o nome: quando o nome falta, a conferência fica pendente. Série, filial e período ainda não fazem parte da chave.</p></details></section>
+    <footer><span>Lucrattiva · Comparador de notas de entrada</span><span>Versão {{ version }}</span></footer>
+  </main>
+  <script src="/static/app.js?v={{ version }}"></script>
+</body>
+</html>

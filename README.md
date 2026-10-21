@@ -86,7 +86,7 @@ extraída é preservada para revisão, sem alterar a chave nesta versão.
 
 ## Como confirmar a versão que está aberta
 
-A versão atual **0.4.0** aparece no topo e no rodapé da página. O endereço
+A versão atual **0.5.0** aparece no topo e no rodapé da página. O endereço
 `/versao` também informa a versão e um identificador da execução (sem credenciais).
 O inicializador confere esse identificador antes de abrir o navegador, para não
 abrir uma cópia antiga que já esteja usando a porta padrão. Não encerra programas
@@ -97,7 +97,7 @@ intervalo, o inicializador não abrirá a instância errada e mostrará a falha.
 A mensagem antiga “Não foi possível reconhecer notas nos dois arquivos. Use
 tabelas...” identifica uma cópia anterior à adaptação dos cabeçalhos fiscais.
 Baixe o ZIP atualizado, extraia em uma nova pasta e execute o inicializador dessa
-pasta. Confira a versão 0.4.0 antes de enviar os PDFs. A atualização não garante a
+pasta. Confira a versão 0.5.0 antes de enviar os PDFs. A atualização não garante a
 leitura de um layout real ainda não homologado: para adaptar um relatório que
 continue sem notas reconhecidas, são necessários os PDFs originais.
 
@@ -158,3 +158,41 @@ origem em `sources`. Nenhum PDF ou resultado fica salvo permanentemente no servi
 
 A leitura individual foi validada com o mesmo SPED real de 39 páginas e 589
 documentos. O PDF real do Domínio continua necessário para homologar esse layout.
+
+
+## Tela e facilidade de uso — versão 0.5.0
+
+A tela orienta o fluxo em três etapas: selecionar PDFs, conferir a leitura e
+comparar/baixar. Cada arquivo tem nome completo, tamanho e estado da leitura.
+É possível arrastar e soltar, trocar ou remover cada PDF. Arquivos sem extensão
+PDF e envios acima de 20 MB são recusados antes da requisição. A validação do
+conteúdo PDF continua no servidor. O botão de comparação só fica disponível
+com os dois arquivos selecionados; a leitura individual precisa de apenas um.
+
+**Usar exemplos** preenche os dois campos com os PDFs fictícios, sem downloads
+manuais. A comparação não começa automaticamente. O resultado abre em
+**Somente pendências**, com busca por documento/CNPJ/CPF/fornecedor e filtros
+por situação. Os totais funcionam como atalhos para todas as notas, conferentes
+ou pendências. A contagem informa quantos documentos atendem aos filtros;
+Excel e PDF sempre incluem o resultado completo, conforme indicado na tela.
+
+A interface tem mensagens para buscas sem resultados, avisos que podem ser
+fechados, indicação de tempo decorrido, navegação por teclado e campos com
+rótulos acessíveis. Em telas pequenas, os cartões ficam em coluna e a tabela
+rola dentro de sua própria área. A troca/remoção de arquivo invalida a comparação
+anterior, evitando mostrar um resultado pertencente a outros PDFs.
+
+### Verificação opcional no navegador
+
+O script `scripts/testar_interface.cjs` usa Node.js, Playwright e Chromium já
+instalados. Ele acessa uma aplicação iniciada separadamente, exercita seleção,
+arrastar/soltar, remoção, exemplos, leitura, busca/filtros, exportações, avisos e
+largura móvel. Usa apenas dados fictícios. Requer o pacote `playwright` (ou o
+caminho de um módulo compatível em `PLAYWRIGHT_MODULE`). As variáveis opcionais
+`CHROMIUM_PATH`, `COMPARADOR_TEST_URL` e `COMPARADOR_UI_OUTPUT` selecionam o
+navegador, servidor e pasta temporária de capturas/relatórios. Não é necessário
+instalar Playwright para usar a aplicação ou executar os testes Python.
+
+```bash
+COMPARADOR_TEST_URL=http://127.0.0.1:5000 node scripts/testar_interface.cjs
+```
