@@ -44,9 +44,7 @@ execução), inicia o servidor e abre o navegador automaticamente. Deixe o termi
 aberto durante o uso; Ctrl+C encerra. Nenhum comando deve usar o caminho
 `/workspace` no computador do usuário: esse caminho pertence ao ambiente na nuvem.
 
-Se o navegador não abrir, digite `127.0.0.1:5000` na barra de endereços **do
-computador em que o programa foi iniciado**. Esse endereço não acessa o ambiente
-na nuvem. Ainda não existe um site público desta aplicação.
+Se o navegador não abrir, use o endereço mostrado na janela em **Endereço desta cópia**, no computador em que o programa foi iniciado. A porta padrão é 5000; se estiver ocupada, o inicializador escolhe outra porta livre. Esse endereço não acessa o ambiente na nuvem. Ainda não existe um site público desta aplicação.
 
 Na tela, selecione os arquivos `exemplos/sped_simulado.pdf` e
 `exemplos/dominio_simulado.pdf`, ou use os links para baixar os exemplos. Confira
@@ -85,3 +83,21 @@ informados. A lista de colunas e a imagem não substituem a homologação com os
 PDFs originais do SPED e do Domínio. Não se presume que todo layout desses
 sistemas seja reconhecido. O pareamento continua por CNPJ + número; a série
 extraída é preservada para revisão, sem alterar a chave nesta versão.
+
+
+## Como confirmar a versão que está aberta
+
+A versão atual **0.2.1** aparece no topo e no rodapé da página. O endereço
+`/versao` também informa a versão e um identificador da execução (sem credenciais).
+O inicializador confere esse identificador antes de abrir o navegador, para não
+abrir uma cópia antiga que já esteja usando a porta padrão. Não encerra programas
+de terceiros; abre a nova cópia em outra porta disponível. A reserva da porta
+é liberada antes de iniciar o servidor: se outro programa tomar essa porta nesse
+intervalo, o inicializador não abrirá a instância errada e mostrará a falha.
+
+A mensagem antiga “Não foi possível reconhecer notas nos dois arquivos. Use
+tabelas...” identifica uma cópia anterior à adaptação dos cabeçalhos fiscais.
+Baixe o ZIP atualizado, extraia em uma nova pasta e execute o inicializador dessa
+pasta. Confira a versão 0.2.1 antes de enviar os PDFs. A atualização não garante a
+leitura de um layout real ainda não homologado: para adaptar um relatório que
+continue sem notas reconhecidas, são necessários os PDFs originais.

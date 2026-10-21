@@ -1,4 +1,5 @@
 from io import BytesIO
+import os
 from pathlib import Path
 from xml.sax.saxutils import escape
 from flask import Flask, render_template, request, jsonify, send_file
@@ -7,10 +8,21 @@ from comparator import extract_pdf, compare, supplier_label
 
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 20 * 1024 * 1024
+APP_VERSION = '0.2.1'
+
+@app.after_request
+def disable_stale_pages(response):
+    if request.endpoint != 'static':
+        response.headers['Cache-Control'] = 'no-store'
+    return response
 
 @app.get('/')
 def home():
-    return render_template('index.html')
+    return render_template('index.html', version=APP_VERSION)
+
+@app.get('/versao')
+def version():
+    return jsonify(versao=APP_VERSION, instancia=os.environ.get('COMPARADOR_INSTANCE_ID', ''))
 
 @app.get('/exemplos/<name>')
 def example(name):
@@ -96,4 +108,5 @@ def export(kind):
     return send_file(output, mimetype=mime, as_attachment=True, download_name=f'comparativo.{kind}')
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=False)
+    app.run(host=os.environ.get('COMPARADOR_HOST', '0.0.0.0'),
+            port=int(os.environ.get('COMPARADOR_PORT', '5000')), debug=False)
