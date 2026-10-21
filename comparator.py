@@ -150,12 +150,14 @@ def parse_table(table, page):
     return notes, warnings, recognized
 
 
-def extract_pdf(stream):
+def extract_pdf(stream, metadata=None):
     from pdf_orientation import readable_pdf
     from sped_reader import SpedBlocks
     notes, warnings = [], []
     sped = SpedBlocks()
     with readable_pdf(stream) as pdf:
+        if metadata is not None:
+            metadata['paginas'] = len(pdf.pages)
         for number, page in enumerate(pdf.pages, 1):
             text = page.extract_text() or ''
             if not text.strip():

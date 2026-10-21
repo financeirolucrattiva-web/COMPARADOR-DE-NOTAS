@@ -86,7 +86,7 @@ extraída é preservada para revisão, sem alterar a chave nesta versão.
 
 ## Como confirmar a versão que está aberta
 
-A versão atual **0.3.0** aparece no topo e no rodapé da página. O endereço
+A versão atual **0.4.0** aparece no topo e no rodapé da página. O endereço
 `/versao` também informa a versão e um identificador da execução (sem credenciais).
 O inicializador confere esse identificador antes de abrir o navegador, para não
 abrir uma cópia antiga que já esteja usando a porta padrão. Não encerra programas
@@ -97,7 +97,7 @@ intervalo, o inicializador não abrirá a instância errada e mostrará a falha.
 A mensagem antiga “Não foi possível reconhecer notas nos dois arquivos. Use
 tabelas...” identifica uma cópia anterior à adaptação dos cabeçalhos fiscais.
 Baixe o ZIP atualizado, extraia em uma nova pasta e execute o inicializador dessa
-pasta. Confira a versão 0.3.0 antes de enviar os PDFs. A atualização não garante a
+pasta. Confira a versão 0.4.0 antes de enviar os PDFs. A atualização não garante a
 leitura de um layout real ainda não homologado: para adaptar um relatório que
 continue sem notas reconhecidas, são necessários os PDFs originais.
 
@@ -129,3 +129,32 @@ Os testes públicos usam dados fictícios e cobrem quatro orientações, múltip
 linhas fiscais, CPF, continuação de nome/documento entre páginas e exclusão do
 resumo. A leitura e a comparação com o relatório **real do Domínio** ainda
 precisam ser validadas com esse segundo arquivo.
+
+
+## Conferir um PDF separadamente — versão 0.4.0
+
+Depois de selecionar o SPED, clique em **Conferir leitura SPED**. O Domínio não
+precisa estar selecionado. O mesmo vale para **Conferir leitura Domínio**.
+A conferência mostra as notas reconhecidas, CNPJ/CPF, documento, série,
+fornecedor (ou código interno quando faltar o nome), valor e páginas de origem.
+A busca aceita documentos, CNPJ/CPF com ou sem pontuação e nomes com ou sem acento.
+
+O resumo mostra quantidade de notas, páginas, identificações CNPJ/CPF e soma
+exata das notas reconhecidas. Essa soma não garante que todas as notas de um
+layout desconhecido foram lidas: confira os avisos e o relatório original.
+O tempo decorrido aparece durante a leitura; não é uma porcentagem de progresso.
+
+Se um dos PDFs falhar durante a comparação, o resumo do outro permanece
+visível. Dados não reconhecidos não são tratados como ausência de notas na
+comparação, e o sistema não gera um comparativo completo com um arquivo vazio.
+A exportação mantém os mesmos requisitos da comparação.
+
+A operação `POST /conferir/sped` recebe um único arquivo multipart no campo
+`sped`; `POST /conferir/dominio` usa o campo `dominio`. A resposta inclui `notes`
+e `summary` (quantidade, páginas, total decimal em string, contagens CNPJ/CPF,
+avisos e erro). PDFs válidos sem notas reconhecidas retornam 422 com os avisos
+e o número de páginas; erros de comparação incluem um resumo separado de cada
+origem em `sources`. Nenhum PDF ou resultado fica salvo permanentemente no servidor.
+
+A leitura individual foi validada com o mesmo SPED real de 39 páginas e 589
+documentos. O PDF real do Domínio continua necessário para homologar esse layout.

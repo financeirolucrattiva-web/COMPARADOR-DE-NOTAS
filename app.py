@@ -1,4 +1,5 @@
 from io import BytesIO
+from decimal import Decimal
 import os
 from pathlib import Path
 from xml.sax.saxutils import escape
@@ -8,7 +9,7 @@ from comparator import extract_pdf, compare, supplier_label
 
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 20 * 1024 * 1024
-APP_VERSION = '0.3.0'
+APP_VERSION = '0.4.0'
 
 @app.after_request
 def disable_stale_pages(response):
@@ -35,35 +36,78 @@ def example(name):
 def too_large(error):
     return jsonify(error='O envio deve ter no máximo 20 MB no total.'), 413
 
+class ComparisonError(ValueError):
+    def __init__(self, message, sources):
+        super().__init__(message)
+        self.sources = sources
+
+
+def read_source(file):
+    if not file or not file.filename or not file.filename.lower().endswith('.pdf'):
+        raise ValueError('Selecione um arquivo PDF.')
+    if file.stream.read(5) != b'%PDF-':
+        raise ValueError('Arquivo inválido: o conteúdo deve ser PDF.')
+    file.stream.seek(0)
+    metadata = {}
+    try:
+        notes, issues = extract_pdf(file.stream, metadata=metadata)
+    except ValueError:
+        raise
+    except Exception as exc:
+        raise ValueError('Não foi possível ler o PDF. Verifique se está íntegro e sem senha.') from exc
+    summary = dict(quantidade=len(notes), paginas=metadata['paginas'],
+                   total=str(sum((Decimal(n['valor']) for n in notes), Decimal('0.00'))),
+                   cnpj=sum(n['tipo_identificacao'] == 'CNPJ' for n in notes),
+                   cpf=sum(n['tipo_identificacao'] == 'CPF' for n in notes),
+                   warnings=issues, error=None)
+    if not notes:
+        summary['error'] = 'Nenhuma nota reconhecida. O layout precisa de ajuste com o PDF original; se não houver texto extraível, será necessário OCR.'
+    return notes, summary
+
+
+def failure(exc):
+    payload = dict(error=str(exc))
+    if isinstance(exc, ComparisonError):
+        payload['sources'] = exc.sources
+    return jsonify(payload), 422
+
+
+@app.post('/conferir/<source>')
+def inspect_source(source):
+    if source not in ('sped', 'dominio'):
+        return jsonify(error='Origem inválida.'), 404
+    try:
+        notes, summary = read_source(request.files.get(source))
+    except ValueError as exc:
+        return failure(exc)
+    response = dict(source=source, notes=notes, summary=summary)
+    if summary['error']:
+        response['error'] = summary['error']
+        return jsonify(response), 422
+    return jsonify(response)
+
+
 def analyze():
-    sources, warnings = [], []
+    notes, summaries, warnings = [], {}, []
     for name in ('sped', 'dominio'):
-        file = request.files.get(name)
-        if not file or not file.filename.lower().endswith('.pdf'):
-            raise ValueError('Selecione um PDF SPED e um PDF Domínio.')
-        if file.stream.read(5) != b'%PDF-':
-            raise ValueError('Arquivo inválido: o conteúdo deve ser PDF.')
-        file.stream.seek(0)
         try:
-            notes, issues = extract_pdf(file.stream)
-        except ValueError:
-            raise
-        except Exception as exc:
-            raise ValueError('Não foi possível ler o PDF. Verifique se está íntegro e sem senha.') from exc
-        sources.append(notes)
-        warnings.extend(f'{name.upper()}: {w}' for w in issues)
-    if not all(sources):
-        missing = [name for name, notes in zip(('SPED', 'DOMINIO'), sources) if not notes]
-        relevant = [w for w in warnings if any(w.startswith(name + ':') for name in missing)]
-        raise ValueError('Não foi possível reconhecer notas em: ' + ', '.join(missing) + '. O layout precisa ser validado com o PDF original. Domínio: CNPJ, Nota/Série, Código Fornecedor e Valor Contábil; SPED: os cabeçalhos precisam identificar CNPJ, documento, fornecedor e valor da operação. PDFs digitalizados precisam de OCR. ' + ' '.join(relevant[:6]))
-    return dict(rows=compare(*sources), warnings=warnings, counts=[len(s) for s in sources])
+            found, summary = read_source(request.files.get(name))
+        except ValueError as exc:
+            found, summary = [], dict(quantidade=0, error=str(exc), warnings=[])
+        notes.append(found)
+        summaries[name] = summary
+        warnings.extend(f'{name.upper()}: {w}' for w in summary['warnings'])
+    if any(summary['error'] for summary in summaries.values()):
+        errors = '; '.join(f'{name.upper()}: {summary["error"]}' for name, summary in summaries.items() if summary['error'])
+        raise ComparisonError(errors + ' Use “Conferir leitura” para revisar cada PDF separadamente.', summaries)
+    return dict(rows=compare(*notes), warnings=warnings, counts=[len(s) for s in notes], sources=summaries)
 
 @app.post('/comparar')
 def comparison():
     try:
         return jsonify(analyze())
     except ValueError as exc:
-        return jsonify(error=str(exc)), 422
+        return failure(exc)
 
 @app.post('/exportar/<kind>')
 def export(kind):
@@ -71,7 +115,7 @@ def export(kind):
     try:
         result = analyze()
     except ValueError as exc:
-        return jsonify(error=str(exc)), 422
+        return failure(exc)
     headers = ['Situação', 'CNPJ/CPF', 'Documento', 'Diferenças', 'Fornecedor SPED', 'Valor SPED', 'Fornecedor Domínio', 'Valor Domínio', 'Pendências']
     rows = []
     for r in result['rows']:
