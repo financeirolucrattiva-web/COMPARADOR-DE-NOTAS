@@ -1,0 +1,19 @@
+{
+  "resultado": "APROVADO",
+  "registros": [
+    100,
+    95
+  ],
+  "chaves": 105,
+  "situacoes": {
+    "Conferente": 60,
+    "Divergente": 20,
+    "Somente SPED": 10,
+    "Somente Domínio": 10,
+    "Duplicidade / revisar": 5
+  },
+  "avisos": 0,
+  "linhas_excel": 106,
+  "paginas_relatorio_pdf": 5,
+  "validacao": "HTTP real e comparação das 105 chaves com gabarito independente; exportações reabertas e verificadas. Não é homologação com arquivos reais."
+}

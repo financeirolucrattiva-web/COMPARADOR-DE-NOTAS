@@ -1,0 +1,27 @@
+SIMULAÇÃO DE NOTAS DE ENTRADA — DADOS FICTÍCIOS
+
+Selecione sped_simulado.pdf como SPED e dominio_simulado.pdf como Domínio.
+Os PDFs são paginados e possuem vários fornecedores e valores em reais.
+Os identificadores de CNPJ são fictícios e não passam por validação fiscal.
+Este layout é de teste; não reproduz uma exportação oficial SPED ou Domínio.
+
+Resultado esperado: 100 registros SPED, 95 registros Domínio, 105 chaves.
+- 60 chaves conferentes.
+- 20 chaves divergentes: 10 de valor, 5 de fornecedor, 5 de ambos.
+- 10 chaves somente no SPED.
+- 10 chaves somente no Domínio.
+- 5 chaves com duplicidade no SPED (2 registros SPED, 1 Domínio).
+
+Documentos 10001 a 10060: conferentes.
+10061 a 10070: diferença de valor, inclusive R$ 0,01.
+10071 a 10075: fornecedor divergente.
+10076 a 10080: fornecedor e valor divergentes.
+10081 a 10085: ausentes no Domínio.
+10086 a 10090: ausentes no SPED.
+10091 a 10095: duplicidade no SPED.
+10096 a 10098: CNPJ diferente; geram uma ausência em cada lado.
+10099 e 10100: número alterado para 20099 e 20100; geram ausências em cada lado.
+
+No SPED, números têm zeros à esquerda, ignorados na comparação.
+Gabarito detalhado: gabarito.json. Relatórios obtidos pela aplicação:
+resultado_simulado.xlsx e resultado_simulado.pdf.

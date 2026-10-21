@@ -1,0 +1,2404 @@
+{
+  "counts": [
+    100,
+    95
+  ],
+  "rows": [
+    {
+      "cnpj": "88000000000600",
+      "diferencas": "",
+      "documento": "10096",
+      "dominio": [
+        {
+          "cnpj": "88000000000600",
+          "documento": "10096",
+          "fornecedor": "Materiais Central",
+          "pagina": 5,
+          "valor": "13179.85"
+        }
+      ],
+      "sped": [],
+      "status": "Somente Domínio"
+    },
+    {
+      "cnpj": "88000000000700",
+      "diferencas": "",
+      "documento": "10097",
+      "dominio": [
+        {
+          "cnpj": "88000000000700",
+          "documento": "10097",
+          "fornecedor": "Oficina das Peças",
+          "pagina": 5,
+          "valor": "13317.14"
+        }
+      ],
+      "sped": [],
+      "status": "Somente Domínio"
+    },
+    {
+      "cnpj": "88000000000800",
+      "diferencas": "",
+      "documento": "10098",
+      "dominio": [
+        {
+          "cnpj": "88000000000800",
+          "documento": "10098",
+          "fornecedor": "Atacado Boa Vista",
+          "pagina": 5,
+          "valor": "13454.43"
+        }
+      ],
+      "sped": [],
+      "status": "Somente Domínio"
+    },
+    {
+      "cnpj": "99000000000000",
+      "diferencas": "",
+      "documento": "10010",
+      "dominio": [
+        {
+          "cnpj": "99000000000000",
+          "documento": "10010",
+          "fornecedor": "Comércio Aurora LTDA",
+          "pagina": 1,
+          "valor": "1372.91"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000000",
+          "documento": "10010",
+          "fornecedor": "Comércio Aurora LTDA",
+          "pagina": 1,
+          "valor": "1372.91"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000000",
+      "diferencas": "",
+      "documento": "10020",
+      "dominio": [
+        {
+          "cnpj": "99000000000000",
+          "documento": "10020",
+          "fornecedor": "Comércio Aurora LTDA",
+          "pagina": 2,
+          "valor": "2745.81"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000000",
+          "documento": "10020",
+          "fornecedor": "Comércio Aurora LTDA",
+          "pagina": 2,
+          "valor": "2745.81"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000000",
+      "diferencas": "",
+      "documento": "10030",
+      "dominio": [
+        {
+          "cnpj": "99000000000000",
+          "documento": "10030",
+          "fornecedor": "Comércio Aurora LTDA",
+          "pagina": 2,
+          "valor": "4118.71"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000000",
+          "documento": "10030",
+          "fornecedor": "Comércio Aurora LTDA",
+          "pagina": 2,
+          "valor": "4118.71"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000000",
+      "diferencas": "",
+      "documento": "10040",
+      "dominio": [
+        {
+          "cnpj": "99000000000000",
+          "documento": "10040",
+          "fornecedor": "Comércio Aurora LTDA",
+          "pagina": 2,
+          "valor": "5491.61"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000000",
+          "documento": "10040",
+          "fornecedor": "Comércio Aurora LTDA",
+          "pagina": 2,
+          "valor": "5491.61"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000000",
+      "diferencas": "",
+      "documento": "10050",
+      "dominio": [
+        {
+          "cnpj": "99000000000000",
+          "documento": "10050",
+          "fornecedor": "Comércio Aurora LTDA",
+          "pagina": 3,
+          "valor": "6864.51"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000000",
+          "documento": "10050",
+          "fornecedor": "Comércio Aurora LTDA",
+          "pagina": 3,
+          "valor": "6864.51"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000000",
+      "diferencas": "",
+      "documento": "10060",
+      "dominio": [
+        {
+          "cnpj": "99000000000000",
+          "documento": "10060",
+          "fornecedor": "Comércio Aurora LTDA",
+          "pagina": 3,
+          "valor": "8237.41"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000000",
+          "documento": "10060",
+          "fornecedor": "Comércio Aurora LTDA",
+          "pagina": 3,
+          "valor": "8237.41"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000000",
+      "diferencas": "Valor",
+      "documento": "10070",
+      "dominio": [
+        {
+          "cnpj": "99000000000000",
+          "documento": "10070",
+          "fornecedor": "Comércio Aurora LTDA",
+          "pagina": 4,
+          "valor": "9735.81"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000000",
+          "documento": "10070",
+          "fornecedor": "Comércio Aurora LTDA",
+          "pagina": 4,
+          "valor": "9610.31"
+        }
+      ],
+      "status": "Divergente"
+    },
+    {
+      "cnpj": "99000000000000",
+      "diferencas": "Fornecedor, Valor",
+      "documento": "10080",
+      "dominio": [
+        {
+          "cnpj": "99000000000000",
+          "documento": "10080",
+          "fornecedor": "Fornecedor Alternativo",
+          "pagina": 4,
+          "valor": "11183.21"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000000",
+          "documento": "10080",
+          "fornecedor": "Comércio Aurora LTDA",
+          "pagina": 4,
+          "valor": "10983.21"
+        }
+      ],
+      "status": "Divergente"
+    },
+    {
+      "cnpj": "99000000000000",
+      "diferencas": "",
+      "documento": "10090",
+      "dominio": [
+        {
+          "cnpj": "99000000000000",
+          "documento": "10090",
+          "fornecedor": "Comércio Aurora LTDA",
+          "pagina": 5,
+          "valor": "12356.11"
+        }
+      ],
+      "sped": [],
+      "status": "Somente Domínio"
+    },
+    {
+      "cnpj": "99000000000000",
+      "diferencas": "",
+      "documento": "10100",
+      "dominio": [],
+      "sped": [
+        {
+          "cnpj": "99000000000000",
+          "documento": "10100",
+          "fornecedor": "Comércio Aurora LTDA",
+          "pagina": 5,
+          "valor": "13729.01"
+        }
+      ],
+      "status": "Somente SPED"
+    },
+    {
+      "cnpj": "99000000000000",
+      "diferencas": "",
+      "documento": "20100",
+      "dominio": [
+        {
+          "cnpj": "99000000000000",
+          "documento": "20100",
+          "fornecedor": "Comércio Aurora LTDA",
+          "pagina": 5,
+          "valor": "13729.01"
+        }
+      ],
+      "sped": [],
+      "status": "Somente Domínio"
+    },
+    {
+      "cnpj": "99000000000100",
+      "diferencas": "",
+      "documento": "10001",
+      "dominio": [
+        {
+          "cnpj": "99000000000100",
+          "documento": "10001",
+          "fornecedor": "Papelaria Horizonte",
+          "pagina": 1,
+          "valor": "137.30"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000100",
+          "documento": "10001",
+          "fornecedor": "Papelaria Horizonte",
+          "pagina": 1,
+          "valor": "137.30"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000100",
+      "diferencas": "",
+      "documento": "10011",
+      "dominio": [
+        {
+          "cnpj": "99000000000100",
+          "documento": "10011",
+          "fornecedor": "Papelaria Horizonte",
+          "pagina": 1,
+          "valor": "1510.20"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000100",
+          "documento": "10011",
+          "fornecedor": "Papelaria Horizonte",
+          "pagina": 1,
+          "valor": "1510.20"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000100",
+      "diferencas": "",
+      "documento": "10021",
+      "dominio": [
+        {
+          "cnpj": "99000000000100",
+          "documento": "10021",
+          "fornecedor": "Papelaria Horizonte",
+          "pagina": 2,
+          "valor": "2883.10"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000100",
+          "documento": "10021",
+          "fornecedor": "Papelaria Horizonte",
+          "pagina": 2,
+          "valor": "2883.10"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000100",
+      "diferencas": "",
+      "documento": "10031",
+      "dominio": [
+        {
+          "cnpj": "99000000000100",
+          "documento": "10031",
+          "fornecedor": "Papelaria Horizonte",
+          "pagina": 2,
+          "valor": "4256.00"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000100",
+          "documento": "10031",
+          "fornecedor": "Papelaria Horizonte",
+          "pagina": 2,
+          "valor": "4256.00"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000100",
+      "diferencas": "",
+      "documento": "10041",
+      "dominio": [
+        {
+          "cnpj": "99000000000100",
+          "documento": "10041",
+          "fornecedor": "Papelaria Horizonte",
+          "pagina": 3,
+          "valor": "5628.90"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000100",
+          "documento": "10041",
+          "fornecedor": "Papelaria Horizonte",
+          "pagina": 3,
+          "valor": "5628.90"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000100",
+      "diferencas": "",
+      "documento": "10051",
+      "dominio": [
+        {
+          "cnpj": "99000000000100",
+          "documento": "10051",
+          "fornecedor": "Papelaria Horizonte",
+          "pagina": 3,
+          "valor": "7001.80"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000100",
+          "documento": "10051",
+          "fornecedor": "Papelaria Horizonte",
+          "pagina": 3,
+          "valor": "7001.80"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000100",
+      "diferencas": "Valor",
+      "documento": "10061",
+      "dominio": [
+        {
+          "cnpj": "99000000000100",
+          "documento": "10061",
+          "fornecedor": "Papelaria Horizonte",
+          "pagina": 3,
+          "valor": "8374.71"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000100",
+          "documento": "10061",
+          "fornecedor": "Papelaria Horizonte",
+          "pagina": 3,
+          "valor": "8374.70"
+        }
+      ],
+      "status": "Divergente"
+    },
+    {
+      "cnpj": "99000000000100",
+      "diferencas": "Fornecedor",
+      "documento": "10071",
+      "dominio": [
+        {
+          "cnpj": "99000000000100",
+          "documento": "10071",
+          "fornecedor": "Fornecedor Diferente LTDA",
+          "pagina": 4,
+          "valor": "9747.60"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000100",
+          "documento": "10071",
+          "fornecedor": "Papelaria Horizonte",
+          "pagina": 4,
+          "valor": "9747.60"
+        }
+      ],
+      "status": "Divergente"
+    },
+    {
+      "cnpj": "99000000000100",
+      "diferencas": "",
+      "documento": "10081",
+      "dominio": [],
+      "sped": [
+        {
+          "cnpj": "99000000000100",
+          "documento": "10081",
+          "fornecedor": "Papelaria Horizonte",
+          "pagina": 4,
+          "valor": "11120.50"
+        }
+      ],
+      "status": "Somente SPED"
+    },
+    {
+      "cnpj": "99000000000100",
+      "diferencas": "",
+      "documento": "10091",
+      "dominio": [
+        {
+          "cnpj": "99000000000100",
+          "documento": "10091",
+          "fornecedor": "Papelaria Horizonte",
+          "pagina": 5,
+          "valor": "12493.40"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000100",
+          "documento": "10091",
+          "fornecedor": "Papelaria Horizonte",
+          "pagina": 5,
+          "valor": "12493.40"
+        },
+        {
+          "cnpj": "99000000000100",
+          "documento": "10091",
+          "fornecedor": "Papelaria Horizonte",
+          "pagina": 5,
+          "valor": "12493.40"
+        }
+      ],
+      "status": "Duplicidade / revisar"
+    },
+    {
+      "cnpj": "99000000000200",
+      "diferencas": "",
+      "documento": "10002",
+      "dominio": [
+        {
+          "cnpj": "99000000000200",
+          "documento": "10002",
+          "fornecedor": "Distribuidora Sul",
+          "pagina": 1,
+          "valor": "274.59"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000200",
+          "documento": "10002",
+          "fornecedor": "Distribuidora Sul",
+          "pagina": 1,
+          "valor": "274.59"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000200",
+      "diferencas": "",
+      "documento": "10012",
+      "dominio": [
+        {
+          "cnpj": "99000000000200",
+          "documento": "10012",
+          "fornecedor": "Distribuidora Sul",
+          "pagina": 1,
+          "valor": "1647.49"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000200",
+          "documento": "10012",
+          "fornecedor": "Distribuidora Sul",
+          "pagina": 1,
+          "valor": "1647.49"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000200",
+      "diferencas": "",
+      "documento": "10022",
+      "dominio": [
+        {
+          "cnpj": "99000000000200",
+          "documento": "10022",
+          "fornecedor": "Distribuidora Sul",
+          "pagina": 2,
+          "valor": "3020.39"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000200",
+          "documento": "10022",
+          "fornecedor": "Distribuidora Sul",
+          "pagina": 2,
+          "valor": "3020.39"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000200",
+      "diferencas": "",
+      "documento": "10032",
+      "dominio": [
+        {
+          "cnpj": "99000000000200",
+          "documento": "10032",
+          "fornecedor": "Distribuidora Sul",
+          "pagina": 2,
+          "valor": "4393.29"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000200",
+          "documento": "10032",
+          "fornecedor": "Distribuidora Sul",
+          "pagina": 2,
+          "valor": "4393.29"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000200",
+      "diferencas": "",
+      "documento": "10042",
+      "dominio": [
+        {
+          "cnpj": "99000000000200",
+          "documento": "10042",
+          "fornecedor": "Distribuidora Sul",
+          "pagina": 3,
+          "valor": "5766.19"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000200",
+          "documento": "10042",
+          "fornecedor": "Distribuidora Sul",
+          "pagina": 3,
+          "valor": "5766.19"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000200",
+      "diferencas": "",
+      "documento": "10052",
+      "dominio": [
+        {
+          "cnpj": "99000000000200",
+          "documento": "10052",
+          "fornecedor": "Distribuidora Sul",
+          "pagina": 3,
+          "valor": "7139.09"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000200",
+          "documento": "10052",
+          "fornecedor": "Distribuidora Sul",
+          "pagina": 3,
+          "valor": "7139.09"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000200",
+      "diferencas": "Valor",
+      "documento": "10062",
+      "dominio": [
+        {
+          "cnpj": "99000000000200",
+          "documento": "10062",
+          "fornecedor": "Distribuidora Sul",
+          "pagina": 4,
+          "valor": "8637.49"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000200",
+          "documento": "10062",
+          "fornecedor": "Distribuidora Sul",
+          "pagina": 4,
+          "valor": "8511.99"
+        }
+      ],
+      "status": "Divergente"
+    },
+    {
+      "cnpj": "99000000000200",
+      "diferencas": "Fornecedor",
+      "documento": "10072",
+      "dominio": [
+        {
+          "cnpj": "99000000000200",
+          "documento": "10072",
+          "fornecedor": "Fornecedor Diferente LTDA",
+          "pagina": 4,
+          "valor": "9884.89"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000200",
+          "documento": "10072",
+          "fornecedor": "Distribuidora Sul",
+          "pagina": 4,
+          "valor": "9884.89"
+        }
+      ],
+      "status": "Divergente"
+    },
+    {
+      "cnpj": "99000000000200",
+      "diferencas": "",
+      "documento": "10082",
+      "dominio": [],
+      "sped": [
+        {
+          "cnpj": "99000000000200",
+          "documento": "10082",
+          "fornecedor": "Distribuidora Sul",
+          "pagina": 4,
+          "valor": "11257.79"
+        }
+      ],
+      "status": "Somente SPED"
+    },
+    {
+      "cnpj": "99000000000200",
+      "diferencas": "",
+      "documento": "10092",
+      "dominio": [
+        {
+          "cnpj": "99000000000200",
+          "documento": "10092",
+          "fornecedor": "Distribuidora Sul",
+          "pagina": 5,
+          "valor": "12630.69"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000200",
+          "documento": "10092",
+          "fornecedor": "Distribuidora Sul",
+          "pagina": 5,
+          "valor": "12630.69"
+        },
+        {
+          "cnpj": "99000000000200",
+          "documento": "10092",
+          "fornecedor": "Distribuidora Sul",
+          "pagina": 5,
+          "valor": "12630.69"
+        }
+      ],
+      "status": "Duplicidade / revisar"
+    },
+    {
+      "cnpj": "99000000000300",
+      "diferencas": "",
+      "documento": "10003",
+      "dominio": [
+        {
+          "cnpj": "99000000000300",
+          "documento": "10003",
+          "fornecedor": "Alimentos Primavera",
+          "pagina": 1,
+          "valor": "411.88"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000300",
+          "documento": "10003",
+          "fornecedor": "Alimentos Primavera",
+          "pagina": 1,
+          "valor": "411.88"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000300",
+      "diferencas": "",
+      "documento": "10013",
+      "dominio": [
+        {
+          "cnpj": "99000000000300",
+          "documento": "10013",
+          "fornecedor": "Alimentos Primavera",
+          "pagina": 1,
+          "valor": "1784.78"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000300",
+          "documento": "10013",
+          "fornecedor": "Alimentos Primavera",
+          "pagina": 1,
+          "valor": "1784.78"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000300",
+      "diferencas": "",
+      "documento": "10023",
+      "dominio": [
+        {
+          "cnpj": "99000000000300",
+          "documento": "10023",
+          "fornecedor": "Alimentos Primavera",
+          "pagina": 2,
+          "valor": "3157.68"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000300",
+          "documento": "10023",
+          "fornecedor": "Alimentos Primavera",
+          "pagina": 2,
+          "valor": "3157.68"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000300",
+      "diferencas": "",
+      "documento": "10033",
+      "dominio": [
+        {
+          "cnpj": "99000000000300",
+          "documento": "10033",
+          "fornecedor": "Alimentos Primavera",
+          "pagina": 2,
+          "valor": "4530.58"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000300",
+          "documento": "10033",
+          "fornecedor": "Alimentos Primavera",
+          "pagina": 2,
+          "valor": "4530.58"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000300",
+      "diferencas": "",
+      "documento": "10043",
+      "dominio": [
+        {
+          "cnpj": "99000000000300",
+          "documento": "10043",
+          "fornecedor": "Alimentos Primavera",
+          "pagina": 3,
+          "valor": "5903.48"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000300",
+          "documento": "10043",
+          "fornecedor": "Alimentos Primavera",
+          "pagina": 3,
+          "valor": "5903.48"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000300",
+      "diferencas": "",
+      "documento": "10053",
+      "dominio": [
+        {
+          "cnpj": "99000000000300",
+          "documento": "10053",
+          "fornecedor": "Alimentos Primavera",
+          "pagina": 3,
+          "valor": "7276.38"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000300",
+          "documento": "10053",
+          "fornecedor": "Alimentos Primavera",
+          "pagina": 3,
+          "valor": "7276.38"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000300",
+      "diferencas": "Valor",
+      "documento": "10063",
+      "dominio": [
+        {
+          "cnpj": "99000000000300",
+          "documento": "10063",
+          "fornecedor": "Alimentos Primavera",
+          "pagina": 4,
+          "valor": "8649.29"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000300",
+          "documento": "10063",
+          "fornecedor": "Alimentos Primavera",
+          "pagina": 4,
+          "valor": "8649.28"
+        }
+      ],
+      "status": "Divergente"
+    },
+    {
+      "cnpj": "99000000000300",
+      "diferencas": "Fornecedor",
+      "documento": "10073",
+      "dominio": [
+        {
+          "cnpj": "99000000000300",
+          "documento": "10073",
+          "fornecedor": "Fornecedor Diferente LTDA",
+          "pagina": 4,
+          "valor": "10022.18"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000300",
+          "documento": "10073",
+          "fornecedor": "Alimentos Primavera",
+          "pagina": 4,
+          "valor": "10022.18"
+        }
+      ],
+      "status": "Divergente"
+    },
+    {
+      "cnpj": "99000000000300",
+      "diferencas": "",
+      "documento": "10083",
+      "dominio": [],
+      "sped": [
+        {
+          "cnpj": "99000000000300",
+          "documento": "10083",
+          "fornecedor": "Alimentos Primavera",
+          "pagina": 5,
+          "valor": "11395.08"
+        }
+      ],
+      "status": "Somente SPED"
+    },
+    {
+      "cnpj": "99000000000300",
+      "diferencas": "",
+      "documento": "10093",
+      "dominio": [
+        {
+          "cnpj": "99000000000300",
+          "documento": "10093",
+          "fornecedor": "Alimentos Primavera",
+          "pagina": 5,
+          "valor": "12767.98"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000300",
+          "documento": "10093",
+          "fornecedor": "Alimentos Primavera",
+          "pagina": 5,
+          "valor": "12767.98"
+        },
+        {
+          "cnpj": "99000000000300",
+          "documento": "10093",
+          "fornecedor": "Alimentos Primavera",
+          "pagina": 5,
+          "valor": "12767.98"
+        }
+      ],
+      "status": "Duplicidade / revisar"
+    },
+    {
+      "cnpj": "99000000000400",
+      "diferencas": "",
+      "documento": "10004",
+      "dominio": [
+        {
+          "cnpj": "99000000000400",
+          "documento": "10004",
+          "fornecedor": "Indústria Modelo",
+          "pagina": 1,
+          "valor": "549.17"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000400",
+          "documento": "10004",
+          "fornecedor": "Indústria Modelo",
+          "pagina": 1,
+          "valor": "549.17"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000400",
+      "diferencas": "",
+      "documento": "10014",
+      "dominio": [
+        {
+          "cnpj": "99000000000400",
+          "documento": "10014",
+          "fornecedor": "Indústria Modelo",
+          "pagina": 1,
+          "valor": "1922.07"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000400",
+          "documento": "10014",
+          "fornecedor": "Indústria Modelo",
+          "pagina": 1,
+          "valor": "1922.07"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000400",
+      "diferencas": "",
+      "documento": "10024",
+      "dominio": [
+        {
+          "cnpj": "99000000000400",
+          "documento": "10024",
+          "fornecedor": "Indústria Modelo",
+          "pagina": 2,
+          "valor": "3294.97"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000400",
+          "documento": "10024",
+          "fornecedor": "Indústria Modelo",
+          "pagina": 2,
+          "valor": "3294.97"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000400",
+      "diferencas": "",
+      "documento": "10034",
+      "dominio": [
+        {
+          "cnpj": "99000000000400",
+          "documento": "10034",
+          "fornecedor": "Indústria Modelo",
+          "pagina": 2,
+          "valor": "4667.87"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000400",
+          "documento": "10034",
+          "fornecedor": "Indústria Modelo",
+          "pagina": 2,
+          "valor": "4667.87"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000400",
+      "diferencas": "",
+      "documento": "10044",
+      "dominio": [
+        {
+          "cnpj": "99000000000400",
+          "documento": "10044",
+          "fornecedor": "Indústria Modelo",
+          "pagina": 3,
+          "valor": "6040.77"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000400",
+          "documento": "10044",
+          "fornecedor": "Indústria Modelo",
+          "pagina": 3,
+          "valor": "6040.77"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000400",
+      "diferencas": "",
+      "documento": "10054",
+      "dominio": [
+        {
+          "cnpj": "99000000000400",
+          "documento": "10054",
+          "fornecedor": "Indústria Modelo",
+          "pagina": 3,
+          "valor": "7413.67"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000400",
+          "documento": "10054",
+          "fornecedor": "Indústria Modelo",
+          "pagina": 3,
+          "valor": "7413.67"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000400",
+      "diferencas": "Valor",
+      "documento": "10064",
+      "dominio": [
+        {
+          "cnpj": "99000000000400",
+          "documento": "10064",
+          "fornecedor": "Indústria Modelo",
+          "pagina": 4,
+          "valor": "8912.07"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000400",
+          "documento": "10064",
+          "fornecedor": "Indústria Modelo",
+          "pagina": 4,
+          "valor": "8786.57"
+        }
+      ],
+      "status": "Divergente"
+    },
+    {
+      "cnpj": "99000000000400",
+      "diferencas": "Fornecedor",
+      "documento": "10074",
+      "dominio": [
+        {
+          "cnpj": "99000000000400",
+          "documento": "10074",
+          "fornecedor": "Fornecedor Diferente LTDA",
+          "pagina": 4,
+          "valor": "10159.47"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000400",
+          "documento": "10074",
+          "fornecedor": "Indústria Modelo",
+          "pagina": 4,
+          "valor": "10159.47"
+        }
+      ],
+      "status": "Divergente"
+    },
+    {
+      "cnpj": "99000000000400",
+      "diferencas": "",
+      "documento": "10084",
+      "dominio": [],
+      "sped": [
+        {
+          "cnpj": "99000000000400",
+          "documento": "10084",
+          "fornecedor": "Indústria Modelo",
+          "pagina": 5,
+          "valor": "11532.37"
+        }
+      ],
+      "status": "Somente SPED"
+    },
+    {
+      "cnpj": "99000000000400",
+      "diferencas": "",
+      "documento": "10094",
+      "dominio": [
+        {
+          "cnpj": "99000000000400",
+          "documento": "10094",
+          "fornecedor": "Indústria Modelo",
+          "pagina": 5,
+          "valor": "12905.27"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000400",
+          "documento": "10094",
+          "fornecedor": "Indústria Modelo",
+          "pagina": 5,
+          "valor": "12905.27"
+        },
+        {
+          "cnpj": "99000000000400",
+          "documento": "10094",
+          "fornecedor": "Indústria Modelo",
+          "pagina": 5,
+          "valor": "12905.27"
+        }
+      ],
+      "status": "Duplicidade / revisar"
+    },
+    {
+      "cnpj": "99000000000500",
+      "diferencas": "",
+      "documento": "10005",
+      "dominio": [
+        {
+          "cnpj": "99000000000500",
+          "documento": "10005",
+          "fornecedor": "Serviços União",
+          "pagina": 1,
+          "valor": "686.46"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000500",
+          "documento": "10005",
+          "fornecedor": "Serviços União",
+          "pagina": 1,
+          "valor": "686.46"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000500",
+      "diferencas": "",
+      "documento": "10015",
+      "dominio": [
+        {
+          "cnpj": "99000000000500",
+          "documento": "10015",
+          "fornecedor": "Serviços União",
+          "pagina": 1,
+          "valor": "2059.36"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000500",
+          "documento": "10015",
+          "fornecedor": "Serviços União",
+          "pagina": 1,
+          "valor": "2059.36"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000500",
+      "diferencas": "",
+      "documento": "10025",
+      "dominio": [
+        {
+          "cnpj": "99000000000500",
+          "documento": "10025",
+          "fornecedor": "Serviços União",
+          "pagina": 2,
+          "valor": "3432.26"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000500",
+          "documento": "10025",
+          "fornecedor": "Serviços União",
+          "pagina": 2,
+          "valor": "3432.26"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000500",
+      "diferencas": "",
+      "documento": "10035",
+      "dominio": [
+        {
+          "cnpj": "99000000000500",
+          "documento": "10035",
+          "fornecedor": "Serviços União",
+          "pagina": 2,
+          "valor": "4805.16"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000500",
+          "documento": "10035",
+          "fornecedor": "Serviços União",
+          "pagina": 2,
+          "valor": "4805.16"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000500",
+      "diferencas": "",
+      "documento": "10045",
+      "dominio": [
+        {
+          "cnpj": "99000000000500",
+          "documento": "10045",
+          "fornecedor": "Serviços União",
+          "pagina": 3,
+          "valor": "6178.06"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000500",
+          "documento": "10045",
+          "fornecedor": "Serviços União",
+          "pagina": 3,
+          "valor": "6178.06"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000500",
+      "diferencas": "",
+      "documento": "10055",
+      "dominio": [
+        {
+          "cnpj": "99000000000500",
+          "documento": "10055",
+          "fornecedor": "Serviços União",
+          "pagina": 3,
+          "valor": "7550.96"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000500",
+          "documento": "10055",
+          "fornecedor": "Serviços União",
+          "pagina": 3,
+          "valor": "7550.96"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000500",
+      "diferencas": "Valor",
+      "documento": "10065",
+      "dominio": [
+        {
+          "cnpj": "99000000000500",
+          "documento": "10065",
+          "fornecedor": "Serviços União",
+          "pagina": 4,
+          "valor": "8923.87"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000500",
+          "documento": "10065",
+          "fornecedor": "Serviços União",
+          "pagina": 4,
+          "valor": "8923.86"
+        }
+      ],
+      "status": "Divergente"
+    },
+    {
+      "cnpj": "99000000000500",
+      "diferencas": "Fornecedor",
+      "documento": "10075",
+      "dominio": [
+        {
+          "cnpj": "99000000000500",
+          "documento": "10075",
+          "fornecedor": "Fornecedor Diferente LTDA",
+          "pagina": 4,
+          "valor": "10296.76"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000500",
+          "documento": "10075",
+          "fornecedor": "Serviços União",
+          "pagina": 4,
+          "valor": "10296.76"
+        }
+      ],
+      "status": "Divergente"
+    },
+    {
+      "cnpj": "99000000000500",
+      "diferencas": "",
+      "documento": "10085",
+      "dominio": [],
+      "sped": [
+        {
+          "cnpj": "99000000000500",
+          "documento": "10085",
+          "fornecedor": "Serviços União",
+          "pagina": 5,
+          "valor": "11669.66"
+        }
+      ],
+      "status": "Somente SPED"
+    },
+    {
+      "cnpj": "99000000000500",
+      "diferencas": "",
+      "documento": "10095",
+      "dominio": [
+        {
+          "cnpj": "99000000000500",
+          "documento": "10095",
+          "fornecedor": "Serviços União",
+          "pagina": 5,
+          "valor": "13042.56"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000500",
+          "documento": "10095",
+          "fornecedor": "Serviços União",
+          "pagina": 5,
+          "valor": "13042.56"
+        },
+        {
+          "cnpj": "99000000000500",
+          "documento": "10095",
+          "fornecedor": "Serviços União",
+          "pagina": 5,
+          "valor": "13042.56"
+        }
+      ],
+      "status": "Duplicidade / revisar"
+    },
+    {
+      "cnpj": "99000000000600",
+      "diferencas": "",
+      "documento": "10006",
+      "dominio": [
+        {
+          "cnpj": "99000000000600",
+          "documento": "10006",
+          "fornecedor": "Materiais Central",
+          "pagina": 1,
+          "valor": "823.75"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000600",
+          "documento": "10006",
+          "fornecedor": "Materiais Central",
+          "pagina": 1,
+          "valor": "823.75"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000600",
+      "diferencas": "",
+      "documento": "10016",
+      "dominio": [
+        {
+          "cnpj": "99000000000600",
+          "documento": "10016",
+          "fornecedor": "Materiais Central",
+          "pagina": 1,
+          "valor": "2196.65"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000600",
+          "documento": "10016",
+          "fornecedor": "Materiais Central",
+          "pagina": 1,
+          "valor": "2196.65"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000600",
+      "diferencas": "",
+      "documento": "10026",
+      "dominio": [
+        {
+          "cnpj": "99000000000600",
+          "documento": "10026",
+          "fornecedor": "Materiais Central",
+          "pagina": 2,
+          "valor": "3569.55"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000600",
+          "documento": "10026",
+          "fornecedor": "Materiais Central",
+          "pagina": 2,
+          "valor": "3569.55"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000600",
+      "diferencas": "",
+      "documento": "10036",
+      "dominio": [
+        {
+          "cnpj": "99000000000600",
+          "documento": "10036",
+          "fornecedor": "Materiais Central",
+          "pagina": 2,
+          "valor": "4942.45"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000600",
+          "documento": "10036",
+          "fornecedor": "Materiais Central",
+          "pagina": 2,
+          "valor": "4942.45"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000600",
+      "diferencas": "",
+      "documento": "10046",
+      "dominio": [
+        {
+          "cnpj": "99000000000600",
+          "documento": "10046",
+          "fornecedor": "Materiais Central",
+          "pagina": 3,
+          "valor": "6315.35"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000600",
+          "documento": "10046",
+          "fornecedor": "Materiais Central",
+          "pagina": 3,
+          "valor": "6315.35"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000600",
+      "diferencas": "",
+      "documento": "10056",
+      "dominio": [
+        {
+          "cnpj": "99000000000600",
+          "documento": "10056",
+          "fornecedor": "Materiais Central",
+          "pagina": 3,
+          "valor": "7688.25"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000600",
+          "documento": "10056",
+          "fornecedor": "Materiais Central",
+          "pagina": 3,
+          "valor": "7688.25"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000600",
+      "diferencas": "Valor",
+      "documento": "10066",
+      "dominio": [
+        {
+          "cnpj": "99000000000600",
+          "documento": "10066",
+          "fornecedor": "Materiais Central",
+          "pagina": 4,
+          "valor": "9186.65"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000600",
+          "documento": "10066",
+          "fornecedor": "Materiais Central",
+          "pagina": 4,
+          "valor": "9061.15"
+        }
+      ],
+      "status": "Divergente"
+    },
+    {
+      "cnpj": "99000000000600",
+      "diferencas": "Fornecedor, Valor",
+      "documento": "10076",
+      "dominio": [
+        {
+          "cnpj": "99000000000600",
+          "documento": "10076",
+          "fornecedor": "Fornecedor Alternativo",
+          "pagina": 4,
+          "valor": "10634.05"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000600",
+          "documento": "10076",
+          "fornecedor": "Materiais Central",
+          "pagina": 4,
+          "valor": "10434.05"
+        }
+      ],
+      "status": "Divergente"
+    },
+    {
+      "cnpj": "99000000000600",
+      "diferencas": "",
+      "documento": "10086",
+      "dominio": [
+        {
+          "cnpj": "99000000000600",
+          "documento": "10086",
+          "fornecedor": "Materiais Central",
+          "pagina": 4,
+          "valor": "11806.95"
+        }
+      ],
+      "sped": [],
+      "status": "Somente Domínio"
+    },
+    {
+      "cnpj": "99000000000600",
+      "diferencas": "",
+      "documento": "10096",
+      "dominio": [],
+      "sped": [
+        {
+          "cnpj": "99000000000600",
+          "documento": "10096",
+          "fornecedor": "Materiais Central",
+          "pagina": 5,
+          "valor": "13179.85"
+        }
+      ],
+      "status": "Somente SPED"
+    },
+    {
+      "cnpj": "99000000000700",
+      "diferencas": "",
+      "documento": "10007",
+      "dominio": [
+        {
+          "cnpj": "99000000000700",
+          "documento": "10007",
+          "fornecedor": "Oficina das Peças",
+          "pagina": 1,
+          "valor": "961.04"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000700",
+          "documento": "10007",
+          "fornecedor": "Oficina das Peças",
+          "pagina": 1,
+          "valor": "961.04"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000700",
+      "diferencas": "",
+      "documento": "10017",
+      "dominio": [
+        {
+          "cnpj": "99000000000700",
+          "documento": "10017",
+          "fornecedor": "Oficina das Peças",
+          "pagina": 1,
+          "valor": "2333.94"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000700",
+          "documento": "10017",
+          "fornecedor": "Oficina das Peças",
+          "pagina": 1,
+          "valor": "2333.94"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000700",
+      "diferencas": "",
+      "documento": "10027",
+      "dominio": [
+        {
+          "cnpj": "99000000000700",
+          "documento": "10027",
+          "fornecedor": "Oficina das Peças",
+          "pagina": 2,
+          "valor": "3706.84"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000700",
+          "documento": "10027",
+          "fornecedor": "Oficina das Peças",
+          "pagina": 2,
+          "valor": "3706.84"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000700",
+      "diferencas": "",
+      "documento": "10037",
+      "dominio": [
+        {
+          "cnpj": "99000000000700",
+          "documento": "10037",
+          "fornecedor": "Oficina das Peças",
+          "pagina": 2,
+          "valor": "5079.74"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000700",
+          "documento": "10037",
+          "fornecedor": "Oficina das Peças",
+          "pagina": 2,
+          "valor": "5079.74"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000700",
+      "diferencas": "",
+      "documento": "10047",
+      "dominio": [
+        {
+          "cnpj": "99000000000700",
+          "documento": "10047",
+          "fornecedor": "Oficina das Peças",
+          "pagina": 3,
+          "valor": "6452.64"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000700",
+          "documento": "10047",
+          "fornecedor": "Oficina das Peças",
+          "pagina": 3,
+          "valor": "6452.64"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000700",
+      "diferencas": "",
+      "documento": "10057",
+      "dominio": [
+        {
+          "cnpj": "99000000000700",
+          "documento": "10057",
+          "fornecedor": "Oficina das Peças",
+          "pagina": 3,
+          "valor": "7825.54"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000700",
+          "documento": "10057",
+          "fornecedor": "Oficina das Peças",
+          "pagina": 3,
+          "valor": "7825.54"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000700",
+      "diferencas": "Valor",
+      "documento": "10067",
+      "dominio": [
+        {
+          "cnpj": "99000000000700",
+          "documento": "10067",
+          "fornecedor": "Oficina das Peças",
+          "pagina": 4,
+          "valor": "9198.45"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000700",
+          "documento": "10067",
+          "fornecedor": "Oficina das Peças",
+          "pagina": 4,
+          "valor": "9198.44"
+        }
+      ],
+      "status": "Divergente"
+    },
+    {
+      "cnpj": "99000000000700",
+      "diferencas": "Fornecedor, Valor",
+      "documento": "10077",
+      "dominio": [
+        {
+          "cnpj": "99000000000700",
+          "documento": "10077",
+          "fornecedor": "Fornecedor Alternativo",
+          "pagina": 4,
+          "valor": "10771.34"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000700",
+          "documento": "10077",
+          "fornecedor": "Oficina das Peças",
+          "pagina": 4,
+          "valor": "10571.34"
+        }
+      ],
+      "status": "Divergente"
+    },
+    {
+      "cnpj": "99000000000700",
+      "diferencas": "",
+      "documento": "10087",
+      "dominio": [
+        {
+          "cnpj": "99000000000700",
+          "documento": "10087",
+          "fornecedor": "Oficina das Peças",
+          "pagina": 4,
+          "valor": "11944.24"
+        }
+      ],
+      "sped": [],
+      "status": "Somente Domínio"
+    },
+    {
+      "cnpj": "99000000000700",
+      "diferencas": "",
+      "documento": "10097",
+      "dominio": [],
+      "sped": [
+        {
+          "cnpj": "99000000000700",
+          "documento": "10097",
+          "fornecedor": "Oficina das Peças",
+          "pagina": 5,
+          "valor": "13317.14"
+        }
+      ],
+      "status": "Somente SPED"
+    },
+    {
+      "cnpj": "99000000000800",
+      "diferencas": "",
+      "documento": "10008",
+      "dominio": [
+        {
+          "cnpj": "99000000000800",
+          "documento": "10008",
+          "fornecedor": "Atacado Boa Vista",
+          "pagina": 1,
+          "valor": "1098.33"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000800",
+          "documento": "10008",
+          "fornecedor": "Atacado Boa Vista",
+          "pagina": 1,
+          "valor": "1098.33"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000800",
+      "diferencas": "",
+      "documento": "10018",
+      "dominio": [
+        {
+          "cnpj": "99000000000800",
+          "documento": "10018",
+          "fornecedor": "Atacado Boa Vista",
+          "pagina": 1,
+          "valor": "2471.23"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000800",
+          "documento": "10018",
+          "fornecedor": "Atacado Boa Vista",
+          "pagina": 1,
+          "valor": "2471.23"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000800",
+      "diferencas": "",
+      "documento": "10028",
+      "dominio": [
+        {
+          "cnpj": "99000000000800",
+          "documento": "10028",
+          "fornecedor": "Atacado Boa Vista",
+          "pagina": 2,
+          "valor": "3844.13"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000800",
+          "documento": "10028",
+          "fornecedor": "Atacado Boa Vista",
+          "pagina": 2,
+          "valor": "3844.13"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000800",
+      "diferencas": "",
+      "documento": "10038",
+      "dominio": [
+        {
+          "cnpj": "99000000000800",
+          "documento": "10038",
+          "fornecedor": "Atacado Boa Vista",
+          "pagina": 2,
+          "valor": "5217.03"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000800",
+          "documento": "10038",
+          "fornecedor": "Atacado Boa Vista",
+          "pagina": 2,
+          "valor": "5217.03"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000800",
+      "diferencas": "",
+      "documento": "10048",
+      "dominio": [
+        {
+          "cnpj": "99000000000800",
+          "documento": "10048",
+          "fornecedor": "Atacado Boa Vista",
+          "pagina": 3,
+          "valor": "6589.93"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000800",
+          "documento": "10048",
+          "fornecedor": "Atacado Boa Vista",
+          "pagina": 3,
+          "valor": "6589.93"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000800",
+      "diferencas": "",
+      "documento": "10058",
+      "dominio": [
+        {
+          "cnpj": "99000000000800",
+          "documento": "10058",
+          "fornecedor": "Atacado Boa Vista",
+          "pagina": 3,
+          "valor": "7962.83"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000800",
+          "documento": "10058",
+          "fornecedor": "Atacado Boa Vista",
+          "pagina": 3,
+          "valor": "7962.83"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000800",
+      "diferencas": "Valor",
+      "documento": "10068",
+      "dominio": [
+        {
+          "cnpj": "99000000000800",
+          "documento": "10068",
+          "fornecedor": "Atacado Boa Vista",
+          "pagina": 4,
+          "valor": "9461.23"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000800",
+          "documento": "10068",
+          "fornecedor": "Atacado Boa Vista",
+          "pagina": 4,
+          "valor": "9335.73"
+        }
+      ],
+      "status": "Divergente"
+    },
+    {
+      "cnpj": "99000000000800",
+      "diferencas": "Fornecedor, Valor",
+      "documento": "10078",
+      "dominio": [
+        {
+          "cnpj": "99000000000800",
+          "documento": "10078",
+          "fornecedor": "Fornecedor Alternativo",
+          "pagina": 4,
+          "valor": "10908.63"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000800",
+          "documento": "10078",
+          "fornecedor": "Atacado Boa Vista",
+          "pagina": 4,
+          "valor": "10708.63"
+        }
+      ],
+      "status": "Divergente"
+    },
+    {
+      "cnpj": "99000000000800",
+      "diferencas": "",
+      "documento": "10088",
+      "dominio": [
+        {
+          "cnpj": "99000000000800",
+          "documento": "10088",
+          "fornecedor": "Atacado Boa Vista",
+          "pagina": 5,
+          "valor": "12081.53"
+        }
+      ],
+      "sped": [],
+      "status": "Somente Domínio"
+    },
+    {
+      "cnpj": "99000000000800",
+      "diferencas": "",
+      "documento": "10098",
+      "dominio": [],
+      "sped": [
+        {
+          "cnpj": "99000000000800",
+          "documento": "10098",
+          "fornecedor": "Atacado Boa Vista",
+          "pagina": 5,
+          "valor": "13454.43"
+        }
+      ],
+      "status": "Somente SPED"
+    },
+    {
+      "cnpj": "99000000000900",
+      "diferencas": "",
+      "documento": "10009",
+      "dominio": [
+        {
+          "cnpj": "99000000000900",
+          "documento": "10009",
+          "fornecedor": "Tecnologia Futuro",
+          "pagina": 1,
+          "valor": "1235.62"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000900",
+          "documento": "10009",
+          "fornecedor": "Tecnologia Futuro",
+          "pagina": 1,
+          "valor": "1235.62"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000900",
+      "diferencas": "",
+      "documento": "10019",
+      "dominio": [
+        {
+          "cnpj": "99000000000900",
+          "documento": "10019",
+          "fornecedor": "Tecnologia Futuro",
+          "pagina": 1,
+          "valor": "2608.52"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000900",
+          "documento": "10019",
+          "fornecedor": "Tecnologia Futuro",
+          "pagina": 1,
+          "valor": "2608.52"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000900",
+      "diferencas": "",
+      "documento": "10029",
+      "dominio": [
+        {
+          "cnpj": "99000000000900",
+          "documento": "10029",
+          "fornecedor": "Tecnologia Futuro",
+          "pagina": 2,
+          "valor": "3981.42"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000900",
+          "documento": "10029",
+          "fornecedor": "Tecnologia Futuro",
+          "pagina": 2,
+          "valor": "3981.42"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000900",
+      "diferencas": "",
+      "documento": "10039",
+      "dominio": [
+        {
+          "cnpj": "99000000000900",
+          "documento": "10039",
+          "fornecedor": "Tecnologia Futuro",
+          "pagina": 2,
+          "valor": "5354.32"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000900",
+          "documento": "10039",
+          "fornecedor": "Tecnologia Futuro",
+          "pagina": 2,
+          "valor": "5354.32"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000900",
+      "diferencas": "",
+      "documento": "10049",
+      "dominio": [
+        {
+          "cnpj": "99000000000900",
+          "documento": "10049",
+          "fornecedor": "Tecnologia Futuro",
+          "pagina": 3,
+          "valor": "6727.22"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000900",
+          "documento": "10049",
+          "fornecedor": "Tecnologia Futuro",
+          "pagina": 3,
+          "valor": "6727.22"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000900",
+      "diferencas": "",
+      "documento": "10059",
+      "dominio": [
+        {
+          "cnpj": "99000000000900",
+          "documento": "10059",
+          "fornecedor": "Tecnologia Futuro",
+          "pagina": 3,
+          "valor": "8100.12"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000900",
+          "documento": "10059",
+          "fornecedor": "Tecnologia Futuro",
+          "pagina": 3,
+          "valor": "8100.12"
+        }
+      ],
+      "status": "Conferente"
+    },
+    {
+      "cnpj": "99000000000900",
+      "diferencas": "Valor",
+      "documento": "10069",
+      "dominio": [
+        {
+          "cnpj": "99000000000900",
+          "documento": "10069",
+          "fornecedor": "Tecnologia Futuro",
+          "pagina": 4,
+          "valor": "9473.03"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000900",
+          "documento": "10069",
+          "fornecedor": "Tecnologia Futuro",
+          "pagina": 4,
+          "valor": "9473.02"
+        }
+      ],
+      "status": "Divergente"
+    },
+    {
+      "cnpj": "99000000000900",
+      "diferencas": "Fornecedor, Valor",
+      "documento": "10079",
+      "dominio": [
+        {
+          "cnpj": "99000000000900",
+          "documento": "10079",
+          "fornecedor": "Fornecedor Alternativo",
+          "pagina": 4,
+          "valor": "11045.92"
+        }
+      ],
+      "sped": [
+        {
+          "cnpj": "99000000000900",
+          "documento": "10079",
+          "fornecedor": "Tecnologia Futuro",
+          "pagina": 4,
+          "valor": "10845.92"
+        }
+      ],
+      "status": "Divergente"
+    },
+    {
+      "cnpj": "99000000000900",
+      "diferencas": "",
+      "documento": "10089",
+      "dominio": [
+        {
+          "cnpj": "99000000000900",
+          "documento": "10089",
+          "fornecedor": "Tecnologia Futuro",
+          "pagina": 5,
+          "valor": "12218.82"
+        }
+      ],
+      "sped": [],
+      "status": "Somente Domínio"
+    },
+    {
+      "cnpj": "99000000000900",
+      "diferencas": "",
+      "documento": "10099",
+      "dominio": [],
+      "sped": [
+        {
+          "cnpj": "99000000000900",
+          "documento": "10099",
+          "fornecedor": "Tecnologia Futuro",
+          "pagina": 5,
+          "valor": "13591.72"
+        }
+      ],
+      "status": "Somente SPED"
+    },
+    {
+      "cnpj": "99000000000900",
+      "diferencas": "",
+      "documento": "20099",
+      "dominio": [
+        {
+          "cnpj": "99000000000900",
+          "documento": "20099",
+          "fornecedor": "Tecnologia Futuro",
+          "pagina": 5,
+          "valor": "13591.72"
+        }
+      ],
+      "sped": [],
+      "status": "Somente Domínio"
+    }
+  ],
+  "warnings": []
+}

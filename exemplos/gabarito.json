@@ -1,0 +1,855 @@
+{
+  "counts": [
+    100,
+    95
+  ],
+  "summary": {
+    "Conferente": 60,
+    "Divergente": 20,
+    "Somente SPED": 10,
+    "Somente Domínio": 10,
+    "Duplicidade / revisar": 5
+  },
+  "rows": [
+    {
+      "cnpj": "88000000000600",
+      "documento": "10096",
+      "status": "Somente Domínio",
+      "diferencas": "",
+      "sped": 0,
+      "dominio": 1
+    },
+    {
+      "cnpj": "88000000000700",
+      "documento": "10097",
+      "status": "Somente Domínio",
+      "diferencas": "",
+      "sped": 0,
+      "dominio": 1
+    },
+    {
+      "cnpj": "88000000000800",
+      "documento": "10098",
+      "status": "Somente Domínio",
+      "diferencas": "",
+      "sped": 0,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000000",
+      "documento": "10010",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000000",
+      "documento": "10020",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000000",
+      "documento": "10030",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000000",
+      "documento": "10040",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000000",
+      "documento": "10050",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000000",
+      "documento": "10060",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000000",
+      "documento": "10070",
+      "status": "Divergente",
+      "diferencas": "Valor",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000000",
+      "documento": "10080",
+      "status": "Divergente",
+      "diferencas": "Fornecedor, Valor",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000000",
+      "documento": "10090",
+      "status": "Somente Domínio",
+      "diferencas": "",
+      "sped": 0,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000000",
+      "documento": "10100",
+      "status": "Somente SPED",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 0
+    },
+    {
+      "cnpj": "99000000000000",
+      "documento": "20100",
+      "status": "Somente Domínio",
+      "diferencas": "",
+      "sped": 0,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000100",
+      "documento": "10001",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000100",
+      "documento": "10011",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000100",
+      "documento": "10021",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000100",
+      "documento": "10031",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000100",
+      "documento": "10041",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000100",
+      "documento": "10051",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000100",
+      "documento": "10061",
+      "status": "Divergente",
+      "diferencas": "Valor",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000100",
+      "documento": "10071",
+      "status": "Divergente",
+      "diferencas": "Fornecedor",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000100",
+      "documento": "10081",
+      "status": "Somente SPED",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 0
+    },
+    {
+      "cnpj": "99000000000100",
+      "documento": "10091",
+      "status": "Duplicidade / revisar",
+      "diferencas": "",
+      "sped": 2,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000200",
+      "documento": "10002",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000200",
+      "documento": "10012",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000200",
+      "documento": "10022",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000200",
+      "documento": "10032",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000200",
+      "documento": "10042",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000200",
+      "documento": "10052",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000200",
+      "documento": "10062",
+      "status": "Divergente",
+      "diferencas": "Valor",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000200",
+      "documento": "10072",
+      "status": "Divergente",
+      "diferencas": "Fornecedor",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000200",
+      "documento": "10082",
+      "status": "Somente SPED",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 0
+    },
+    {
+      "cnpj": "99000000000200",
+      "documento": "10092",
+      "status": "Duplicidade / revisar",
+      "diferencas": "",
+      "sped": 2,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000300",
+      "documento": "10003",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000300",
+      "documento": "10013",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000300",
+      "documento": "10023",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000300",
+      "documento": "10033",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000300",
+      "documento": "10043",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000300",
+      "documento": "10053",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000300",
+      "documento": "10063",
+      "status": "Divergente",
+      "diferencas": "Valor",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000300",
+      "documento": "10073",
+      "status": "Divergente",
+      "diferencas": "Fornecedor",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000300",
+      "documento": "10083",
+      "status": "Somente SPED",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 0
+    },
+    {
+      "cnpj": "99000000000300",
+      "documento": "10093",
+      "status": "Duplicidade / revisar",
+      "diferencas": "",
+      "sped": 2,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000400",
+      "documento": "10004",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000400",
+      "documento": "10014",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000400",
+      "documento": "10024",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000400",
+      "documento": "10034",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000400",
+      "documento": "10044",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000400",
+      "documento": "10054",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000400",
+      "documento": "10064",
+      "status": "Divergente",
+      "diferencas": "Valor",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000400",
+      "documento": "10074",
+      "status": "Divergente",
+      "diferencas": "Fornecedor",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000400",
+      "documento": "10084",
+      "status": "Somente SPED",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 0
+    },
+    {
+      "cnpj": "99000000000400",
+      "documento": "10094",
+      "status": "Duplicidade / revisar",
+      "diferencas": "",
+      "sped": 2,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000500",
+      "documento": "10005",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000500",
+      "documento": "10015",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000500",
+      "documento": "10025",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000500",
+      "documento": "10035",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000500",
+      "documento": "10045",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000500",
+      "documento": "10055",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000500",
+      "documento": "10065",
+      "status": "Divergente",
+      "diferencas": "Valor",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000500",
+      "documento": "10075",
+      "status": "Divergente",
+      "diferencas": "Fornecedor",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000500",
+      "documento": "10085",
+      "status": "Somente SPED",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 0
+    },
+    {
+      "cnpj": "99000000000500",
+      "documento": "10095",
+      "status": "Duplicidade / revisar",
+      "diferencas": "",
+      "sped": 2,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000600",
+      "documento": "10006",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000600",
+      "documento": "10016",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000600",
+      "documento": "10026",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000600",
+      "documento": "10036",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000600",
+      "documento": "10046",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000600",
+      "documento": "10056",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000600",
+      "documento": "10066",
+      "status": "Divergente",
+      "diferencas": "Valor",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000600",
+      "documento": "10076",
+      "status": "Divergente",
+      "diferencas": "Fornecedor, Valor",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000600",
+      "documento": "10086",
+      "status": "Somente Domínio",
+      "diferencas": "",
+      "sped": 0,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000600",
+      "documento": "10096",
+      "status": "Somente SPED",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 0
+    },
+    {
+      "cnpj": "99000000000700",
+      "documento": "10007",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000700",
+      "documento": "10017",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000700",
+      "documento": "10027",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000700",
+      "documento": "10037",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000700",
+      "documento": "10047",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000700",
+      "documento": "10057",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000700",
+      "documento": "10067",
+      "status": "Divergente",
+      "diferencas": "Valor",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000700",
+      "documento": "10077",
+      "status": "Divergente",
+      "diferencas": "Fornecedor, Valor",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000700",
+      "documento": "10087",
+      "status": "Somente Domínio",
+      "diferencas": "",
+      "sped": 0,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000700",
+      "documento": "10097",
+      "status": "Somente SPED",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 0
+    },
+    {
+      "cnpj": "99000000000800",
+      "documento": "10008",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000800",
+      "documento": "10018",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000800",
+      "documento": "10028",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000800",
+      "documento": "10038",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000800",
+      "documento": "10048",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000800",
+      "documento": "10058",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000800",
+      "documento": "10068",
+      "status": "Divergente",
+      "diferencas": "Valor",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000800",
+      "documento": "10078",
+      "status": "Divergente",
+      "diferencas": "Fornecedor, Valor",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000800",
+      "documento": "10088",
+      "status": "Somente Domínio",
+      "diferencas": "",
+      "sped": 0,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000800",
+      "documento": "10098",
+      "status": "Somente SPED",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 0
+    },
+    {
+      "cnpj": "99000000000900",
+      "documento": "10009",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000900",
+      "documento": "10019",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000900",
+      "documento": "10029",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000900",
+      "documento": "10039",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000900",
+      "documento": "10049",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000900",
+      "documento": "10059",
+      "status": "Conferente",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000900",
+      "documento": "10069",
+      "status": "Divergente",
+      "diferencas": "Valor",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000900",
+      "documento": "10079",
+      "status": "Divergente",
+      "diferencas": "Fornecedor, Valor",
+      "sped": 1,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000900",
+      "documento": "10089",
+      "status": "Somente Domínio",
+      "diferencas": "",
+      "sped": 0,
+      "dominio": 1
+    },
+    {
+      "cnpj": "99000000000900",
+      "documento": "10099",
+      "status": "Somente SPED",
+      "diferencas": "",
+      "sped": 1,
+      "dominio": 0
+    },
+    {
+      "cnpj": "99000000000900",
+      "documento": "20099",
+      "status": "Somente Domínio",
+      "diferencas": "",
+      "sped": 0,
+      "dominio": 1
+    }
+  ]
+}
