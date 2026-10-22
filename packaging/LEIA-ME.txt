@@ -20,3 +20,10 @@ Somente exemplos ficticios acompanham o programa.
 Para atualizar, feche o programa e execute o instalador novo.
 Para remover, use Configuracoes > Aplicativos > Comparador de Notas Lucrattiva.
 O desinstalador remove o programa; seus PDFs e relatorios nao sao removidos.
+
+ATUALIZACOES
+Quem recebeu a versao 0.7.1 deve executar o instalador novo uma vez, com o programa
+fechado. A versao antiga nao tem atualizador remoto. Seus PDFs sao preservados.
+A partir da 0.8.0, o programa avisa sobre novas versoes ao abrir com Internet e
+pede seu aceite antes de instalar. Sem Internet, continua funcionando normalmente.
+O download e verificado por checksum. Nenhum PDF e enviado nessa verificacao.

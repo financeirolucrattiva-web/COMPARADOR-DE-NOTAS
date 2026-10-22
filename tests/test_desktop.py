@@ -14,4 +14,4 @@ def test_desktop_launcher_serves_and_exports_without_current_directory(tmp_path)
     assert result.returncode == 0, result.stdout + result.stderr
     report = json.loads(result.stdout.strip().splitlines()[-1])
     assert report == {'versao': APP_VERSION, 'self_test': 'ok', 'documentos': 105,
-                      'counts': [100, 95], 'relatorios': ['xlsx', 'pdf']}
+                      'counts': [100, 95], 'relatorios': ['xlsx', 'pdf'], 'reconciliacao': 'ok'}

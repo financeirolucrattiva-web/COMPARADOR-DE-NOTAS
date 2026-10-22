@@ -198,7 +198,7 @@ function render() {
   const filter = document.querySelector('#filter').value;
   const query = searchText(document.querySelector('#result-search').value.trim());
   const matching = result.rows.filter(row => (filter === 'all' || (filter === 'issues' ? row.status !== 'Conferente' : row.status === filter)) && matchesSearch(query, [...row.sped, ...row.dominio], `${row.cnpj} ${row.documento}`));
-  const priority = row => row.diferencas.split(', ').includes('Valor') ? 0 : row.status.startsWith('Somente') ? 1 : row.status === 'Conferente' ? 3 : 2;
+  const priority = row => row.diferencas.split(', ').includes('Valor') ? 0 : row.diferencas.split(', ').includes('Documento') ? 1 : row.status.startsWith('Somente') ? 2 : row.status === 'Conferente' ? 4 : 3;
   matching.sort((a, b) => priority(a) - priority(b));
   for (const row of matching) {
     const tr = el('tr', '');
@@ -208,7 +208,11 @@ function render() {
     status.append(el('span', row.status, 'badge ' + cls));
     tr.append(status);
     const key = el('td', row.cnpj);
-    key.append(el('small', 'Documento ' + row.documento));
+    const docsA = row.sped.map(n => n.documento).join(', ');
+    const docsB = row.dominio.map(n => n.documento).join(', ');
+    if (docsA && docsB && docsA !== docsB) {
+      key.append(el('small', 'SPED: ' + docsA), el('small', 'Domínio: ' + docsB));
+    } else key.append(el('small', 'Documento ' + row.documento));
     tr.append(key);
     for (const source of sources) {
       const cell = el('td', '');
@@ -217,13 +221,16 @@ function render() {
         const amount = el('div', '', 'note-amount');
         amount.append(el('span', money(note.valor), different.includes('Valor') ? 'field-different' : ''));
         cell.append(amount);
-        cell.append(el('small', 'Páginas ' + pages(note) + (note.serie ? ' · série ' + note.serie : '')));
+        const document = el('small', '');
+        document.append(el('span', 'Documento ' + note.documento, different.includes('Documento') ? 'field-different' : ''));
+        cell.append(document, el('small', 'Páginas ' + pages(note) + (note.serie ? ' · série ' + note.serie : '') + (note.data_emissao ? ' · emissão ' + note.data_emissao : '')));
         appendSupplier(cell, note, different.includes('Fornecedor'));
       }
       tr.append(cell);
     }
     const explanation = el('td', '');
-    for (const field of different) explanation.append(el('div', field === 'Fornecedor' ? 'Nome do fornecedor diferente' : field === 'Valor' ? 'Valor diferente' : field));
+    for (const field of different) explanation.append(el('div', field === 'Fornecedor' ? 'Nome do fornecedor diferente' : field === 'Valor' ? 'Valor diferente' : field === 'Documento' ? 'Número do documento diferente' : field));
+    if (row.correspondencia === 'sequencial_nfse') explanation.append(el('small', 'Numeração anual de NFS-e compatível. Números originais preservados.'));
     for (const pending of row.pendencias || []) explanation.append(el('div', pending));
     if (!explanation.childElementCount) explanation.textContent = '—';
     tr.append(explanation);

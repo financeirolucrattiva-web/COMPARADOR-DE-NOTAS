@@ -2,12 +2,12 @@
 
 Aplicação web em português para comparar notas de entrada dos relatórios SPED e
 Domínio. Confere **CNPJ/CPF, número do documento, fornecedor e valor**, identifica
-ausências e duplicidades e gera Excel e PDF. Versão atual: **0.7.1**.
+ausências e duplicidades e gera Excel e PDF. Versão atual: **0.8.0**.
 
 ## Instalar e enviar a um colega (Windows)
 
-Baixe **ComparadorNotas-0.7.1-Windows-x64.exe** na
-[página da versão 0.7.1](https://github.com/financeirolucrattiva-web/COMPARADOR-DE-NOTAS/releases/tag/v0.7.1).
+Baixe **ComparadorNotas-0.8.0-Windows-x64.exe** na
+[página da versão 0.8.0](https://github.com/financeirolucrattiva-web/COMPARADOR-DE-NOTAS/releases/tag/v0.8.0).
 Envie esse arquivo ao colega; ele contém o programa, Python e todas as dependências.
 Não é preciso enviar o código-fonte, instalar Python, ter Internet durante a
 instalação/uso ou executar comandos. Requer Windows 10/11 de 64 bits e navegador.
@@ -17,7 +17,7 @@ instalação/uso ou executar comandos. Requer Windows 10/11 de 64 bits e navegad
 3. O navegador abre automaticamente. Mantenha a janela do programa aberta;
    para encerrar, feche essa janela ou pressione Ctrl+C.
 4. Para atualizar, feche o programa e execute o instalador novo. Confira
-   **Versão 0.7.1** no topo da tela.
+   **Versão 0.8.0** no topo da tela.
 5. Para remover, use **Configurações → Aplicativos → Comparador de Notas Lucrattiva**.
    Seus PDFs e relatórios não são apagados.
 
@@ -27,6 +27,22 @@ mostrado na janela do programa. Fechar a aba do navegador não encerra o servido
 O instalador inclui apenas exemplos fictícios. Não contém PDFs ou dados reais.
 Não há site público nem sincronização entre os computadores. O executável não
 possui assinatura digital comercial.
+
+## Atualizar quem já recebeu o instalador
+
+**A versão 0.7.1 já enviada não tem atualizador e não pode receber uma mudança
+remotamente.** Envie ao colega o instalador 0.8.0 uma vez; com o programa fechado,
+ele atualiza a instalação existente, preservando seus PDFs e relatórios.
+A atualização real **0.7.1 → 0.8.0** é validada no Windows antes da publicação.
+
+A partir da 0.8.0, ao abrir com Internet, o programa verifica o feed da última
+release e avisa quando existe uma versão nova. A instalação exige aceite na
+janela; o download precisa ser do mesmo repositório e ter SHA-256 correto.
+Falha de rede ou de integridade mantém a versão atual utilizável. Não são enviados
+PDFs, notas ou relatórios nessa verificação. O autoteste não verifica atualizações.
+
+Link fixo para compartilhar, sempre com a última versão publicada:
+[ComparadorNotas-Windows-x64.exe](https://github.com/financeirolucrattiva-web/COMPARADOR-DE-NOTAS/releases/latest/download/ComparadorNotas-Windows-x64.exe).
 
 ## Executar pelo código-fonte
 
@@ -103,29 +119,26 @@ continua disponível em PDFs com texto:
 
 ## Regras da comparação
 
-- Chave: **CNPJ/CPF + número**, ignorando zeros à esquerda no número.
+- Primeiro reserva chaves exatas **CNPJ/CPF + número** e mantém duplicidades para
+  revisão. Nenhuma nota é descartada, alterada ou usada em dois pareamentos.
+- NFS-e no Domínio com formato de 13 dígitos `AA + sequencial preenchido com zeros`
+  é reconciliada com o número curto somente quando espécie 66, modelo SPED 01,
+  CNPJ/CPF, sequencial e data de emissão coincidem; AA precisa ser o ano da emissão.
+  Os dois números originais continuam visíveis e são exportados. Valor diferente
+  continua divergente mesmo com essa correspondência.
+- Entre as notas restantes, mesmo CNPJ/CPF, valor e data de emissão podem indicar
+  correspondência com **número divergente**. Um par único aparece como divergência
+  de documento, nunca como conferente. Havendo vários candidatos, o grupo fica
+  em **Correspondência a revisar**, com todos os documentos preservados.
+- Ausências residuais significam “não localizada no outro PDF enviado”, sem afirmar
+  que a nota não existe no sistema fiscal. Confira escopo, período e original.
+- Valores usam Decimal e comparação exata em centavos. Retenções e diferenças entre
+  valores líquidos e brutos não são compensadas. Nome é o último critério: aceita
+  início significativo, cortes, complementos, marcas e pequenas diferenças de
+  escrita, sem substituir CNPJ/CPF, número, valor ou a revisão do documento.
 - CNPJ de 14 dígitos e CPF de 11 dígitos são normalizados, sem validar dígitos
-  verificadores. Formatos CEI/CAEPF não são homologados.
-- Ordem de conferência: CNPJ/CPF e documento definem o par; o valor é conferido
-  primeiro, exatamente em centavos. O nome é o último critério e nunca compensa
-  diferenças de identificação, documento ou valor.
-- O nome aceita acentos/pontuação, LTDA/LIMITADA, complementos finais entre
-  parênteses, nomes longos cortados no final e começos significativos em comum.
-  Dois nomes com o mesmo início podem ter finais diferentes. Os nomes originais
-  continuam visíveis para revisão, sem alterar os dados extraídos.
-- A comparação de nome aceita dois termos iniciais comuns com ao menos oito
-  letras somadas e um termo não genérico, ou um primeiro termo não genérico com
-  seis caracteres. Também aceita prefixo integral de seis caracteres ou mais
-  (inclusive última palavra cortada), desde que não seja só termos genéricos.
-  Pequenas diferenças de escrita são aceitas com similaridade de ao menos 90%
-  nas duas direções e uma palavra não genérica compartilhada de quatro letras.
-  Também são aceitas marcas/iniciais adicionais quando duas palavras não
-  genéricas, com oito letras somadas, cobrem pelo menos 75% dos termos
-  significativos do nome mais curto. Prefixos numéricos de oito dígitos de
-  nomes empresariais são desconsiderados.
-  Termos de ligação são ignorados na comparação do início. Um começo como
-  “COMÉRCIO DE” sozinho não confirma o fornecedor. Essa tolerância só se aplica
-  a notas já pareadas pelo mesmo CNPJ/CPF e documento.
+  verificadores. Formatos CEI/CAEPF não são homologados. Série, filial e período
+  ainda não integram a chave exata. As datas são usadas nas reconciliações.
 - Na tela, diferenças de valor aparecem primeiro; ausências vêm a seguir e
   pendências de nome ficam depois. O valor é exibido antes do nome. Apenas
   nomes e valores divergentes são destacados. A coluna de
@@ -133,10 +146,6 @@ continua disponível em PDFs com texto:
   explicitam que a diferença de fornecedor é no nome.
 - Código interno do fornecedor aparece em uma linha separada na tela e nos
   relatórios e não entra na comparação. Nome ausente continua pendente.
-- Valores usam Decimal e comparação exata em centavos. Retenções e diferenças
-  entre valores líquidos e brutos não são compensadas automaticamente.
-- Chave presente em apenas um arquivo aparece como ausência no outro. Não há
-  pareamento aproximado por nome ou valor. Série não faz parte da chave atual.
 - Registros duplicados são preservados e ficam para revisão; não são pareados
   ou removidos automaticamente.
 
@@ -148,10 +157,13 @@ conferidos individualmente contra o texto lógico: identificação, número, sé
 fornecedor, códigos, datas e valor. A soma coincide com o Total Geral. O SPED
 teve cada documento conferido contra uma leitura independente e seu resumo.
 
-O comparativo real tem 602 chaves: 573 conferentes, 5 divergentes (3 de nome
-e 2 de valor), 13 somente no Domínio e 11 somente no SPED. O fluxo completo foi
+A revisão dos originais preserva as 589 notas SPED e 591 Domínio em 597 casos:
+577 conferentes, 6 divergentes (2 de valor, 3 de nome e 1 de número), 8 somente
+no PDF Domínio e 6 somente no PDF SPED. Quatro pares usam a numeração anual
+de NFS-e e um par tem números distintos para revisão. O fluxo completo foi
 verificado no Chromium com esses arquivos, incluindo busca/filtros e downloads.
-O Excel contém 602 documentos; as 602 situações também foram conferidas no PDF.
+Os relatórios preservam os números de ambas as origens e todas as notas, sem
+reutilizar uma nota para compensar duas de mesmo valor.
 Os arquivos originais, notas, identificações, nomes e valores privados ficam
 fora do checkout. Os testes publicados usam apenas dados fictícios.
 

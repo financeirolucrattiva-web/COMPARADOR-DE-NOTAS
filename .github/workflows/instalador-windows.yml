@@ -8,6 +8,15 @@ on:
       - '.github/workflows/instalador-windows.yml'
       - 'packaging/**'
       - 'desktop.py'
+      - 'updater.py'
+      - 'app.py'
+      - 'comparator.py'
+      - 'dominio_reader.py'
+      - 'sped_reader.py'
+      - 'pdf_orientation.py'
+      - 'static/**'
+      - 'templates/**'
+      - 'exemplos/**'
       - 'requirements*.txt'
 
 permissions:
@@ -44,25 +53,9 @@ jobs:
           if ($LASTEXITCODE -ne 0) { throw 'Falha ao compilar instalador' }
       - name: Instalar, usar e desinstalar no Windows
         run: |
-          $target = Join-Path $env:RUNNER_TEMP 'Comparador Teste Instalado'
+          $version = python -c "import sys; sys.path.insert(0, 'packaging'); from build_windows import app_version; print(app_version())"
           $installer = Get-ChildItem dist/ComparadorNotas-*-Windows-x64.exe | Select-Object -First 1
-          $process = Start-Process -FilePath $installer.FullName -ArgumentList "/S /D=$target" -Wait -PassThru
-          if ($process.ExitCode -ne 0) { throw 'Falha na instalacao silenciosa' }
-          if (!(Test-Path "$target/desktop.py")) { throw 'Programa nao instalado' }
-          & "$target/runtime/python.exe" -E -s "$target/desktop.py" --self-test
-          if ($LASTEXITCODE -ne 0) { throw 'O programa instalado nao passou na validacao offline' }
-          $shortcut = Join-Path ([Environment]::GetFolderPath('Desktop')) 'Comparador de Notas Lucrattiva.lnk'
-          if (!(Test-Path $shortcut)) { throw 'Atalho da area de trabalho ausente' }
-          $registry = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall\LucrattivaComparadorNotas'
-          if (!(Test-Path $registry)) { throw 'Desinstalador nao registrado' }
-          Set-Content -Path "$target/meu-relatorio.pdf" -Value 'Dado ficticio para testar preservacao de arquivos'
-          $process = Start-Process -FilePath "$target/Desinstalar.exe" -ArgumentList "/S _?=$target" -Wait -PassThru
-          if ($process.ExitCode -ne 0) { throw 'Falha na desinstalacao' }
-          if (Test-Path "$target/runtime") { throw 'Runtime nao removido' }
-          if (Test-Path $registry) { throw 'Registro do programa nao removido' }
-          if (Test-Path $shortcut) { throw 'Atalho nao removido' }
-          if (!(Test-Path "$target/meu-relatorio.pdf")) { throw 'Arquivo do usuario removido indevidamente' }
-          'Windows x64: instalacao, atalho, leitura de PDFs, comparacao, Excel, PDF, desinstalacao e preservacao de arquivos aprovados.' | Set-Content dist/VALIDACAO-WINDOWS.txt
+          ./packaging/test_install_windows.ps1 -Installer $installer.FullName -Version $version
       - name: Guardar instalador validado
         uses: actions/upload-artifact@v4
         with:
@@ -71,6 +64,8 @@ jobs:
             dist/ComparadorNotas-*-Windows-x64.exe
             dist/ComparadorNotas-*-Windows-x64.exe.sha256
             dist/VALIDACAO-WINDOWS.txt
+            dist/ComparadorNotas-Windows-x64.exe
+            dist/atualizacao.json
           if-no-files-found: error
       - name: Publicar download para compartilhar
         env:
@@ -82,13 +77,18 @@ jobs:
           $notes = @'
           Instalador offline para Windows 10/11 de 64 bits, com Python e dependências incluídos.
           Baixe o arquivo .exe e envie-o ao colega. Não é preciso instalar Python ou ter acesso de administrador.
-          Inclui atalhos, desinstalador e somente PDFs fictícios. Validado no Windows com instalação, comparação e exportações Excel/PDF.
+          Inclui reconciliacao de numeros de NFS-e, revisao de numeros divergentes, atalhos e desinstalador.
+          Atualiza a instalacao 0.7.1 no mesmo computador. A partir desta versao, avisa sobre novas versoes ao abrir com Internet.
+          A versao 0.7.1 ja instalada precisa receber este instalador uma vez; nao possui atualizador remoto.
+          Somente dados ficticios acompanham o programa. Atualizacao, reconciliacao e exportacoes testadas no Windows.
           '@
           $notes | Set-Content dist/NOTAS-RELEASE.txt
-          gh release view $tag *> $null
-          if ($LASTEXITCODE -ne 0) {
+          $publishedTarget = gh release view $tag --json targetCommitish --jq .targetCommitish 2>$null
+          $exists = $LASTEXITCODE -eq 0
+          if ($exists -and $publishedTarget -ne $env:GITHUB_SHA) { throw "Esta versao ja foi publicada de outro commit. Atualize APP_VERSION antes de gerar outro instalador." }
+          if (!$exists) {
             gh release create $tag --target $env:GITHUB_SHA --title "Comparador de Notas $version - Instalador Windows" --notes-file dist/NOTAS-RELEASE.txt
             if ($LASTEXITCODE -ne 0) { throw 'Falha ao criar download da versao' }
           }
-          gh release upload $tag $installer.FullName "$($installer.FullName).sha256" dist/VALIDACAO-WINDOWS.txt --clobber
+          gh release upload $tag $installer.FullName "$($installer.FullName).sha256" dist/ComparadorNotas-Windows-x64.exe dist/atualizacao.json dist/VALIDACAO-WINDOWS.txt --clobber
           if ($LASTEXITCODE -ne 0) { throw 'Falha ao enviar instalador' }

@@ -14,7 +14,7 @@ import zipfile
 ROOT = Path(__file__).resolve().parents[1]
 PYTHON_VERSION = '3.12.10'
 PYTHON_SHA256 = '0eb85c2dfccccf1b17352de4c397f69194035b7d37149eacc16f1147d93de3b8'
-APP_FILES = ('desktop.py', 'app.py', 'comparator.py', 'dominio_reader.py',
+APP_FILES = ('desktop.py', 'updater.py', 'app.py', 'comparator.py', 'dominio_reader.py',
              'sped_reader.py', 'pdf_orientation.py', 'templates/index.html',
              'static/app.js', 'static/style.css', 'exemplos/sped_simulado.pdf',
              'exemplos/dominio_simulado.pdf', 'exemplos/gabarito.json')
@@ -106,6 +106,11 @@ def main():
         raise ValueError('O compilador não produziu um executável Windows válido.')
     checksum = sha256(installer)
     (output / (installer.name + '.sha256')).write_text(checksum + '  ' + installer.name + '\n', encoding='ascii')
+    stable = output / 'ComparadorNotas-Windows-x64.exe'
+    shutil.copy2(installer, stable)
+    (output / 'atualizacao.json').write_text(json.dumps(dict(version=app_version(),
+        url=f'https://github.com/financeirolucrattiva-web/COMPARADOR-DE-NOTAS/releases/download/v{app_version()}/{installer.name}',
+        sha256=checksum)), encoding='utf-8')
     print(json.dumps({'installer': str(installer), 'bytes': installer.stat().st_size, 'sha256': checksum}), flush=True)
 
 

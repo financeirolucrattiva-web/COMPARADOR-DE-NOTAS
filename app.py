@@ -5,11 +5,11 @@ from pathlib import Path
 from xml.sax.saxutils import escape
 from flask import Flask, render_template, request, jsonify, send_file
 from werkzeug.exceptions import RequestEntityTooLarge
-from comparator import extract_pdf, compare, supplier_label
+from comparator import extract_pdf, compare, supplier_label, document_label
 
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 20 * 1024 * 1024
-APP_VERSION = '0.7.1'
+APP_VERSION = '0.8.0'
 
 @app.after_request
 def disable_stale_pages(response):
@@ -119,12 +119,13 @@ def export(kind):
         result = analyze()
     except ValueError as exc:
         return failure(exc)
-    headers = ['Situação', 'CNPJ/CPF', 'Documento', 'Diferenças', 'Fornecedor SPED', 'Valor SPED', 'Fornecedor Domínio', 'Valor Domínio', 'Pendências']
+    headers = ['Situação', 'CNPJ/CPF', 'Documento(s) original(is)', 'Diferenças', 'Fornecedor SPED', 'Valor SPED', 'Fornecedor Domínio', 'Valor Domínio', 'Conferência / observações']
     rows = []
     for r in result['rows']:
         # Keep every duplicate visible rather than silently choosing one.
-        differences = ', '.join('Nome do fornecedor' if field == 'Fornecedor' else field for field in r['diferencas'].split(', '))
-        rows.append([r['status'], r['cnpj'], r['documento'], differences] + [ '\n'.join(supplier_label(n) if f == 'fornecedor' else n[f] for n in r[s]) for s in ('sped','dominio') for f in ('fornecedor','valor')] + [' '.join(r['pendencias'])])
+        differences = ', '.join({'Fornecedor': 'Nome do fornecedor', 'Documento': 'Número do documento'}.get(field, field) for field in r['diferencas'].split(', '))
+        observation = 'Numeração anual de NFS-e compatível; números originais preservados. ' if r.get('correspondencia') == 'sequencial_nfse' else ''
+        rows.append([r['status'], r['cnpj'], document_label(r), differences] + [ '\n'.join(supplier_label(n) if f == 'fornecedor' else n[f] for n in r[s]) for s in ('sped','dominio') for f in ('fornecedor','valor')] + [observation + ' '.join(r['pendencias'])])
     output = BytesIO()
     if kind == 'xlsx':
         from openpyxl import Workbook
@@ -148,7 +149,7 @@ def export(kind):
         from reportlab.lib.pagesizes import A4, landscape
         styles = getSampleStyleSheet(); style = styles['BodyText']; style.fontSize = 7; style.leading = 9
         story = [Paragraph('Comparativo de notas de entrada — SPED x Domínio', styles['Title']), Paragraph('Confira a extração antes de utilizar os resultados.', style), Spacer(1,12)]
-        table = Table([[Paragraph(escape(str(c)).replace('\n', '<br/>'), style) for c in row] for row in [headers]+rows], repeatRows=1, colWidths=[75,90,50,55,110,55,110,55,100])
+        table = Table([[Paragraph(escape(str(c)).replace('\n', '<br/>'), style) for c in row] for row in [headers]+rows], repeatRows=1, colWidths=[75,90,80,55,95,55,95,55,100])
         table.setStyle(TableStyle([('BACKGROUND',(0,0),(-1,0),'#e4eee9'),('VALIGN',(0,0),(-1,-1),'TOP'),('GRID',(0,0),(-1,-1),0.3,'#bbbbbb')]))
         story.append(table)
         for warning in result['warnings']: story.append(Paragraph(escape(warning),style))

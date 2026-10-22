@@ -77,14 +77,30 @@ def self_test(address, instance_id):
     with pdfplumber.open(BytesIO(post('/exportar/pdf'))) as pdf:
         assert len(pdf.pages) > 1
         assert 'Comparativo' in (pdf.pages[0].extract_text() or '')
+    # Reconcile service numbering, reserve exact identities and preserve all
+    # invoices when a supplier issues equal-value notes on the same date.
+    from comparator import compare
+    base = dict(cnpj='12345678000190', valor='100.00', fornecedor='Empresa Exemplo',
+                pagina=1, data_emissao='04/09/2026')
+    a = [dict(base, documento='8', modelo='01'), dict(base, documento='9', modelo='01', valor='200.00')]
+    b = [dict(base, documento='2600000000008', especie='66'),
+         dict(base, documento='2600000000007', especie='66'), dict(base, documento='10', especie='66', valor='200.00')]
+    reconciled = compare(a, b)
+    assert Counter(r['status'] for r in reconciled) == {'Conferente':1, 'Divergente':1, 'Somente Domínio':1}
+    assert next(r for r in reconciled if r['status']=='Divergente')['diferencas']=='Documento'
+    assert sum(len(r['sped']) for r in reconciled)==2 and sum(len(r['dominio']) for r in reconciled)==3
     print(json.dumps({'versao': APP_VERSION, 'self_test': 'ok', 'documentos': len(result['rows']),
-                      'counts': result['counts'], 'relatorios': ['xlsx', 'pdf']}, ensure_ascii=False), flush=True)
+                      'counts': result['counts'], 'relatorios': ['xlsx', 'pdf'], 'reconciliacao': 'ok'}, ensure_ascii=False), flush=True)
 
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description='Comparador de notas Lucrattiva')
     parser.add_argument('--self-test', action='store_true', help='Validar instalação com PDFs fictícios, sem abrir o navegador.')
     args = parser.parse_args(argv)
+    if not args.self_test:
+        from updater import offer_update
+        if offer_update(APP_VERSION):
+            return 0
     instance_id = uuid.uuid4().hex
     os.environ['COMPARADOR_INSTANCE_ID'] = instance_id
     # Bind port 0 atomically: occupied ports and old copies cannot be selected.

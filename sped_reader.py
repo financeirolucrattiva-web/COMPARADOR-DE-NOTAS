@@ -31,6 +31,7 @@ class SpedBlocks:
             self.warnings.append(f"Página {current['page']}: documento {current['documento']}: {issue}")
             return
         note.update(serie=current['serie'], modelo=current['modelo'], situacao=current['situacao'],
+                    data_emissao=current['data_emissao'], data_entrada=current['data_entrada'],
                     cfops=sorted(current['cfops']), linhas_fiscais=len(current['values']),
                     paginas=sorted(current['pages']), valor_origem='Soma de Valor Operação (SPED)')
         self.notes.append(note)
@@ -81,6 +82,7 @@ class SpedBlocks:
                                     serie=get(row, document_columns, 'serie'),
                                     modelo=get(row, document_columns, 'modelo'),
                                     situacao=get(row, document_columns, 'situacao'),
+                                    data_emissao=issue_date, data_entrada=entry,
                                     page=page_number, pages={page_number}, values=[], cfops=set())
                 continue
             cst = get(row, fiscal_columns, 'CSTICMS')

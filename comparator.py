@@ -250,34 +250,71 @@ def supplier_matches(left, right):
     if (len(overlap) >= 2 and sum(map(len, overlap)) >= 8
             and len(overlap) / min(len(informative_a), len(informative_b)) >= .75):
         return True
-    if min(len(a), len(b)) >= 8 and any(len(word) >= 4 for word in shared):
+    significant_a = ' '.join(word for word in words_a if len(word) >= 3 and word not in generic)
+    significant_b = ' '.join(word for word in words_b if len(word) >= 3 and word not in generic)
+    close_single_name = (min(len(significant_a), len(significant_b)) >= 6
+                         and significant_a[:4] == significant_b[:4])
+    if min(len(a), len(b)) >= 8 and (any(len(word) >= 4 for word in shared) or close_single_name):
         similarity = min(SequenceMatcher(None, a, b, autojunk=False).ratio(),
                          SequenceMatcher(None, b, a, autojunk=False).ratio())
         return similarity >= .9
     return False
 
 
+def issue_date(note):
+    from datetime import datetime
+    try:
+        return datetime.strptime(note.get('data_emissao', ''), '%d/%m/%Y').date()
+    except (ValueError, TypeError):
+        return None
+
+
+def document_label(row):
+    a = ', '.join(n['documento'] for n in row['sped'])
+    b = ', '.join(n['documento'] for n in row['dominio'])
+    return f'SPED: {a}\nDomínio: {b}' if a and b and a != b else a or b
+
+
+def service_sequence(note):
+    """Domínio municipal NFS-e: YY + 11-digit padded sequence, dated that year."""
+    date = issue_date(note)
+    number = note['documento']
+    if (date and note.get('especie') == '66' and re.fullmatch(r'\d{13}', number)
+            and number.startswith(date.strftime('%y') + '0')):
+        sequence = str(int(number[2:]))
+        if sequence != '0':
+            return sequence
+    return None
+
+
 def compare(left, right):
-    groups = []
-    for source in (left, right):
-        grouped = defaultdict(list)
+    groups = [defaultdict(list), defaultdict(list)]
+    for source, grouped in zip((left, right), groups):
         for note in source:
             grouped[(note['cnpj'], note['documento'])].append(note)
-        groups.append(grouped)
-    result = []
-    for key in sorted(groups[0].keys() | groups[1].keys()):
-        a, b = groups[0].get(key, []), groups[1].get(key, [])
+    result, used = [], [set(), set()]
+
+    def add(a, b, method='exata', review=False):
+        primary = (a or b)[0]
         status, differences, pending = 'Conferente', [], []
-        if len(a) > 1 or len(b) > 1:
+        if review:
+            status = 'Correspondência a revisar'
+            pending.append('Mais de uma nota com o mesmo CNPJ/CPF, valor e data de emissão. Não houve pareamento automático; confira os números originais.')
+        elif len(a) > 1 or len(b) > 1:
             status = 'Duplicidade / revisar'
         elif not a:
             status = 'Somente Domínio'
+            pending.append('Não localizada no PDF SPED enviado. Confira o documento original e o período dos arquivos.')
         elif not b:
             status = 'Somente SPED'
+            pending.append('Não localizada no PDF Domínio enviado. Confira o documento original e o período dos arquivos.')
         else:
             # Identity/document define the pair; money takes priority over name.
             if Decimal(a[0]['valor']) != Decimal(b[0]['valor']):
                 differences.append('Valor')
+            if method == 'cnpj_valor_data':
+                differences.append('Documento')
+                pending.append('Mesmo CNPJ/CPF, valor e data de emissão; números diferentes nos PDFs. Confirme o documento original.')
             if not a[0]['fornecedor'] or not b[0]['fornecedor']:
                 pending.append('Nome do fornecedor ausente; código interno não valida razão social.')
             elif not supplier_matches(a[0]['fornecedor'], b[0]['fornecedor']):
@@ -286,5 +323,51 @@ def compare(left, right):
                 status = 'Divergente'
             elif pending:
                 status = 'Conferência parcial'
-        result.append(dict(cnpj=key[0], documento=key[1], status=status, diferencas=', '.join(differences), pendencias=pending, sped=a, dominio=b))
+        result.append(dict(cnpj=primary['cnpj'], documento=primary['documento'], status=status,
+                           diferencas=', '.join(differences), pendencias=pending,
+                           correspondencia=method, sped=a, dominio=b))
+
+    # Reserve exact keys and duplicates first. A note may never be reused.
+    for key in sorted(groups[0].keys() | groups[1].keys()):
+        a, b = groups[0].get(key, []), groups[1].get(key, [])
+        if (a and b) or len(a) > 1 or len(b) > 1:
+            add(a, b)
+            used[0].add(key); used[1].add(key)
+
+    # Reconcile recognized annual service numbering without changing raw notes.
+    aliases = defaultdict(list)
+    for key, b in groups[1].items():
+        if key in used[1]:
+            continue
+        sequence = service_sequence(b[0])
+        target = (key[0], sequence)
+        a = groups[0].get(target, [])
+        if (sequence and target not in used[0] and len(a) == 1
+                and a[0].get('modelo') == '01' and issue_date(a[0]) == issue_date(b[0])):
+            aliases[target].append(key)
+    for target, candidates in aliases.items():
+        if len(candidates) == 1:
+            key = candidates[0]
+            add(groups[0][target], groups[1][key], 'sequencial_nfse')
+            used[0].add(target); used[1].add(key)
+
+    # An exact CNPJ/value/date is evidence to review a different document number,
+    # never evidence to declare it conferente. Ambiguous groups stay together.
+    candidates = [defaultdict(list), defaultdict(list)]
+    for index, grouped in enumerate(groups):
+        for key, notes in grouped.items():
+            if key not in used[index] and issue_date(notes[0]):
+                signature = (key[0], Decimal(notes[0]['valor']), issue_date(notes[0]))
+                candidates[index][signature].append(key)
+    for signature in sorted(candidates[0].keys() & candidates[1].keys()):
+        keys_a, keys_b = candidates[0][signature], candidates[1][signature]
+        a = [n for key in keys_a for n in groups[0][key]]
+        b = [n for key in keys_b for n in groups[1][key]]
+        add(a, b, 'cnpj_valor_data', review=len(a) != 1 or len(b) != 1)
+        used[0].update(keys_a); used[1].update(keys_b)
+    for index, grouped in enumerate(groups):
+        for key, notes in grouped.items():
+            if key not in used[index]:
+                add(notes if index == 0 else [], notes if index == 1 else [])
+    result.sort(key=lambda row: (row['cnpj'], row['documento']))
     return result
