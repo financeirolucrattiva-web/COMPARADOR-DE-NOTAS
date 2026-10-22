@@ -9,7 +9,7 @@ from comparator import extract_pdf, compare, supplier_label
 
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 20 * 1024 * 1024
-APP_VERSION = '0.6.1'
+APP_VERSION = '0.6.2'
 
 @app.after_request
 def disable_stale_pages(response):
@@ -123,7 +123,8 @@ def export(kind):
     rows = []
     for r in result['rows']:
         # Keep every duplicate visible rather than silently choosing one.
-        rows.append([r['status'], r['cnpj'], r['documento'], r['diferencas']] + [ '\n'.join(supplier_label(n) if f == 'fornecedor' else n[f] for n in r[s]) for s in ('sped','dominio') for f in ('fornecedor','valor')] + [' '.join(r['pendencias'])])
+        differences = ', '.join('Nome do fornecedor' if field == 'Fornecedor' else field for field in r['diferencas'].split(', '))
+        rows.append([r['status'], r['cnpj'], r['documento'], differences] + [ '\n'.join(supplier_label(n) if f == 'fornecedor' else n[f] for n in r[s]) for s in ('sped','dominio') for f in ('fornecedor','valor')] + [' '.join(r['pendencias'])])
     output = BytesIO()
     if kind == 'xlsx':
         from openpyxl import Workbook

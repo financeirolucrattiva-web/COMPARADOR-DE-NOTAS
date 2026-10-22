@@ -207,7 +207,10 @@ def supplier_matches(left, right):
     def canonical(value):
         # Dotted abbreviations (S.A.) and terminal punctuation are formatting.
         value = normalized(value).replace('.', '').replace("'", '')
-        return re.sub(r'[^A-Z0-9]+', ' ', value).strip()
+        value = re.sub(r'[^A-Z0-9]+', ' ', value).strip()
+        # Reports may abbreviate the registered name by omitting this suffix.
+        # Restrict this to whole terminal words; never trim arbitrary prefixes.
+        return re.sub(r'(?:\s+(?:LTDA|LIMITADA))+$', '', value)
 
     a, b = canonical(left), canonical(right)
     if not a or not b:

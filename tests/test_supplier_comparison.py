@@ -13,6 +13,10 @@ from comparator import compare, supplier_matches
     ('Empresa Exemplo LTDA.', 'EMPRESA EXEMPLO LTDA'),
     ('Ação, Comércio LTDA', 'acao comercio ltda.'),
     ('Exemplo S.A.', 'Exemplo SA'),
+    ('Empresa Exemplo LTDA', 'Empresa Exemplo'),
+    ('Empresa Exemplo LIMITADA', 'Empresa Exemplo LTDA.'),
+    ('Empresa Exemplo Limitada', 'Empresa Exemplo'),
+    ('Empresa Exemplo LTDA (LOJA)', 'Empresa Exemplo'),
     ('Empresa Exemplo LTDA (LOJA EXEMPLO)', 'Empresa Exemplo LTDA'),
     ('Empresa Exemplo LTDA', 'Empresa Exemplo LTDA (LOJA EXEMPLO)'),
     ('Empresa Exemplo LTDA (LOJA) (CENTRO)', 'Empresa Exemplo LTDA.'),
@@ -24,7 +28,10 @@ def test_supplier_formatting_and_extra_trade_name(left, right):
 
 @pytest.mark.parametrize('left,right', [
     ('Empresa Um LTDA', 'Empresa Dois LTDA'),
-    ('Empresa Exemplo', 'Empresa Exemplo LTDA'),
+    ('Empresa Exemplo', 'Empresa Exemplo Comercio LTDA'),
+    ('LTDA Exemplo', 'Exemplo'),
+    ('Empresa Exemplo SA', 'Empresa Exemplo'),
+    ('LTDA', 'LIMITADA'),
     ('Empresa Exemplo 1', 'Empresa Exemplo 2'),
     ('Exempl LTDA (LOJA)', 'Exemplo LTDA'),
     ('Empresa Exemplo (CENTRO)', 'Empresa Exemplo (BAIRRO)'),
@@ -75,3 +82,27 @@ def test_exports_separate_code_from_preserved_name(monkeypatch):
     with pdfplumber.open(BytesIO(response.data)) as pdf:
         text = '\n'.join(page.extract_text() or '' for page in pdf.pages)
     assert 'Conferente' in text and 'Código interno: 0042' in text
+
+
+def test_omitted_legal_suffix_still_checks_identity_document_and_amount():
+    left, right = notes()
+    left[0]['fornecedor'] = 'Empresa Exemplo LTDA'
+    right[0]['fornecedor'] = 'Empresa Exemplo'
+    assert compare(left, right)[0]['status'] == 'Conferente'
+    right[0]['valor'] = '340.01'
+    assert compare(left, right)[0]['diferencas'] == 'Valor'
+    right[0]['cnpj'] = '98765432000110'
+    assert {r['status'] for r in compare(left, right)} == {'Somente SPED', 'Somente Domínio'}
+    right[0]['cnpj'] = left[0]['cnpj']
+    right[0]['documento'] = '124'
+    assert {r['status'] for r in compare(left, right)} == {'Somente SPED', 'Somente Domínio'}
+
+
+def test_export_identifies_supplier_name_difference(monkeypatch):
+    left, right = notes()
+    right[0]['fornecedor'] = 'Outra Empresa'
+    monkeypatch.setattr(application, 'analyze', lambda: dict(rows=compare(left, right), warnings=[]))
+    response = application.app.test_client().post('/exportar/xlsx')
+    sheet = load_workbook(BytesIO(response.data)).active
+    assert sheet['D2'].value == 'Nome do fornecedor'
+    assert 'Código interno: 0042' in sheet['G2'].value

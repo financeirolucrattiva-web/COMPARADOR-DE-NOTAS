@@ -69,6 +69,33 @@ async function run() {
     }
     await page.screenshot({path: path.join(output, 'desktop-resultado.png'), fullPage: true});
 
+    // API contract fixture: distinguish supplier names, values and internal codes.
+    const note = (documento, fornecedor, valor, codigo) => ({cnpj:'12345678000190',documento,fornecedor,valor,pagina:1,...(codigo ? {codigo_fornecedor:codigo} : {})});
+    const sampleRows = [
+      {documento:'201',status:'Conferente',diferencas:'',sped:[note('201','Comércio Exemplo LTDA','100.00')],dominio:[note('201','Comércio Exemplo','100.00','0042')]},
+      {documento:'202',status:'Divergente',diferencas:'Fornecedor',sped:[note('202','Empresa Um','200.00')],dominio:[note('202','Empresa Dois','200.00','0043')]},
+      {documento:'203',status:'Divergente',diferencas:'Valor',sped:[note('203','Empresa Exemplo','300.00')],dominio:[note('203','Empresa Exemplo','301.00','0044')]},
+    ].map(row => ({cnpj:'12345678000190',pendencias:[],...row}));
+    await page.route('**/comparar', route => route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({rows:sampleRows,counts:[3,3],warnings:[],sources:{}})}));
+    await page.locator('#submit').click();
+    await page.waitForFunction(() => document.querySelector('#loading').hidden && !document.querySelector('#result').hidden);
+    await page.locator('#result-search').fill('202');
+    assert.equal(await page.locator('#rows td > div.field-different').count(),2);
+    assert.equal(await page.locator('#rows span.field-different').count(),0);
+    assert.match(await page.locator('#rows td:last-child').innerText(),/Nome do fornecedor diferente/);
+    await page.locator('#result-search').fill('203');
+    assert.equal(await page.locator('#rows td > div.field-different').count(),0);
+    assert.equal(await page.locator('#rows span.field-different').count(),2);
+    assert.match(await page.locator('#rows td:last-child').innerText(),/Valor diferente/);
+    await page.locator('#filter').selectOption('all');
+    await page.locator('#result-search').fill('201');
+    assert.equal(await page.locator('#rows .field-different').count(),0);
+    assert.match(await page.locator('#rows').innerText(),/Conferente/);
+    assert.match(await page.locator('#rows td:nth-child(4) > small').first().innerText(),/Código interno: 0042/);
+    await page.locator('#result-search').fill('');
+    await page.screenshot({path:path.join(output,'diferenca-de-campos.png'),fullPage:true});
+    await page.unroute('**/comparar');
+
     // Long names, drag and drop, removal, and validation before upload.
     await page.goto(base);
     const longName = 'relatorio_de_entradas_sped_empresa_exemplo_periodo_setembro_2026.pdf';

@@ -20,8 +20,8 @@ const inputFor = source => form.elements.namedItem(source);
 const fileFor = source => inputFor(source).files[0];
 const supplier = note => (note.fornecedor || 'Nome do fornecedor ausente') +
   (note.codigo_fornecedor ? ' Código interno: ' + note.codigo_fornecedor : '');
-function appendSupplier(cell, note) {
-  cell.append(el('div', note.fornecedor || 'Nome do fornecedor ausente'));
+function appendSupplier(cell, note, different = false) {
+  cell.append(el('div', note.fornecedor || 'Nome do fornecedor ausente', different ? 'field-different' : ''));
   if (note.codigo_fornecedor) cell.append(el('small', 'Código interno: ' + note.codigo_fornecedor));
 }
 const pages = note => (note.paginas || [note.pagina]).join(', ');
@@ -200,6 +200,7 @@ function render() {
   const matching = result.rows.filter(row => (filter === 'all' || (filter === 'issues' ? row.status !== 'Conferente' : row.status === filter)) && matchesSearch(query, [...row.sped, ...row.dominio], `${row.cnpj} ${row.documento}`));
   for (const row of matching) {
     const tr = el('tr', '');
+    const different = row.diferencas ? row.diferencas.split(', ') : [];
     const status = el('td', '');
     const cls = row.status === 'Conferente' ? 'ok' : row.status === 'Divergente' ? 'different' : row.status.startsWith('Somente') ? 'missing' : '';
     status.append(el('span', row.status, 'badge ' + cls));
@@ -211,12 +212,19 @@ function render() {
       const cell = el('td', '');
       if (!row[source].length) cell.textContent = '—';
       for (const note of row[source]) {
-        appendSupplier(cell, note);
-        cell.append(el('small', money(note.valor) + ' · páginas ' + pages(note) + (note.serie ? ' · série ' + note.serie : '')));
+        appendSupplier(cell, note, different.includes('Fornecedor'));
+        const amount = el('small', '');
+        amount.append(el('span', money(note.valor), different.includes('Valor') ? 'field-different' : ''),
+          document.createTextNode(' · páginas ' + pages(note) + (note.serie ? ' · série ' + note.serie : '')));
+        cell.append(amount);
       }
       tr.append(cell);
     }
-    tr.append(el('td', [row.diferencas, ...(row.pendencias || [])].filter(Boolean).join(' · ') || '—'));
+    const explanation = el('td', '');
+    for (const field of different) explanation.append(el('div', field === 'Fornecedor' ? 'Nome do fornecedor diferente' : field === 'Valor' ? 'Valor diferente' : field));
+    for (const pending of row.pendencias || []) explanation.append(el('div', pending));
+    if (!explanation.childElementCount) explanation.textContent = '—';
+    tr.append(explanation);
     body.append(tr);
   }
   if (!matching.length) emptyRow(body, query ? 'Nenhuma nota encontrada para essa busca e situação.' : filter === 'issues' ? 'Nenhuma pendência encontrada. Selecione “Todas as notas” para conferir os documentos.' : 'Nenhuma nota encontrada nessa situação.');
