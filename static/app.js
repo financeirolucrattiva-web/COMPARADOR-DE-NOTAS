@@ -19,7 +19,11 @@ const el = (tag, text, cls) => {
 const inputFor = source => form.elements.namedItem(source);
 const fileFor = source => inputFor(source).files[0];
 const supplier = note => (note.fornecedor || 'Nome do fornecedor ausente') +
-  (note.codigo_fornecedor ? ' (cód. ' + note.codigo_fornecedor + ')' : '');
+  (note.codigo_fornecedor ? ' Código interno: ' + note.codigo_fornecedor : '');
+function appendSupplier(cell, note) {
+  cell.append(el('div', note.fornecedor || 'Nome do fornecedor ausente'));
+  if (note.codigo_fornecedor) cell.append(el('small', 'Código interno: ' + note.codigo_fornecedor));
+}
 const pages = note => (note.paginas || [note.pagina]).join(', ');
 const searchText = value => value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleUpperCase('pt-BR');
 const fileSize = size => size < 1024 * 1024 ? `${(size / 1024).toFixed(1)} KB` : `${(size / 1024 / 1024).toFixed(1)} MB`;
@@ -167,8 +171,10 @@ function renderInspection() {
   rows.replaceChildren();
   for (const note of matching) {
     const row = el('tr', '');
+    const name = el('td', '');
+    appendSupplier(name, note);
     row.append(el('td', note.cnpj), el('td', note.documento + (note.serie ? ' / ' + note.serie : '')),
-      el('td', supplier(note)), el('td', money(note.valor)), el('td', pages(note)));
+      name, el('td', money(note.valor)), el('td', pages(note)));
     rows.append(row);
   }
   if (!matching.length) emptyRow(rows, inspection.notes.length ? 'Nenhuma nota encontrada para essa busca.' : 'Nenhuma nota reconhecida. Confira os avisos de leitura acima.');
@@ -204,7 +210,10 @@ function render() {
     for (const source of sources) {
       const cell = el('td', '');
       if (!row[source].length) cell.textContent = '—';
-      for (const note of row[source]) cell.append(el('div', supplier(note)), el('small', money(note.valor) + ' · páginas ' + pages(note) + (note.serie ? ' · série ' + note.serie : '')));
+      for (const note of row[source]) {
+        appendSupplier(cell, note);
+        cell.append(el('small', money(note.valor) + ' · páginas ' + pages(note) + (note.serie ? ' · série ' + note.serie : '')));
+      }
       tr.append(cell);
     }
     tr.append(el('td', [row.diferencas, ...(row.pendencias || [])].filter(Boolean).join(' · ') || '—'));

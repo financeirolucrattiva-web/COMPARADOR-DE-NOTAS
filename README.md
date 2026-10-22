@@ -2,7 +2,7 @@
 
 Aplicação web em português para comparar notas de entrada dos relatórios SPED e
 Domínio. Confere **CNPJ/CPF, número do documento, fornecedor e valor**, identifica
-ausências e duplicidades e gera Excel e PDF. Versão atual: **0.6.0**.
+ausências e duplicidades e gera Excel e PDF. Versão atual: **0.6.1**.
 
 ## Abrir no seu computador
 
@@ -22,7 +22,7 @@ programas. Se outro processo ocupar a porta escolhida antes da inicialização, 
 falha será mostrada e a instância errada não será aberta.
 
 Para atualizar, extraia o novo ZIP em outra pasta e execute o inicializador dessa
-pasta. Confira **Versão 0.6.0** no topo da tela. Um endereço local não acessa o
+pasta. Confira **Versão 0.6.1** no topo da tela. Um endereço local não acessa o
 ambiente na nuvem. Ainda não existe um site público desta aplicação.
 
 ## Como usar
@@ -94,9 +94,14 @@ continua disponível em PDFs com texto:
 - Chave: **CNPJ/CPF + número**, ignorando zeros à esquerda no número.
 - CNPJ de 14 dígitos e CPF de 11 dígitos são normalizados, sem validar dígitos
   verificadores. Formatos CEI/CAEPF não são homologados.
-- Fornecedor ignora acentos, maiúsculas e espaços extras. Código interno não
-  substitui a razão social. Nomes cadastrados diferentes continuam sinalizados,
-  mesmo com identificação e valor iguais.
+- Fornecedor ignora acentos, maiúsculas, pontuação e espaços extras. Um
+  complemento entre parênteses no final de apenas um dos nomes é aceito quando
+  a razão social principal coincide com o nome completo do outro arquivo. Dois
+  complementos diferentes, mudanças na razão social e erros de digitação
+  continuam sinalizados, mesmo com identificação e valor iguais. Não há
+  aproximação por similaridade. Os nomes originais são preservados.
+- Código interno do fornecedor aparece em uma linha separada na tela e nos
+  relatórios e não entra na comparação. Nome ausente continua pendente.
 - Valores usam Decimal e comparação exata em centavos. Retenções e diferenças
   entre valores líquidos e brutos não são compensadas automaticamente.
 - Chave presente em apenas um arquivo aparece como ausência no outro. Não há
@@ -112,7 +117,7 @@ conferidos individualmente contra o texto lógico: identificação, número, sé
 fornecedor, códigos, datas e valor. A soma coincide com o Total Geral. O SPED
 teve cada documento conferido contra uma leitura independente e seu resumo.
 
-O comparativo real tem 602 chaves: 478 conferentes, 100 divergentes (98 de nome
+O comparativo real tem 602 chaves: 490 conferentes, 88 divergentes (86 de nome
 e 2 de valor), 13 somente no Domínio e 11 somente no SPED. O fluxo completo foi
 verificado no Chromium com esses arquivos, incluindo busca/filtros e downloads.
 O Excel contém 602 documentos; as 602 situações também foram conferidas no PDF.

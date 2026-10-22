@@ -199,8 +199,30 @@ def extract_pdf(stream, metadata=None):
 def supplier_label(note):
     name = note.get('fornecedor') or 'Nome do fornecedor ausente'
     if note.get('codigo_fornecedor'):
-        name += f" (cód. {note['codigo_fornecedor']})"
+        name += f"\nCódigo interno: {note['codigo_fornecedor']}"
     return name
+
+
+def supplier_matches(left, right):
+    def canonical(value):
+        # Dotted abbreviations (S.A.) and terminal punctuation are formatting.
+        value = normalized(value).replace('.', '').replace("'", '')
+        return re.sub(r'[^A-Z0-9]+', ' ', value).strip()
+
+    a, b = canonical(left), canonical(right)
+    if not a or not b:
+        return False
+    if a == b:
+        return True
+    # Accept an extra trailing trade name only when the complete other name
+    # matches the main name. Do not match arbitrary prefixes or two aliases.
+    suffix = r'\s*(?:\([^()]*\)\s*)+$'
+    base_left = re.sub(suffix, '', left).strip()
+    base_right = re.sub(suffix, '', right).strip()
+    left_has_alias, right_has_alias = base_left != left.strip(), base_right != right.strip()
+    if left_has_alias == right_has_alias:
+        return False
+    return bool(canonical(base_left)) and canonical(base_left) == canonical(base_right)
 
 
 def compare(left, right):
@@ -223,7 +245,7 @@ def compare(left, right):
         else:
             if not a[0]['fornecedor'] or not b[0]['fornecedor']:
                 pending.append('Nome do fornecedor ausente; código interno não valida razão social.')
-            elif normalized(a[0]['fornecedor']) != normalized(b[0]['fornecedor']):
+            elif not supplier_matches(a[0]['fornecedor'], b[0]['fornecedor']):
                 differences.append('Fornecedor')
             if Decimal(a[0]['valor']) != Decimal(b[0]['valor']):
                 differences.append('Valor')

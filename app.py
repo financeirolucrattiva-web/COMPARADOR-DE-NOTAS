@@ -9,7 +9,7 @@ from comparator import extract_pdf, compare, supplier_label
 
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 20 * 1024 * 1024
-APP_VERSION = '0.6.0'
+APP_VERSION = '0.6.1'
 
 @app.after_request
 def disable_stale_pages(response):
@@ -127,11 +127,13 @@ def export(kind):
     output = BytesIO()
     if kind == 'xlsx':
         from openpyxl import Workbook
-        from openpyxl.styles import Font
+        from openpyxl.styles import Font, Alignment
         wb = Workbook(); ws = wb.active; ws.title = 'Comparativo'
         for row in [headers] + rows:
             ws.append(row)
-            for cell in ws[ws.max_row]: cell.data_type = 's'
+            for cell in ws[ws.max_row]:
+                cell.data_type = 's'
+                cell.alignment = Alignment(vertical='top', wrap_text=True)
         for cell in ws[1]: cell.font = Font(bold=True)
         ws.freeze_panes = 'A2'; ws.auto_filter.ref = ws.dimensions
         for col in ws.columns: ws.column_dimensions[col[0].column_letter].width = 25
@@ -145,7 +147,7 @@ def export(kind):
         from reportlab.lib.pagesizes import A4, landscape
         styles = getSampleStyleSheet(); style = styles['BodyText']; style.fontSize = 7; style.leading = 9
         story = [Paragraph('Comparativo de notas de entrada — SPED x Domínio', styles['Title']), Paragraph('Confira a extração antes de utilizar os resultados.', style), Spacer(1,12)]
-        table = Table([[Paragraph(escape(str(c)), style) for c in row] for row in [headers]+rows], repeatRows=1, colWidths=[75,90,50,55,110,55,110,55,100])
+        table = Table([[Paragraph(escape(str(c)).replace('\n', '<br/>'), style) for c in row] for row in [headers]+rows], repeatRows=1, colWidths=[75,90,50,55,110,55,110,55,100])
         table.setStyle(TableStyle([('BACKGROUND',(0,0),(-1,0),'#e4eee9'),('VALIGN',(0,0),(-1,-1),'TOP'),('GRID',(0,0),(-1,-1),0.3,'#bbbbbb')]))
         story.append(table)
         for warning in result['warnings']: story.append(Paragraph(escape(warning),style))
