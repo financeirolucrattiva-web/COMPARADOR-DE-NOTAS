@@ -1,0 +1,22 @@
+COMPARADOR DE NOTAS - LUCRATTIVA
+
+Para Windows 10/11 de 64 bits. Python e dependencias ja estao incluidos.
+Nao e preciso instalar Python, executar comandos ou ter acesso de administrador.
+
+1. Abra o instalador ComparadorNotas-<versao>-Windows-x64.exe.
+2. Conclua a instalacao e abra o atalho "Comparador de Notas Lucrattiva".
+3. O navegador abre automaticamente. Mantenha a janela do programa aberta.
+4. Selecione os PDFs do SPED e do Dominio e clique em "Comparar notas".
+5. Para encerrar, feche a janela do programa. Para abrir novamente, use o atalho.
+
+A primeira instalacao e o uso funcionam sem Internet. O navegador precisa
+estar instalado no computador. O programa usa um endereco local, exclusivo
+desta execucao. Se o navegador nao abrir, copie o endereco mostrado na janela.
+
+Os PDFs nao sao enviados a servicos externos nem armazenados pelo comparador.
+Os relatorios exportados ficam na pasta de downloads escolhida no navegador.
+Somente exemplos ficticios acompanham o programa.
+
+Para atualizar, feche o programa e execute o instalador novo.
+Para remover, use Configuracoes > Aplicativos > Comparador de Notas Lucrattiva.
+O desinstalador remove o programa; seus PDFs e relatorios nao sao removidos.

@@ -1,0 +1,94 @@
+name: Instalador Windows
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [codex/primeira-versao]
+    paths:
+      - '.github/workflows/instalador-windows.yml'
+      - 'packaging/**'
+      - 'desktop.py'
+      - 'requirements*.txt'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: instalador-windows
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: windows-2022
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Instalar dependências e testar
+        run: |
+          python -m pip install -r requirements.txt
+          if ($LASTEXITCODE -ne 0) { throw 'Falha nas dependencias' }
+          python -m pytest -q
+          if ($LASTEXITCODE -ne 0) { throw 'Testes falharam' }
+      - name: Compilar instalador offline
+        run: |
+          $compiler = 'C:\Program Files (x86)\NSIS\makensis.exe'
+          if (!(Test-Path $compiler)) {
+            choco install nsis --yes --no-progress
+            if ($LASTEXITCODE -ne 0) { throw 'Falha ao instalar NSIS' }
+          }
+          python packaging/build_windows.py --makensis $compiler
+          if ($LASTEXITCODE -ne 0) { throw 'Falha ao compilar instalador' }
+      - name: Instalar, usar e desinstalar no Windows
+        run: |
+          $target = Join-Path $env:RUNNER_TEMP 'Comparador Teste Instalado'
+          $installer = Get-ChildItem dist/ComparadorNotas-*-Windows-x64.exe | Select-Object -First 1
+          $process = Start-Process -FilePath $installer.FullName -ArgumentList "/S /D=$target" -Wait -PassThru
+          if ($process.ExitCode -ne 0) { throw 'Falha na instalacao silenciosa' }
+          if (!(Test-Path "$target/desktop.py")) { throw 'Programa nao instalado' }
+          & "$target/runtime/python.exe" -E -s "$target/desktop.py" --self-test
+          if ($LASTEXITCODE -ne 0) { throw 'O programa instalado nao passou na validacao offline' }
+          $shortcut = Join-Path ([Environment]::GetFolderPath('Desktop')) 'Comparador de Notas Lucrattiva.lnk'
+          if (!(Test-Path $shortcut)) { throw 'Atalho da area de trabalho ausente' }
+          $registry = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall\LucrattivaComparadorNotas'
+          if (!(Test-Path $registry)) { throw 'Desinstalador nao registrado' }
+          Set-Content -Path "$target/meu-relatorio.pdf" -Value 'Dado ficticio para testar preservacao de arquivos'
+          $process = Start-Process -FilePath "$target/Desinstalar.exe" -ArgumentList "/S _?=$target" -Wait -PassThru
+          if ($process.ExitCode -ne 0) { throw 'Falha na desinstalacao' }
+          if (Test-Path "$target/runtime") { throw 'Runtime nao removido' }
+          if (Test-Path $registry) { throw 'Registro do programa nao removido' }
+          if (Test-Path $shortcut) { throw 'Atalho nao removido' }
+          if (!(Test-Path "$target/meu-relatorio.pdf")) { throw 'Arquivo do usuario removido indevidamente' }
+          'Windows x64: instalacao, atalho, leitura de PDFs, comparacao, Excel, PDF, desinstalacao e preservacao de arquivos aprovados.' | Set-Content dist/VALIDACAO-WINDOWS.txt
+      - name: Guardar instalador validado
+        uses: actions/upload-artifact@v4
+        with:
+          name: ComparadorNotas-Windows-x64
+          path: |
+            dist/ComparadorNotas-*-Windows-x64.exe
+            dist/ComparadorNotas-*-Windows-x64.exe.sha256
+            dist/VALIDACAO-WINDOWS.txt
+          if-no-files-found: error
+      - name: Publicar download para compartilhar
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $version = python -c "import sys; sys.path.insert(0, 'packaging'); from build_windows import app_version; print(app_version())"
+          $tag = "v$version"
+          $installer = Get-ChildItem dist/ComparadorNotas-*-Windows-x64.exe | Select-Object -First 1
+          $notes = @'
+          Instalador offline para Windows 10/11 de 64 bits, com Python e dependências incluídos.
+          Baixe o arquivo .exe e envie-o ao colega. Não é preciso instalar Python ou ter acesso de administrador.
+          Inclui atalhos, desinstalador e somente PDFs fictícios. Validado no Windows com instalação, comparação e exportações Excel/PDF.
+          '@
+          $notes | Set-Content dist/NOTAS-RELEASE.txt
+          gh release view $tag *> $null
+          if ($LASTEXITCODE -ne 0) {
+            gh release create $tag --target $env:GITHUB_SHA --title "Comparador de Notas $version - Instalador Windows" --notes-file dist/NOTAS-RELEASE.txt
+            if ($LASTEXITCODE -ne 0) { throw 'Falha ao criar download da versao' }
+          }
+          gh release upload $tag $installer.FullName "$($installer.FullName).sha256" dist/VALIDACAO-WINDOWS.txt --clobber
+          if ($LASTEXITCODE -ne 0) { throw 'Falha ao enviar instalador' }

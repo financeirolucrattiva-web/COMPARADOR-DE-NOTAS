@@ -9,7 +9,7 @@ from comparator import extract_pdf, compare, supplier_label
 
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 20 * 1024 * 1024
-APP_VERSION = '0.7.0'
+APP_VERSION = '0.7.1'
 
 @app.after_request
 def disable_stale_pages(response):

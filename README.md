@@ -2,28 +2,40 @@
 
 Aplicação web em português para comparar notas de entrada dos relatórios SPED e
 Domínio. Confere **CNPJ/CPF, número do documento, fornecedor e valor**, identifica
-ausências e duplicidades e gera Excel e PDF. Versão atual: **0.7.0**.
+ausências e duplicidades e gera Excel e PDF. Versão atual: **0.7.1**.
 
-## Abrir no seu computador
+## Instalar e enviar a um colega (Windows)
 
-1. Baixe o ZIP do repositório e extraia em uma pasta.
-2. Tenha Python 3.12 ou superior instalado.
-3. No Windows, abra **INICIAR_WINDOWS.bat**. No macOS/Linux, execute
-   `python3 iniciar.py` na pasta extraída.
-4. O inicializador instala as dependências e abre o navegador. Mantenha o terminal
-   aberto durante o uso; Ctrl+C encerra o servidor.
+Baixe **ComparadorNotas-0.7.1-Windows-x64.exe** na
+[página da versão 0.7.1](https://github.com/financeirolucrattiva-web/COMPARADOR-DE-NOTAS/releases/tag/v0.7.1).
+Envie esse arquivo ao colega; ele contém o programa, Python e todas as dependências.
+Não é preciso enviar o código-fonte, instalar Python, ter Internet durante a
+instalação/uso ou executar comandos. Requer Windows 10/11 de 64 bits e navegador.
 
-A instalação das dependências precisa de Internet. Se o navegador não abrir, use
-o endereço mostrado em **Endereço desta cópia**, no computador em que iniciou o
-programa. A porta padrão é 5000; quando ocupada, outra porta livre é escolhida.
-O navegador só abre depois de confirmar o identificador da nova execução, para
-não mostrar uma cópia antiga do programa. O inicializador não encerra outros
-programas. Se outro processo ocupar a porta escolhida antes da inicialização, a
-falha será mostrada e a instância errada não será aberta.
+1. Execute o instalador e conclua as etapas. Instala por usuário, sem administrador.
+2. Abra **Comparador de Notas Lucrattiva** pelo atalho da área de trabalho ou menu Iniciar.
+3. O navegador abre automaticamente. Mantenha a janela do programa aberta;
+   para encerrar, feche essa janela ou pressione Ctrl+C.
+4. Para atualizar, feche o programa e execute o instalador novo. Confira
+   **Versão 0.7.1** no topo da tela.
+5. Para remover, use **Configurações → Aplicativos → Comparador de Notas Lucrattiva**.
+   Seus PDFs e relatórios não são apagados.
 
-Para atualizar, extraia o novo ZIP em outra pasta e execute o inicializador dessa
-pasta. Confira **Versão 0.7.0** no topo da tela. Um endereço local não acessa o
-ambiente na nuvem. Ainda não existe um site público desta aplicação.
+O programa instalado usa Waitress apenas em `127.0.0.1`, em uma porta livre
+reservada para a execução. Se o navegador não abrir, copie o **Endereço desta cópia**
+mostrado na janela do programa. Fechar a aba do navegador não encerra o servidor.
+O instalador inclui apenas exemplos fictícios. Não contém PDFs ou dados reais.
+Não há site público nem sincronização entre os computadores. O executável não
+possui assinatura digital comercial.
+
+## Executar pelo código-fonte
+
+No Windows, com Python 3.12 ou superior, abra **INICIAR_WINDOWS.bat**.
+No macOS/Linux, execute `python3 iniciar.py` na pasta extraída do repositório.
+Esse modo instala dependências na primeira execução e precisa de Internet.
+O inicializador abre uma cópia nova e não encerra outros programas.
+Para atualizar o código-fonte, extraia o ZIP novo em outra pasta e execute o
+inicializador dessa pasta. Um endereço local não acessa o ambiente na nuvem.
 
 ## Como usar
 
@@ -195,3 +207,32 @@ PDFs válidos sem notas retornam 422 com diagnóstico. `POST /comparar` recebe o
 dois arquivos e preserva os resumos em `sources`, mesmo se uma origem falhar.
 `POST /exportar/xlsx` e `/exportar/pdf` recebem os mesmos dois arquivos.
 `GET /versao` informa versão e identificador da execução, sem credenciais.
+
+## Gerar o instalador
+
+O fluxo [Instalador Windows](.github/workflows/instalador-windows.yml) compila no
+Windows e, antes de publicar o `.exe`, instala silenciosamente em uma pasta com
+espaços, executa o autoteste offline com PDFs fictícios, verifica atalho e registro
+de desinstalação e remove o programa preservando um PDF criado pelo usuário.
+O `.exe`, seu SHA-256 e o resultado da validação ficam na release e nos artefatos.
+O fluxo roda ao alterar os arquivos de empacotamento na branch de desenvolvimento
+ou por acionamento manual. Recompilar outra versão requer atualizar `APP_VERSION`.
+
+Também é possível compilar localmente com Python 3.12+ e NSIS 3.08+:
+
+```bash
+python packaging/build_windows.py --makensis CAMINHO_DO_MAKENSIS
+```
+
+O build baixa o runtime oficial Python Windows x64 3.12.10 pelo NuGet, confere
+seu SHA-256 e instala apenas wheels Windows com versões fixadas. A distribuição
+inclui runtime e bibliotecas nativas, licenças dos pacotes, código da aplicação,
+templates, estáticos e exemplos fictícios, definidos por lista explícita. PDFs
+reais, anexos, testes, ambientes virtuais e credenciais não entram no instalador.
+`dist/` e `.build-cache/` ficam fora do Git. `build-info.json`, dentro do programa,
+registra hashes dos arquivos. O build aceita Windows e Linux; o teste de instalação
+é executado no Windows. O autoteste manual é:
+
+```text
+<PASTA_INSTALADA>/runtime/python.exe -E -s <PASTA_INSTALADA>/desktop.py --self-test
+```
