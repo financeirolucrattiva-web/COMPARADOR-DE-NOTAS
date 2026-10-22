@@ -10,3 +10,5 @@ main{max-width:1200px;margin:0 auto;padding:45px 32px 20px}.hero{display:flex;ju
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
 
 .field-different{background:#fff0e9;border-left:3px solid #ad5a40;border-radius:3px;padding:2px 5px;color:#8e3f2d}span.field-different{display:inline-block}
+
+.note-amount{font-size:12px;font-weight:650;color:#243c33;margin-bottom:4px}

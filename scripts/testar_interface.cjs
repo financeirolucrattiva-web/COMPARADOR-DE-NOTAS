@@ -79,6 +79,8 @@ async function run() {
     await page.route('**/comparar', route => route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({rows:sampleRows,counts:[3,3],warnings:[],sources:{}})}));
     await page.locator('#submit').click();
     await page.waitForFunction(() => document.querySelector('#loading').hidden && !document.querySelector('#result').hidden);
+    assert.match(await page.locator('#rows tr:first-child td:last-child').innerText(),/Valor diferente/);
+    assert(await page.locator('#rows tr:first-child td:nth-child(3) > div:first-child').evaluate(node => node.classList.contains('note-amount')));
     await page.locator('#result-search').fill('202');
     assert.equal(await page.locator('#rows td > div.field-different').count(),2);
     assert.equal(await page.locator('#rows span.field-different').count(),0);
@@ -91,7 +93,7 @@ async function run() {
     await page.locator('#result-search').fill('201');
     assert.equal(await page.locator('#rows .field-different').count(),0);
     assert.match(await page.locator('#rows').innerText(),/Conferente/);
-    assert.match(await page.locator('#rows td:nth-child(4) > small').first().innerText(),/Código interno: 0042/);
+    assert.match(await page.locator('#rows td:nth-child(4) > small').filter({hasText:'Código interno'}).innerText(),/Código interno: 0042/);
     await page.locator('#result-search').fill('');
     await page.screenshot({path:path.join(output,'diferenca-de-campos.png'),fullPage:true});
     await page.unroute('**/comparar');

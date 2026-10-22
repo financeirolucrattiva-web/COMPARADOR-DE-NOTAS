@@ -95,7 +95,7 @@
       "cnpj": "99000000000000",
       "documento": "10080",
       "status": "Divergente",
-      "diferencas": "Fornecedor, Valor",
+      "diferencas": "Valor, Fornecedor",
       "sped": 1,
       "dominio": 1
     },
@@ -583,7 +583,7 @@
       "cnpj": "99000000000600",
       "documento": "10076",
       "status": "Divergente",
-      "diferencas": "Fornecedor, Valor",
+      "diferencas": "Valor, Fornecedor",
       "sped": 1,
       "dominio": 1
     },
@@ -663,7 +663,7 @@
       "cnpj": "99000000000700",
       "documento": "10077",
       "status": "Divergente",
-      "diferencas": "Fornecedor, Valor",
+      "diferencas": "Valor, Fornecedor",
       "sped": 1,
       "dominio": 1
     },
@@ -743,7 +743,7 @@
       "cnpj": "99000000000800",
       "documento": "10078",
       "status": "Divergente",
-      "diferencas": "Fornecedor, Valor",
+      "diferencas": "Valor, Fornecedor",
       "sped": 1,
       "dominio": 1
     },
@@ -823,7 +823,7 @@
       "cnpj": "99000000000900",
       "documento": "10079",
       "status": "Divergente",
-      "diferencas": "Fornecedor, Valor",
+      "diferencas": "Valor, Fornecedor",
       "sped": 1,
       "dominio": 1
     },

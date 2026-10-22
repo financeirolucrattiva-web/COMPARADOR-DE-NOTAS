@@ -34,7 +34,7 @@ def generate(destination):
         elif 76 <= i <= 80:
             b[2] = 'Fornecedor Alternativo'
             b[3] = money(amount + Decimal('200.00'))
-            status, diffs = 'Divergente', 'Fornecedor, Valor'
+            status, diffs = 'Divergente', 'Valor, Fornecedor'
         elif 81 <= i <= 85:
             status = 'Somente SPED'
         elif 86 <= i <= 90:

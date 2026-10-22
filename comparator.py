@@ -2,6 +2,7 @@ import re
 import unicodedata
 from collections import defaultdict
 from decimal import Decimal
+from difflib import SequenceMatcher
 
 MONEY = r'(?:R\$\s*)?(?:\d{1,3}(?:\.\d{3})+|\d+),\d{2}'
 HEADER_ALIASES = {
@@ -205,9 +206,13 @@ def supplier_label(note):
 
 def supplier_matches(left, right):
     def canonical(value):
+        # With the same identity/document, trailing trade names are secondary.
+        value = re.sub(r'\s*(?:\([^()]*\)\s*)+$', '', value).strip()
         # Dotted abbreviations (S.A.) and terminal punctuation are formatting.
         value = normalized(value).replace('.', '').replace("'", '')
         value = re.sub(r'[^A-Z0-9]+', ' ', value).strip()
+        # MEI registered names may start with the eight-digit company root.
+        value = re.sub(r'^\d{8}\s+(?=[A-Z])', '', value)
         # Reports may abbreviate the registered name by omitting this suffix.
         # Restrict this to whole terminal words; never trim arbitrary prefixes.
         return re.sub(r'(?:\s+(?:LTDA|LIMITADA))+$', '', value)
@@ -217,15 +222,39 @@ def supplier_matches(left, right):
         return False
     if a == b:
         return True
-    # Accept an extra trailing trade name only when the complete other name
-    # matches the main name. Do not match arbitrary prefixes or two aliases.
-    suffix = r'\s*(?:\([^()]*\)\s*)+$'
-    base_left = re.sub(suffix, '', left).strip()
-    base_right = re.sub(suffix, '', right).strip()
-    left_has_alias, right_has_alias = base_left != left.strip(), base_right != right.strip()
-    if left_has_alias == right_has_alias:
-        return False
-    return bool(canonical(base_left)) and canonical(base_left) == canonical(base_right)
+    connectors = {'DE', 'DA', 'DO', 'DAS', 'DOS', 'E'}
+    generic = {'EMPRESA', 'COMERCIO', 'COMERCIAL', 'INDUSTRIA', 'DISTRIBUIDORA', 'PRODUTOS',
+               'SERVICOS', 'TRANSPORTES', 'LTDA', 'LIMITADA', 'SA', 'ME', 'EPP', 'EIRELI'}
+    words_a = [word for word in a.split() if word not in connectors]
+    words_b = [word for word in b.split() if word not in connectors]
+    common = []
+    for x, y in zip(words_a, words_b):
+        if x != y:
+            break
+        common.append(x)
+    meaningful = any(word not in generic for word in common)
+    if meaningful and ((len(common) >= 2 and len(''.join(common)) >= 8)
+                       or (common and len(common[0]) >= 6)):
+        return True
+    # A report can cut even the last word of a long name.
+    short, long = sorted((a, b), key=len)
+    if (len(short.replace(' ', '')) >= 6 and long.startswith(short)
+            and any(word not in generic | connectors for word in short.split())):
+        return True
+    # Small spelling changes are not absolutely different names. Require a
+    # substantial shared word as well as high similarity in both directions.
+    shared = (set(words_a) & set(words_b)) - generic
+    informative_a = {word for word in words_a if len(word) >= 3 and word not in generic}
+    informative_b = {word for word in words_b if len(word) >= 3 and word not in generic}
+    overlap = informative_a & informative_b
+    if (len(overlap) >= 2 and sum(map(len, overlap)) >= 8
+            and len(overlap) / min(len(informative_a), len(informative_b)) >= .75):
+        return True
+    if min(len(a), len(b)) >= 8 and any(len(word) >= 4 for word in shared):
+        similarity = min(SequenceMatcher(None, a, b, autojunk=False).ratio(),
+                         SequenceMatcher(None, b, a, autojunk=False).ratio())
+        return similarity >= .9
+    return False
 
 
 def compare(left, right):
@@ -246,12 +275,13 @@ def compare(left, right):
         elif not b:
             status = 'Somente SPED'
         else:
+            # Identity/document define the pair; money takes priority over name.
+            if Decimal(a[0]['valor']) != Decimal(b[0]['valor']):
+                differences.append('Valor')
             if not a[0]['fornecedor'] or not b[0]['fornecedor']:
                 pending.append('Nome do fornecedor ausente; código interno não valida razão social.')
             elif not supplier_matches(a[0]['fornecedor'], b[0]['fornecedor']):
                 differences.append('Fornecedor')
-            if Decimal(a[0]['valor']) != Decimal(b[0]['valor']):
-                differences.append('Valor')
             if differences:
                 status = 'Divergente'
             elif pending:

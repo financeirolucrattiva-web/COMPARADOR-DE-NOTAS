@@ -198,6 +198,8 @@ function render() {
   const filter = document.querySelector('#filter').value;
   const query = searchText(document.querySelector('#result-search').value.trim());
   const matching = result.rows.filter(row => (filter === 'all' || (filter === 'issues' ? row.status !== 'Conferente' : row.status === filter)) && matchesSearch(query, [...row.sped, ...row.dominio], `${row.cnpj} ${row.documento}`));
+  const priority = row => row.diferencas.split(', ').includes('Valor') ? 0 : row.status.startsWith('Somente') ? 1 : row.status === 'Conferente' ? 3 : 2;
+  matching.sort((a, b) => priority(a) - priority(b));
   for (const row of matching) {
     const tr = el('tr', '');
     const different = row.diferencas ? row.diferencas.split(', ') : [];
@@ -212,11 +214,11 @@ function render() {
       const cell = el('td', '');
       if (!row[source].length) cell.textContent = '—';
       for (const note of row[source]) {
-        appendSupplier(cell, note, different.includes('Fornecedor'));
-        const amount = el('small', '');
-        amount.append(el('span', money(note.valor), different.includes('Valor') ? 'field-different' : ''),
-          document.createTextNode(' · páginas ' + pages(note) + (note.serie ? ' · série ' + note.serie : '')));
+        const amount = el('div', '', 'note-amount');
+        amount.append(el('span', money(note.valor), different.includes('Valor') ? 'field-different' : ''));
         cell.append(amount);
+        cell.append(el('small', 'Páginas ' + pages(note) + (note.serie ? ' · série ' + note.serie : '')));
+        appendSupplier(cell, note, different.includes('Fornecedor'));
       }
       tr.append(cell);
     }

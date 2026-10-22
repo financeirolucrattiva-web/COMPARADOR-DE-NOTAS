@@ -2,7 +2,7 @@
 
 Aplicação web em português para comparar notas de entrada dos relatórios SPED e
 Domínio. Confere **CNPJ/CPF, número do documento, fornecedor e valor**, identifica
-ausências e duplicidades e gera Excel e PDF. Versão atual: **0.6.2**.
+ausências e duplicidades e gera Excel e PDF. Versão atual: **0.7.0**.
 
 ## Abrir no seu computador
 
@@ -22,7 +22,7 @@ programas. Se outro processo ocupar a porta escolhida antes da inicialização, 
 falha será mostrada e a instância errada não será aberta.
 
 Para atualizar, extraia o novo ZIP em outra pasta e execute o inicializador dessa
-pasta. Confira **Versão 0.6.2** no topo da tela. Um endereço local não acessa o
+pasta. Confira **Versão 0.7.0** no topo da tela. Um endereço local não acessa o
 ambiente na nuvem. Ainda não existe um site público desta aplicação.
 
 ## Como usar
@@ -94,15 +94,29 @@ continua disponível em PDFs com texto:
 - Chave: **CNPJ/CPF + número**, ignorando zeros à esquerda no número.
 - CNPJ de 14 dígitos e CPF de 11 dígitos são normalizados, sem validar dígitos
   verificadores. Formatos CEI/CAEPF não são homologados.
-- Fornecedor ignora acentos, maiúsculas, pontuação, espaços extras e os sufixos
-  terminais LTDA/LIMITADA. Apenas palavras inteiras no final são removidas;
-  o restante do nome precisa coincidir. Um
-  complemento entre parênteses no final de apenas um dos nomes é aceito quando
-  a razão social principal coincide com o nome completo do outro arquivo. Dois
-  complementos diferentes, mudanças na razão social e erros de digitação
-  continuam sinalizados, mesmo com identificação e valor iguais. Não há
-  aproximação por similaridade. Os nomes originais são preservados.
-- Na tela, apenas nomes e valores divergentes são destacados. A coluna de
+- Ordem de conferência: CNPJ/CPF e documento definem o par; o valor é conferido
+  primeiro, exatamente em centavos. O nome é o último critério e nunca compensa
+  diferenças de identificação, documento ou valor.
+- O nome aceita acentos/pontuação, LTDA/LIMITADA, complementos finais entre
+  parênteses, nomes longos cortados no final e começos significativos em comum.
+  Dois nomes com o mesmo início podem ter finais diferentes. Os nomes originais
+  continuam visíveis para revisão, sem alterar os dados extraídos.
+- A comparação de nome aceita dois termos iniciais comuns com ao menos oito
+  letras somadas e um termo não genérico, ou um primeiro termo não genérico com
+  seis caracteres. Também aceita prefixo integral de seis caracteres ou mais
+  (inclusive última palavra cortada), desde que não seja só termos genéricos.
+  Pequenas diferenças de escrita são aceitas com similaridade de ao menos 90%
+  nas duas direções e uma palavra não genérica compartilhada de quatro letras.
+  Também são aceitas marcas/iniciais adicionais quando duas palavras não
+  genéricas, com oito letras somadas, cobrem pelo menos 75% dos termos
+  significativos do nome mais curto. Prefixos numéricos de oito dígitos de
+  nomes empresariais são desconsiderados.
+  Termos de ligação são ignorados na comparação do início. Um começo como
+  “COMÉRCIO DE” sozinho não confirma o fornecedor. Essa tolerância só se aplica
+  a notas já pareadas pelo mesmo CNPJ/CPF e documento.
+- Na tela, diferenças de valor aparecem primeiro; ausências vêm a seguir e
+  pendências de nome ficam depois. O valor é exibido antes do nome. Apenas
+  nomes e valores divergentes são destacados. A coluna de
   diferenças identifica o nome do fornecedor ou o valor; os relatórios também
   explicitam que a diferença de fornecedor é no nome.
 - Código interno do fornecedor aparece em uma linha separada na tela e nos
@@ -122,7 +136,7 @@ conferidos individualmente contra o texto lógico: identificação, número, sé
 fornecedor, códigos, datas e valor. A soma coincide com o Total Geral. O SPED
 teve cada documento conferido contra uma leitura independente e seu resumo.
 
-O comparativo real tem 602 chaves: 498 conferentes, 80 divergentes (78 de nome
+O comparativo real tem 602 chaves: 573 conferentes, 5 divergentes (3 de nome
 e 2 de valor), 13 somente no Domínio e 11 somente no SPED. O fluxo completo foi
 verificado no Chromium com esses arquivos, incluindo busca/filtros e downloads.
 O Excel contém 602 documentos; as 602 situações também foram conferidas no PDF.

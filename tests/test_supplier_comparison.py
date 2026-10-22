@@ -20,6 +20,19 @@ from comparator import compare, supplier_matches
     ('Empresa Exemplo LTDA (LOJA EXEMPLO)', 'Empresa Exemplo LTDA'),
     ('Empresa Exemplo LTDA', 'Empresa Exemplo LTDA (LOJA EXEMPLO)'),
     ('Empresa Exemplo LTDA (LOJA) (CENTRO)', 'Empresa Exemplo LTDA.'),
+    ('Empresa Exemplo', 'Empresa Exemplo Comercio LTDA'),
+    ('Empresa Exemplo SA', 'Empresa Exemplo'),
+    ('Empresa Exemplo 1', 'Empresa Exemplo 2'),
+    ('Exempl LTDA (LOJA)', 'Exemplo LTDA'),
+    ('Empresa Exemplo (CENTRO)', 'Empresa Exemplo (BAIRRO)'),
+    ('Agro Horizonte Comercio de Sementes e Produtos Agricolas LTDA', 'Agro Horizonte Comercio'),
+    ('Agro Horizonte Produtos Agricolas', 'Agro Horizonte Comercio e Representacoes'),
+    ('Agro Horizonte Comercio de Sementes', 'Agro Horizonte Comercio de Seme'),
+    ('Agroexemplo Comercio de Produtos', 'Agroexemplo Distribuidora'),
+    ('Joa Batista Silva LTDA (LOJA)', 'Joao Batista Silva LTDA'),
+    ('12.345.678 MARCOS ANTONIO EXEMPLO', 'MARCOS ANTONIO EXEMPLO'),
+    ('MARCA COMERCIO AURORA DIGITAL LTDA', 'COMERCIO AURORA DIGITAL LTDA'),
+    ('D A ALVES COSTA LTDA', 'ALVES COSTA E COSTA LTDA- ME'),
 ])
 def test_supplier_formatting_and_extra_trade_name(left, right):
     assert supplier_matches(left, right)
@@ -28,15 +41,15 @@ def test_supplier_formatting_and_extra_trade_name(left, right):
 
 @pytest.mark.parametrize('left,right', [
     ('Empresa Um LTDA', 'Empresa Dois LTDA'),
-    ('Empresa Exemplo', 'Empresa Exemplo Comercio LTDA'),
     ('LTDA Exemplo', 'Exemplo'),
-    ('Empresa Exemplo SA', 'Empresa Exemplo'),
     ('LTDA', 'LIMITADA'),
-    ('Empresa Exemplo 1', 'Empresa Exemplo 2'),
-    ('Exempl LTDA (LOJA)', 'Exemplo LTDA'),
-    ('Empresa Exemplo (CENTRO)', 'Empresa Exemplo (BAIRRO)'),
-    ('Empresa (CENTRO) LTDA', 'Empresa LTDA'),
     ('Empresa (LOJA)', 'Empresa Outra'),
+    ('Empresa (CENTRO) LTDA', 'Empresa LTDA'),
+    ('Comercio de Sementes Aurora', 'Comercio de Pecas Horizonte'),
+    ('Comercio e Industria Alfa', 'Comercio e Industria Beta'),
+    ('Comercio de Produtos Alfa', 'Comercio de Produtos Beta'),
+    ('Transportes Alfa', 'Transportes Beta'),
+    ('Alfa', 'Alfabeto'),
     ('(EMPRESA)', 'EMPRESA DIFERENTE'),
     ('...', ','),
     ('', ''),
@@ -106,3 +119,19 @@ def test_export_identifies_supplier_name_difference(monkeypatch):
     sheet = load_workbook(BytesIO(response.data)).active
     assert sheet['D2'].value == 'Nome do fornecedor'
     assert 'Código interno: 0042' in sheet['G2'].value
+
+
+def test_long_name_never_overrides_money_or_identity_and_name_is_last():
+    left, right = notes()
+    left[0]['fornecedor'] = 'Agro Horizonte Comercio de Sementes e Produtos LTDA'
+    right[0]['fornecedor'] = 'Agro Horizonte Comercio'
+    assert compare(left, right)[0]['status'] == 'Conferente'
+    right[0]['valor'] = '339.99'
+    assert compare(left, right)[0]['diferencas'] == 'Valor'
+    right[0]['fornecedor'] = 'Transportadora Planalto'
+    assert compare(left, right)[0]['diferencas'] == 'Valor, Fornecedor'
+    right[0]['cnpj'] = '98765432000110'
+    assert {r['status'] for r in compare(left, right)} == {'Somente SPED', 'Somente Domínio'}
+    right[0]['cnpj'] = left[0]['cnpj']
+    right[0]['documento'] = '124'
+    assert {r['status'] for r in compare(left, right)} == {'Somente SPED', 'Somente Domínio'}
