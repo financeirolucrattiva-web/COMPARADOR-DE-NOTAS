@@ -9,7 +9,7 @@ from comparator import extract_pdf, compare, supplier_label
 
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 20 * 1024 * 1024
-APP_VERSION = '0.5.0'
+APP_VERSION = '0.6.0'
 
 @app.after_request
 def disable_stale_pages(response):
@@ -60,6 +60,9 @@ def read_source(file):
                    cnpj=sum(n['tipo_identificacao'] == 'CNPJ' for n in notes),
                    cpf=sum(n['tipo_identificacao'] == 'CPF' for n in notes),
                    warnings=issues, error=None)
+    if 'total_declarado' in metadata:
+        summary['total_relatorio'] = metadata['total_declarado']
+        summary['total_confere'] = Decimal(summary['total']) == Decimal(metadata['total_declarado'])
     if not notes:
         summary['error'] = 'Nenhuma nota reconhecida. O layout precisa de ajuste com o PDF original; se não houver texto extraível, será necessário OCR.'
     return notes, summary

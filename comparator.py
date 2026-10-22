@@ -151,6 +151,10 @@ def parse_table(table, page):
 
 
 def extract_pdf(stream, metadata=None):
+    from dominio_reader import extract_dominio
+    domain = extract_dominio(stream, metadata)
+    if domain is not None:
+        return domain
     from pdf_orientation import readable_pdf
     from sped_reader import SpedBlocks
     notes, warnings = [], []

@@ -72,6 +72,7 @@ function sourceSummary(updated) {
     card.dataset.kind = summary.error ? 'error' : 'read';
     card.append(el('strong', sourceNames[source] || source));
     card.append(el('p', summary.error || `${summary.quantidade} notas lidas · ${summary.paginas} páginas · ${money(summary.total)}`));
+    if (summary.total_confere === true) card.append(el('p', 'Total conferido com o Total Geral do relatório.'));
     if (summary.warnings?.length) card.append(el('p', `${summary.warnings.length} aviso(s). Use “Conferir leitura” para revisar.`));
     container.append(card);
   }
@@ -178,7 +179,7 @@ function showInspection(data) {
   inspection = data;
   const summary = data.summary;
   document.querySelector('#inspection-title').textContent = `Leitura do ${sourceNames[data.source]}`;
-  document.querySelector('#inspection-counts').textContent = `${summary.quantidade} notas · ${summary.paginas} páginas · ${summary.cnpj} CNPJ · ${summary.cpf} CPF · Total lido: ${money(summary.total)}`;
+  document.querySelector('#inspection-counts').textContent = `${summary.quantidade} notas · ${summary.paginas} páginas · ${summary.cnpj} CNPJ · ${summary.cpf} CPF · Total lido: ${money(summary.total)}${summary.total_confere === true ? ' · Total Geral conferido' : ''}`;
   document.querySelector('#inspection-search').value = '';
   showWarnings(document.querySelector('#inspection-warnings'), summary.warnings);
   renderInspection();

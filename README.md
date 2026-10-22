@@ -1,10 +1,127 @@
 # Comparador de notas · Lucrattiva
 
-Aplicação web em português para comparar relatórios PDF de notas de entrada SPED × Domínio. Chave: CNPJ + número do documento. Confere fornecedor e valor, identifica ausências e duplicidades, exporta Excel e PDF. Nenhuma nota é armazenada permanentemente: arquivos são processados durante a requisição, sem serviços externos de leitura.
+Aplicação web em português para comparar notas de entrada dos relatórios SPED e
+Domínio. Confere **CNPJ/CPF, número do documento, fornecedor e valor**, identifica
+ausências e duplicidades e gera Excel e PDF. Versão atual: **0.6.0**.
 
-## Executar
+## Abrir no seu computador
 
-Python 3.12:
+1. Baixe o ZIP do repositório e extraia em uma pasta.
+2. Tenha Python 3.12 ou superior instalado.
+3. No Windows, abra **INICIAR_WINDOWS.bat**. No macOS/Linux, execute
+   `python3 iniciar.py` na pasta extraída.
+4. O inicializador instala as dependências e abre o navegador. Mantenha o terminal
+   aberto durante o uso; Ctrl+C encerra o servidor.
+
+A instalação das dependências precisa de Internet. Se o navegador não abrir, use
+o endereço mostrado em **Endereço desta cópia**, no computador em que iniciou o
+programa. A porta padrão é 5000; quando ocupada, outra porta livre é escolhida.
+O navegador só abre depois de confirmar o identificador da nova execução, para
+não mostrar uma cópia antiga do programa. O inicializador não encerra outros
+programas. Se outro processo ocupar a porta escolhida antes da inicialização, a
+falha será mostrada e a instância errada não será aberta.
+
+Para atualizar, extraia o novo ZIP em outra pasta e execute o inicializador dessa
+pasta. Confira **Versão 0.6.0** no topo da tela. Um endereço local não acessa o
+ambiente na nuvem. Ainda não existe um site público desta aplicação.
+
+## Como usar
+
+- Selecione ou arraste um PDF em cada campo, da mesma empresa e período.
+- **Conferir leitura SPED/Domínio** permite revisar um arquivo por vez: quantidade,
+  páginas, total lido e lista de notas. Use a busca para localizar documentos,
+  CNPJ/CPF com ou sem pontuação e fornecedores com ou sem acentos.
+- **Comparar notas** fica disponível com os dois arquivos selecionados. O resultado
+  abre em **Somente pendências**. Há filtros por situação e totais clicáveis.
+- **Baixar Excel/PDF** inclui todas as notas da comparação, conforme indicado na
+  tela. Os filtros mudam a visualização. O Excel também tem uma aba de avisos.
+- **Usar exemplos** preenche os dois campos com dados fictícios, sem iniciar a
+  comparação automaticamente. Os arquivos estão em `exemplos/`, com gabarito.
+
+A tela mostra nomes completos, tamanhos, estado da leitura e tempo decorrido.
+Trocar/remover um arquivo invalida o comparativo anterior. O resumo de uma origem
+continua disponível quando a outra falha. Avisos de extração exigem revisão:
+a soma das notas reconhecidas, sozinha, não garante cobertura do relatório inteiro.
+
+## Relatórios suportados
+
+PDFs com texto selecionável, até **200 páginas por arquivo** e **20 MB por envio**.
+PDFs que são apenas imagens precisam de OCR, ainda não implementado. Outros
+layouts podem precisar de adaptação com amostras.
+
+### Livro de entradas SPED PVA
+
+O leitor reconhece blocos com Data Entrada, Data emissão, Nr. Doc., Modelo, Série,
+Situação, CNPJ/CPF e Razão social. Soma **Valor Operação** nas linhas fiscais do
+mesmo documento, sem confundir base de cálculo e impostos. Mantém a continuidade
+de notas e nomes entre páginas, exclui **RESUMO - TOTAIS** e detecta a orientação
+dominante do texto. A correção de orientação ocorre em memória; o original não
+é alterado. Um detalhe fiscal inválido impede usar um total parcial da nota.
+
+### Acompanhamento de entradas Domínio
+
+O relatório **ACOMPANHAMENTO DE ENTRADAS** pode não ter grade e pode sobrepor
+visualmente Fornecedor, CNPJ/CPF e inscrição estadual. A extração comum mistura
+os caracteres. O leitor usa os objetos de texto do PDF e o alinhamento dos
+cabeçalhos, preservando os nomes completos; não usa coordenadas fixas de um cliente.
+
+Nota e Série são separadas, inclusive série em branco, alfanumérica e números
+longos. Código interno e nome do fornecedor são preservados separadamente.
+Usa exclusivamente **Valor Contábil** da linha da nota. Totais diários, linhas
+adicionais de impostos e Total Geral não são importados como outras notas.
+A soma é conferida com **Total Geral**; ausência, diferença ou campos ambíguos
+geram avisos. Nenhum campo ambíguo é escolhido automaticamente.
+
+Quando disponível, a API e a tela informam se a soma coincide com o Total Geral.
+Isso complementa a conferência de quantidade e conteúdo das notas.
+
+### Tabelas e formato simples
+
+Também reconhece tabelas com cabeçalhos explícitos CNPJ, NR. DOC./DOCUMENTO,
+FORNECEDOR e VALOR, ou variantes documentadas no leitor, inclusive cabeçalhos
+em até três linhas. Domínio tabular aceita Código Fornecedor e Valor Contábil.
+Sem razão social, a conferência do nome fica pendente.
+
+O formato de uma nota por linha, com quatro campos separados por `|` ou `;`,
+continua disponível em PDFs com texto:
+
+```text
+12.345.678/0001-90 | 000123 | Empresa Exemplo LTDA | 1.250,00
+```
+
+## Regras da comparação
+
+- Chave: **CNPJ/CPF + número**, ignorando zeros à esquerda no número.
+- CNPJ de 14 dígitos e CPF de 11 dígitos são normalizados, sem validar dígitos
+  verificadores. Formatos CEI/CAEPF não são homologados.
+- Fornecedor ignora acentos, maiúsculas e espaços extras. Código interno não
+  substitui a razão social. Nomes cadastrados diferentes continuam sinalizados,
+  mesmo com identificação e valor iguais.
+- Valores usam Decimal e comparação exata em centavos. Retenções e diferenças
+  entre valores líquidos e brutos não são compensadas automaticamente.
+- Chave presente em apenas um arquivo aparece como ausência no outro. Não há
+  pareamento aproximado por nome ou valor. Série não faz parte da chave atual.
+- Registros duplicados são preservados e ficam para revisão; não são pareados
+  ou removidos automaticamente.
+
+## Validação realizada
+
+Os dois PDFs reais enviados foram lidos sem avisos: **589 documentos SPED**
+(39 páginas) e **591 Domínio** (12 páginas). Os 591 registros Domínio foram
+conferidos individualmente contra o texto lógico: identificação, número, série,
+fornecedor, códigos, datas e valor. A soma coincide com o Total Geral. O SPED
+teve cada documento conferido contra uma leitura independente e seu resumo.
+
+O comparativo real tem 602 chaves: 478 conferentes, 100 divergentes (98 de nome
+e 2 de valor), 13 somente no Domínio e 11 somente no SPED. O fluxo completo foi
+verificado no Chromium com esses arquivos, incluindo busca/filtros e downloads.
+O Excel contém 602 documentos; as 602 situações também foram conferidas no PDF.
+Os arquivos originais, notas, identificações, nomes e valores privados ficam
+fora do checkout. Os testes publicados usam apenas dados fictícios.
+
+## Desenvolvimento e testes
+
+No ambiente na nuvem:
 
 ```bash
 cd /workspace/COMPARADOR-DE-NOTAS
@@ -13,186 +130,44 @@ python3 -m venv .venv
 .venv/bin/python app.py
 ```
 
-Servidor de desenvolvimento na porta 5000, sem debug. Não publicar dados reais numa instância pública sem autenticação, HTTPS e servidor de produção. Esta versão não implementa contas de usuário ou histórico.
-
-## Formato inicial
-
-PDFs com texto selecionável, até 200 páginas por arquivo e 20 MB por requisição. Reconhece tabelas com cabeçalhos explícitos CNPJ, NR. DOC. (ou DOCUMENTO / NUMERO DO DOCUMENTO), FORNECEDOR e VALOR. Alternativamente, uma nota por linha com quatro campos separados por `|` ou `;`:
-
-```
-12.345.678/0001-90 | 000123 | Empresa Exemplo LTDA | 1.250,00
-```
-
-A extração é conservadora: não adivinha a ordem das colunas. PDFs sem texto precisam de OCR, ainda não implementado. Layouts reais do SPED e Domínio precisam ser homologados com amostras. Avisos de extração impedem considerar a conferência completa; confira as contagens e páginas. Registros em várias linhas, tabelas sem bordas e cabeçalhos diferentes ainda podem precisar de adaptadores. O sistema não valida dígitos verificadores: normaliza CNPJ de 14 dígitos ou CPF de 11 dígitos para comparação.
-
-Números de documento perdem zeros à esquerda. Fornecedor ignora acentos, maiúsculas e espaços repetidos. Valores usam Decimal, sem tolerância de centavos. CNPJ ou número diferente gera ausências, sem associação aproximada. Duplicatas não são pareadas automaticamente e todos os registros são preservados. Série, filial e período não fazem parte da chave inicial; compare relatórios do mesmo escopo. Planilhas exportam campos como texto para evitar fórmulas provenientes de PDFs.
-
-## Verificação
+O servidor de desenvolvimento usa porta 5000, sem debug. Para outro endereço
+ou porta, use `COMPARADOR_HOST` e `COMPARADOR_PORT`. Não publicar dados reais em
+instância pública sem autenticação, HTTPS e servidor de produção. Não há contas
+ou histórico. PDFs/resultados são processados na requisição, sem armazenamento
+permanente no servidor nem serviços externos de leitura.
 
 ```bash
 .venv/bin/python -m pytest -q
 ```
 
-Testes geram PDFs sintéticos e exercitam upload, extração, comparação, ausência, duplicidades, erros e os dois formatos de exportação. Não representam homologação com relatórios reais.
+Os testes cobrem extração, comparação, erros, duplicidades, exportações, CPF,
+quatro orientações, continuidade de páginas, sobreposição de objetos e totais.
+A simulação pública tem 100 registros SPED, 95 Domínio e 105 chaves. Para gerar
+novamente: `.venv/bin/python scripts/gerar_exemplos.py`.
 
-## Testar no seu computador
+### Navegador (opcional)
 
-Baixe e extraia o pacote completo. Instale Python 3.12 ou superior. No Windows,
-abra `INICIAR_WINDOWS.bat`. No macOS/Linux, execute `python3 iniciar.py` na pasta
-extraída. O inicializador instala as dependências (precisa de Internet na primeira
-execução), inicia o servidor e abre o navegador automaticamente. Deixe o terminal
-aberto durante o uso; Ctrl+C encerra. Nenhum comando deve usar o caminho
-`/workspace` no computador do usuário: esse caminho pertence ao ambiente na nuvem.
-
-Se o navegador não abrir, use o endereço mostrado na janela em **Endereço desta cópia**, no computador em que o programa foi iniciado. A porta padrão é 5000; se estiver ocupada, o inicializador escolhe outra porta livre. Esse endereço não acessa o ambiente na nuvem. Ainda não existe um site público desta aplicação.
-
-Na tela, selecione os arquivos `exemplos/sped_simulado.pdf` e
-`exemplos/dominio_simulado.pdf`, ou use os links para baixar os exemplos. Confira
-o gabarito em `exemplos/LEIA-ME.txt`. Depois selecione os PDFs reais do mesmo
-período/escopo e confira a quantidade de notas lidas e os avisos de extração.
-
-Para gerar novamente os exemplos: `.venv/bin/python scripts/gerar_exemplos.py`.
-A simulação tem 100 registros SPED, 95 Domínio e 105 chaves esperadas. O teste
-paginado compara cada chave com um gabarito independente e verifica Excel e PDF.
-O inicializador Windows não foi executado neste ambiente Linux.
-
-
-## Campos diferentes nos relatórios
-
-Cada cabeçalho reconhecido é convertido para um campo comum; não é necessário
-ter os mesmos nomes de colunas nos dois PDFs.
-
-| Campo comum | Domínio | Outros cabeçalhos reconhecidos |
-| --- | --- | --- |
-| CNPJ | CNPJ/CPF/CEI/CAEPF, inclusive sufixo I | CNPJ, CNPJ/CPF |
-| Documento | Nota Série (número e série separados por espaço, `/` ou `-`) | Nº Doc., NR. DOC., Documento |
-| Nome do fornecedor | Fornecedor / Razão Social, quando presentes | Nome/Razão Social, Nome Empresarial |
-| Código interno do fornecedor | Código Fornecedor | Não substitui o nome |
-| Valor total da nota | Valor Contábil, ou Valor Contábil Tipo | Valor da Operação, Valor |
-
-O leitor dá prioridade ao Valor Contábil/Valor da Operação e ignora a coluna
-isolada Valor quando ela representa imposto. Cabeçalhos de tabela em até três
-linhas são combinados por posição da coluna. O nome e código do fornecedor são
-armazenados separadamente: nome ausente deixa o resultado como **Conferência
-parcial**, ou mantém **Divergente** com pendência se também houver diferença de
-valor. Essa pendência aparece na tela, no Excel e no PDF. CPF é aceito e identificado separadamente. CEI e CAEPF ainda não são suportados e geram avisos de registros não comparados.
-
-Esta adaptação foi testada com PDFs sintéticos que reproduzem os cabeçalhos
-informados. A lista de colunas e a imagem não substituem a homologação com os
-PDFs originais do SPED e do Domínio. Não se presume que todo layout desses
-sistemas seja reconhecido. O pareamento continua por CNPJ + número; a série
-extraída é preservada para revisão, sem alterar a chave nesta versão.
-
-
-## Como confirmar a versão que está aberta
-
-A versão atual **0.5.0** aparece no topo e no rodapé da página. O endereço
-`/versao` também informa a versão e um identificador da execução (sem credenciais).
-O inicializador confere esse identificador antes de abrir o navegador, para não
-abrir uma cópia antiga que já esteja usando a porta padrão. Não encerra programas
-de terceiros; abre a nova cópia em outra porta disponível. A reserva da porta
-é liberada antes de iniciar o servidor: se outro programa tomar essa porta nesse
-intervalo, o inicializador não abrirá a instância errada e mostrará a falha.
-
-A mensagem antiga “Não foi possível reconhecer notas nos dois arquivos. Use
-tabelas...” identifica uma cópia anterior à adaptação dos cabeçalhos fiscais.
-Baixe o ZIP atualizado, extraia em uma nova pasta e execute o inicializador dessa
-pasta. Confira a versão 0.5.0 antes de enviar os PDFs. A atualização não garante a
-leitura de um layout real ainda não homologado: para adaptar um relatório que
-continue sem notas reconhecidas, são necessários os PDFs originais.
-
-
-## Leitura do livro de entradas SPED — versão 0.3.0
-
-O livro PVA pode apresentar cada documento em um bloco: Data Entrada, Data
-emissão, Nr. Doc., Modelo, Série, Situação, CNPJ/CPF e Razão social na primeira
-linha; CST/ICMS, CFOP e Valor Operação em uma ou mais linhas abaixo. O leitor
-soma apenas Valor Operação dessas linhas e mantém o bloco entre páginas,
-inclusive quando a razão social continua na página seguinte. A seção
-**RESUMO - TOTAIS** é excluída das notas. Linhas fiscais inválidas impedem o uso
-de um total parcial; os problemas são apresentados como avisos.
-
-A orientação dominante dos caracteres é detectada por página e normalizada em
-memória usando a biblioteca já instalada. O arquivo original não é alterado;
-isso permite ler PDFs com texto girado, sem OCR. PDFs que são apenas imagens
-ainda exigem uma etapa de OCR, não implementada.
-
-A adaptação foi validada com um livro real enviado pelo usuário: 39 páginas,
-589 documentos (570 com CNPJ e 19 com CPF), 599 linhas fiscais, 20 documentos
-com continuidade entre páginas e 7 com mais de uma linha fiscal. Não houve
-avisos de extração. Cada documento foi conferido contra uma leitura independente
-do texto e a soma bateu com o resumo do próprio relatório. Esses números são
-registrados apenas como evidência de validação; o PDF original, as identidades,
-os fornecedores e os valores reais não fazem parte do repositório nem dos testes.
-
-Os testes públicos usam dados fictícios e cobrem quatro orientações, múltiplas
-linhas fiscais, CPF, continuação de nome/documento entre páginas e exclusão do
-resumo. A leitura e a comparação com o relatório **real do Domínio** ainda
-precisam ser validadas com esse segundo arquivo.
-
-
-## Conferir um PDF separadamente — versão 0.4.0
-
-Depois de selecionar o SPED, clique em **Conferir leitura SPED**. O Domínio não
-precisa estar selecionado. O mesmo vale para **Conferir leitura Domínio**.
-A conferência mostra as notas reconhecidas, CNPJ/CPF, documento, série,
-fornecedor (ou código interno quando faltar o nome), valor e páginas de origem.
-A busca aceita documentos, CNPJ/CPF com ou sem pontuação e nomes com ou sem acento.
-
-O resumo mostra quantidade de notas, páginas, identificações CNPJ/CPF e soma
-exata das notas reconhecidas. Essa soma não garante que todas as notas de um
-layout desconhecido foram lidas: confira os avisos e o relatório original.
-O tempo decorrido aparece durante a leitura; não é uma porcentagem de progresso.
-
-Se um dos PDFs falhar durante a comparação, o resumo do outro permanece
-visível. Dados não reconhecidos não são tratados como ausência de notas na
-comparação, e o sistema não gera um comparativo completo com um arquivo vazio.
-A exportação mantém os mesmos requisitos da comparação.
-
-A operação `POST /conferir/sped` recebe um único arquivo multipart no campo
-`sped`; `POST /conferir/dominio` usa o campo `dominio`. A resposta inclui `notes`
-e `summary` (quantidade, páginas, total decimal em string, contagens CNPJ/CPF,
-avisos e erro). PDFs válidos sem notas reconhecidas retornam 422 com os avisos
-e o número de páginas; erros de comparação incluem um resumo separado de cada
-origem em `sources`. Nenhum PDF ou resultado fica salvo permanentemente no servidor.
-
-A leitura individual foi validada com o mesmo SPED real de 39 páginas e 589
-documentos. O PDF real do Domínio continua necessário para homologar esse layout.
-
-
-## Tela e facilidade de uso — versão 0.5.0
-
-A tela orienta o fluxo em três etapas: selecionar PDFs, conferir a leitura e
-comparar/baixar. Cada arquivo tem nome completo, tamanho e estado da leitura.
-É possível arrastar e soltar, trocar ou remover cada PDF. Arquivos sem extensão
-PDF e envios acima de 20 MB são recusados antes da requisição. A validação do
-conteúdo PDF continua no servidor. O botão de comparação só fica disponível
-com os dois arquivos selecionados; a leitura individual precisa de apenas um.
-
-**Usar exemplos** preenche os dois campos com os PDFs fictícios, sem downloads
-manuais. A comparação não começa automaticamente. O resultado abre em
-**Somente pendências**, com busca por documento/CNPJ/CPF/fornecedor e filtros
-por situação. Os totais funcionam como atalhos para todas as notas, conferentes
-ou pendências. A contagem informa quantos documentos atendem aos filtros;
-Excel e PDF sempre incluem o resultado completo, conforme indicado na tela.
-
-A interface tem mensagens para buscas sem resultados, avisos que podem ser
-fechados, indicação de tempo decorrido, navegação por teclado e campos com
-rótulos acessíveis. Em telas pequenas, os cartões ficam em coluna e a tabela
-rola dentro de sua própria área. A troca/remoção de arquivo invalida a comparação
-anterior, evitando mostrar um resultado pertencente a outros PDFs.
-
-### Verificação opcional no navegador
-
-O script `scripts/testar_interface.cjs` usa Node.js, Playwright e Chromium já
-instalados. Ele acessa uma aplicação iniciada separadamente, exercita seleção,
-arrastar/soltar, remoção, exemplos, leitura, busca/filtros, exportações, avisos e
-largura móvel. Usa apenas dados fictícios. Requer o pacote `playwright` (ou o
-caminho de um módulo compatível em `PLAYWRIGHT_MODULE`). As variáveis opcionais
-`CHROMIUM_PATH`, `COMPARADOR_TEST_URL` e `COMPARADOR_UI_OUTPUT` selecionam o
-navegador, servidor e pasta temporária de capturas/relatórios. Não é necessário
-instalar Playwright para usar a aplicação ou executar os testes Python.
+`scripts/testar_interface.cjs` usa Node.js, Playwright e Chromium já instalados,
+com dados fictícios. Verifica seleção, arrastar/soltar, remoção, exemplos, leitura,
+busca, filtros, avisos, downloads e larguras móveis. Execute com a aplicação aberta:
 
 ```bash
 COMPARADOR_TEST_URL=http://127.0.0.1:5000 node scripts/testar_interface.cjs
 ```
+
+O pacote padrão é `playwright`; `PLAYWRIGHT_MODULE` permite selecionar outro
+caminho de módulo compatível. `CHROMIUM_PATH` seleciona o executável, e
+`COMPARADOR_UI_OUTPUT` a pasta temporária de capturas/relatórios. Playwright não
+é necessário para usar a aplicação ou rodar os testes Python. O inicializador
+Windows não foi executado neste ambiente Linux; sua rotina Python foi testada.
+
+### API
+
+`POST /conferir/sped` recebe o PDF no campo multipart `sped`;
+`POST /conferir/dominio` usa o campo `dominio`. A resposta inclui `notes` e
+`summary` com quantidade, páginas, total decimal em string, contagens CNPJ/CPF,
+avisos e erro. Quando identificado, inclui `total_relatorio` e `total_confere`.
+PDFs válidos sem notas retornam 422 com diagnóstico. `POST /comparar` recebe os
+dois arquivos e preserva os resumos em `sources`, mesmo se uma origem falhar.
+`POST /exportar/xlsx` e `/exportar/pdf` recebem os mesmos dois arquivos.
+`GET /versao` informa versão e identificador da execução, sem credenciais.
